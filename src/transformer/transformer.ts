@@ -123,9 +123,11 @@ export const parseNode = (columnName: string, type: Type): AstNode => {
     if (type.isLiteral()) {
         // TODO
     }
+
     return {
         name: columnName,
         type: type.getText(),
-        isOptional: type.getSymbol()?.isOptional() ?? false,
+        isOptional:
+            (type.isUndefined() || type.getSymbol()?.isOptional()) ?? false,
     };
 };
