@@ -1,27 +1,9 @@
-import { Project } from 'ts-morph';
-import path from 'path';
-import { transformer } from '../../transformer';
-import { isTypeDeclaration, TypeDeclaration } from '../../../types';
+import { transformer } from '../transformer';
+import { TypeDeclaration } from '../../types';
+import { getTestCase } from '../../../tests/utils/getTestCase';
 
 describe('transformer - Interface with Primitive type tests', () => {
-    const testProject = new Project({
-        tsConfigFilePath: 'tsconfig.json',
-    });
-
-    const testSourcefile = testProject.getSourceFile(
-        'testCases/InterfaceWithPrimitives.ts',
-    );
-    if (!testSourcefile) {
-        throw new Error('No test sourcefile');
-    }
-
-    const exports = Array.from(
-        testSourcefile.getExportedDeclarations().values(),
-    )
-        .flat()
-        .filter((ex) => ex.getSourceFile() === testSourcefile);
-
-    const typeDeclarations = exports.filter(isTypeDeclaration);
+    const typeDeclarations = getTestCase('InterfaceWithPrimitives');
 
     test('Interface with Primitive', () => {
         // Given

@@ -113,7 +113,6 @@ export const parseNode = (columnName: string, type: Type): AstNode => {
      * interface or plain object
      */
     if (type.isObject()) {
-        // TODO
         return parseObject(columnName, type);
     }
     if (type.isLiteral()) {
