@@ -2,7 +2,7 @@ import { Type, Node, Project } from 'ts-morph';
 import { TypeDeclaration } from '../types';
 import { parseObject } from './nodeParser/parseObject';
 import { parseUnion } from './nodeParser/parseUnion';
-import { AstNode } from './types';
+import { AstNode } from '../reporterAst';
 
 const isClassType = (type: Type): boolean => {
     if (type.getConstructSignatures().length > 0) {
@@ -57,14 +57,7 @@ export const transformer = (typeDeclaration: TypeDeclaration) => {
  * @returns `AstNode`
  */
 export const parseNode = (columnName: string, type: Type): AstNode => {
-    if (type.isNull()) {
-        return {
-            name: columnName,
-            type: 'null',
-        };
-    }
     if (type.getText() === 'any' || type.getText() === 'unknown') {
-        // ?
         return {
             name: columnName,
             type: 'any',

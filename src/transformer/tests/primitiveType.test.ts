@@ -1,7 +1,7 @@
 import { transformer } from '../transformer';
 import { getTestCase } from '../../../tests/utils/getTestCase';
 import { getTypeDeclaration } from '../../../tests/utils';
-import { AstNode } from '../types';
+import { AstNode } from '../../reporterAst';
 
 describe('transformer - Primitive type tests', () => {
     const typeDeclarations = getTestCase('PrimitiveType');

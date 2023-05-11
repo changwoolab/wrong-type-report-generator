@@ -1,6 +1,6 @@
 import { Type, Node } from 'ts-morph';
 import { parseNode } from '../transformer';
-import { AstNode } from '../types';
+import { AstNode } from '../../reporterAst';
 
 export const parseObject = (columnName: string, type: Type) => {
     const symbol = type.getSymbol();

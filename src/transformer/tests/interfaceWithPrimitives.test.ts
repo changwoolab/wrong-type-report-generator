@@ -1,7 +1,7 @@
 import { transformer } from '../transformer';
 import { TypeDeclaration } from '../../types';
 import { getTestCase, getTypeDeclaration } from '../../../tests/utils';
-import { AstNode } from '../types';
+import { AstNode } from '../../reporterAst';
 
 describe('transformer - Interface with Primitive type tests', () => {
     const typeDeclarations = getTestCase('InterfaceWithPrimitives');
@@ -69,21 +69,14 @@ describe('transformer - Interface with Primitive type tests', () => {
                 {
                     name: 'boolean2',
                     type: 'union',
-
                     arguments: [
                         {
                             name: 'boolean2',
                             type: 'undefined',
                         },
-                        // Oh.. after using `~~?: boolean`,
-                        // it is converted into "undefined | true | false" rather than "undefined | boolean"
                         {
                             name: 'boolean2',
-                            type: 'false',
-                        },
-                        {
-                            name: 'boolean2',
-                            type: 'true',
+                            type: 'boolean',
                         },
                     ],
                 },
@@ -203,15 +196,9 @@ describe('transformer - Interface with Primitive type tests', () => {
                                     name: 'boolean2',
                                     type: 'undefined',
                                 },
-                                // Oh.. after using `~~?: boolean`,
-                                // it is converted into "undefined | true | false" rather than "undefined | boolean"
                                 {
                                     name: 'boolean2',
-                                    type: 'false',
-                                },
-                                {
-                                    name: 'boolean2',
-                                    type: 'true',
+                                    type: 'boolean',
                                 },
                             ],
                         },
