@@ -61,7 +61,6 @@ export const parseNode = (columnName: string, type: Type): AstNode => {
         return {
             name: columnName,
             type: 'null',
-            isOptional: true,
         };
     }
     if (type.getText() === 'any' || type.getText() === 'unknown') {
@@ -69,21 +68,18 @@ export const parseNode = (columnName: string, type: Type): AstNode => {
         return {
             name: columnName,
             type: 'any',
-            isOptional: true,
         };
     }
     if (type.getText() === 'never') {
         return {
             name: columnName,
             type: 'never',
-            isOptional: true,
         };
     }
     if (type.isBoolean()) {
         return {
             name: columnName,
             type: 'boolean',
-            isOptional: false,
         };
     }
 
@@ -127,7 +123,5 @@ export const parseNode = (columnName: string, type: Type): AstNode => {
     return {
         name: columnName,
         type: type.getText(),
-        isOptional:
-            (type.isUndefined() || type.getSymbol()?.isOptional()) ?? false,
     };
 };

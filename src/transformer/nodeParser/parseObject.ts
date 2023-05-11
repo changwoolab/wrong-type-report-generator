@@ -17,7 +17,6 @@ export const parseObject = (columnName: string, type: Type) => {
     const astNode: AstNode = {
         name: columnName,
         type: type.getSymbol()?.getName() as string, // interface는 타입을 이름 그대로 쓴다
-        isOptional: type.isNullable(),
         arguments: [],
     };
 

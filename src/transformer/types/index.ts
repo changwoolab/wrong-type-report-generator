@@ -10,11 +10,6 @@ export interface AstNode {
     type: string;
 
     /**
-     * 옵셔널 여부 (?[questionToken] 여부)
-     */
-    isOptional: boolean;
-
-    /**
      * 마지막 엣지 노드가 아닌 경우에 가지는 arguments
      */
     arguments?: AstNode[];
@@ -42,19 +37,16 @@ export type GetBestReviewListItemResponseDTO = {
         {
             name: "id",
             type: "number",
-            isOptional: false,
         },
         {
             name: "userId",
             type: "number",
-            isOptional: true,
         },
 
         
         {
             name: "reviewType",
             type: "union",
-            isOptional: false,
             arguments: [
                 {
                     name: "0",

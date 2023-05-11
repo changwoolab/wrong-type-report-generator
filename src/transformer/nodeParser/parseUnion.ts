@@ -6,14 +6,10 @@ export const parseUnion = (columnName: string, type: Type) => {
     const parsedUnionNodes = eachUnionElements.map((value) => {
         return parseNode(columnName, value);
     });
-    const isOptional = parsedUnionNodes.some(
-        (node) => node.isOptional === true,
-    );
 
     return {
         name: columnName,
         type: 'union',
-        isOptional: isOptional,
         arguments: [...parsedUnionNodes],
     };
 };

@@ -36,7 +36,6 @@ describe('transformer - Primitive type tests', () => {
         expect(newAst).toEqual({
             name: 'PrimitiveNumber',
             type: 'number',
-            isOptional: false,
         });
     });
 
@@ -53,7 +52,6 @@ describe('transformer - Primitive type tests', () => {
         expect(newAst).toEqual({
             name: 'PrimitiveString',
             type: 'string',
-            isOptional: false,
         });
     });
 
@@ -70,7 +68,6 @@ describe('transformer - Primitive type tests', () => {
         expect(newAst).toEqual({
             name: 'PrimitiveBigint',
             type: 'bigint',
-            isOptional: false,
         });
     });
 
@@ -87,7 +84,6 @@ describe('transformer - Primitive type tests', () => {
         expect(newAst).toEqual({
             name: 'PrimitiveBoolean',
             type: 'boolean',
-            isOptional: false,
         });
     });
 
@@ -104,7 +100,6 @@ describe('transformer - Primitive type tests', () => {
         expect(newAst).toEqual({
             name: 'PrimitiveUndefined',
             type: 'undefined',
-            isOptional: true,
         });
     });
 
@@ -121,7 +116,6 @@ describe('transformer - Primitive type tests', () => {
         expect(newAst).toEqual({
             name: 'PrimitiveSymbol',
             type: 'symbol',
-            isOptional: false,
         });
     });
 
@@ -138,7 +132,6 @@ describe('transformer - Primitive type tests', () => {
         expect(newAst).toEqual({
             name: 'PrimitiveNull',
             type: 'null',
-            isOptional: true,
         });
     });
 });
