@@ -8,12 +8,16 @@ describe('transformer - Primitive type tests', () => {
         tsConfigFilePath: 'tsconfig.json',
     });
 
-    const testSourcefile = testProject.getSourceFile('src/transformer/test/primitiveTypes/PrimitiveType.ts');
+    const testSourcefile = testProject.getSourceFile(
+        'src/transformer/test/primitiveTypes/PrimitiveType.ts',
+    );
     if (!testSourcefile) {
         throw new Error('No test sourcefile');
     }
 
-    const exports = Array.from(testSourcefile.getExportedDeclarations().values())
+    const exports = Array.from(
+        testSourcefile.getExportedDeclarations().values(),
+    )
         .flat()
         .filter((ex) => ex.getSourceFile() === testSourcefile);
 
@@ -21,7 +25,9 @@ describe('transformer - Primitive type tests', () => {
 
     test('Primitive type: number', () => {
         // Given
-        const typeDeclaration = typeDeclarations.find((val) => val.getName() === 'PrimitiveNumber') as TypeDeclaration;
+        const typeDeclaration = typeDeclarations.find(
+            (val) => val.getName() === 'PrimitiveNumber',
+        ) as TypeDeclaration;
 
         // When
         const newAst = transformer(typeDeclaration);
@@ -36,7 +42,9 @@ describe('transformer - Primitive type tests', () => {
 
     test('Primitive type: string', () => {
         // Given
-        const typeDeclaration = typeDeclarations.find((val) => val.getName() === 'PrimitiveString') as TypeDeclaration;
+        const typeDeclaration = typeDeclarations.find(
+            (val) => val.getName() === 'PrimitiveString',
+        ) as TypeDeclaration;
 
         // When
         const newAst = transformer(typeDeclaration);
@@ -51,7 +59,9 @@ describe('transformer - Primitive type tests', () => {
 
     test('Primitive type: bigint', () => {
         // Given
-        const typeDeclaration = typeDeclarations.find((val) => val.getName() === 'PrimitiveBigint') as TypeDeclaration;
+        const typeDeclaration = typeDeclarations.find(
+            (val) => val.getName() === 'PrimitiveBigint',
+        ) as TypeDeclaration;
 
         // When
         const newAst = transformer(typeDeclaration);
@@ -66,7 +76,9 @@ describe('transformer - Primitive type tests', () => {
 
     test('Primitive type: boolean', () => {
         // Given
-        const typeDeclaration = typeDeclarations.find((val) => val.getName() === 'PrimitiveBoolean') as TypeDeclaration;
+        const typeDeclaration = typeDeclarations.find(
+            (val) => val.getName() === 'PrimitiveBoolean',
+        ) as TypeDeclaration;
 
         // When
         const newAst = transformer(typeDeclaration);
@@ -98,7 +110,9 @@ describe('transformer - Primitive type tests', () => {
 
     test('Primitive type: symbol', () => {
         // Given
-        const typeDeclaration = typeDeclarations.find((val) => val.getName() === 'PrimitiveSymbol') as TypeDeclaration;
+        const typeDeclaration = typeDeclarations.find(
+            (val) => val.getName() === 'PrimitiveSymbol',
+        ) as TypeDeclaration;
 
         // When
         const newAst = transformer(typeDeclaration);
@@ -113,7 +127,9 @@ describe('transformer - Primitive type tests', () => {
 
     test('Primitive type: null', () => {
         // Given
-        const typeDeclaration = typeDeclarations.find((val) => val.getName() === 'PrimitiveNull') as TypeDeclaration;
+        const typeDeclaration = typeDeclarations.find(
+            (val) => val.getName() === 'PrimitiveNull',
+        ) as TypeDeclaration;
 
         // When
         const newAst = transformer(typeDeclaration);
@@ -122,7 +138,7 @@ describe('transformer - Primitive type tests', () => {
         expect(newAst).toEqual({
             name: 'PrimitiveNull',
             type: 'null',
-            isOptional: false,
+            isOptional: true,
         });
     });
 });

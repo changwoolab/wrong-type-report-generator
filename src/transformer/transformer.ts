@@ -1,6 +1,7 @@
 import { Type, Node, Project } from 'ts-morph';
 import { TypeDeclaration } from '../types';
-import { parseObject } from './parseObject';
+import { parseObject } from './nodeParser/parseObject';
+import { parseUnion } from './nodeParser/parseUnion';
 import { AstNode } from './types';
 
 const isClassType = (type: Type): boolean => {
@@ -60,7 +61,7 @@ export const parseNode = (columnName: string, type: Type): AstNode => {
         return {
             name: columnName,
             type: 'null',
-            isOptional: false,
+            isOptional: true,
         };
     }
     if (type.getText() === 'any' || type.getText() === 'unknown') {
@@ -90,8 +91,7 @@ export const parseNode = (columnName: string, type: Type): AstNode => {
      * Non-primitive Types
      */
     if (type.isUnion()) {
-        // TODO
-        // "?" 연산자 쓰면 타입이 "~~ | undefined"가 되고 여기로 떨어짐
+        return parseUnion(columnName, type);
     }
     if (type.isIntersection()) {
         // TODO
