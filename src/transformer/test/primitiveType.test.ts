@@ -1,15 +1,17 @@
 import { transformer } from '../transformer';
 import { TypeDeclaration } from '../../types';
 import { getTestCase } from '../../../tests/utils/getTestCase';
+import { getTypeDeclaration } from '../../../tests/utils';
 
 describe('transformer - Primitive type tests', () => {
     const typeDeclarations = getTestCase('PrimitiveType');
 
     test('Primitive type: number', () => {
         // Given
-        const typeDeclaration = typeDeclarations.find(
-            (val) => val.getName() === 'PrimitiveNumber',
-        ) as TypeDeclaration;
+        const typeDeclaration = getTypeDeclaration(
+            'PrimitiveNumber',
+            typeDeclarations,
+        );
 
         // When
         const newAst = transformer(typeDeclaration);
@@ -23,9 +25,10 @@ describe('transformer - Primitive type tests', () => {
 
     test('Primitive type: string', () => {
         // Given
-        const typeDeclaration = typeDeclarations.find(
-            (val) => val.getName() === 'PrimitiveString',
-        ) as TypeDeclaration;
+        const typeDeclaration = getTypeDeclaration(
+            'PrimitiveString',
+            typeDeclarations,
+        );
 
         // When
         const newAst = transformer(typeDeclaration);
@@ -39,9 +42,10 @@ describe('transformer - Primitive type tests', () => {
 
     test('Primitive type: bigint', () => {
         // Given
-        const typeDeclaration = typeDeclarations.find(
-            (val) => val.getName() === 'PrimitiveBigint',
-        ) as TypeDeclaration;
+        const typeDeclaration = getTypeDeclaration(
+            'PrimitiveBigint',
+            typeDeclarations,
+        );
 
         // When
         const newAst = transformer(typeDeclaration);
@@ -55,9 +59,10 @@ describe('transformer - Primitive type tests', () => {
 
     test('Primitive type: boolean', () => {
         // Given
-        const typeDeclaration = typeDeclarations.find(
-            (val) => val.getName() === 'PrimitiveBoolean',
-        ) as TypeDeclaration;
+        const typeDeclaration = getTypeDeclaration(
+            'PrimitiveBoolean',
+            typeDeclarations,
+        );
 
         // When
         const newAst = transformer(typeDeclaration);
@@ -71,9 +76,10 @@ describe('transformer - Primitive type tests', () => {
 
     test('Primitive type: undefined', () => {
         // Given
-        const typeDeclaration = typeDeclarations.find(
-            (val) => val.getName() === 'PrimitiveUndefined',
-        ) as TypeDeclaration;
+        const typeDeclaration = getTypeDeclaration(
+            'PrimitiveUndefined',
+            typeDeclarations,
+        );
 
         // When
         const newAst = transformer(typeDeclaration);
@@ -87,9 +93,10 @@ describe('transformer - Primitive type tests', () => {
 
     test('Primitive type: symbol', () => {
         // Given
-        const typeDeclaration = typeDeclarations.find(
-            (val) => val.getName() === 'PrimitiveSymbol',
-        ) as TypeDeclaration;
+        const typeDeclaration = getTypeDeclaration(
+            'PrimitiveSymbol',
+            typeDeclarations,
+        );
 
         // When
         const newAst = transformer(typeDeclaration);
@@ -103,9 +110,10 @@ describe('transformer - Primitive type tests', () => {
 
     test('Primitive type: null', () => {
         // Given
-        const typeDeclaration = typeDeclarations.find(
-            (val) => val.getName() === 'PrimitiveNull',
-        ) as TypeDeclaration;
+        const typeDeclaration = getTypeDeclaration(
+            'PrimitiveNull',
+            typeDeclarations,
+        );
 
         // When
         const newAst = transformer(typeDeclaration);

@@ -1,15 +1,16 @@
 import { transformer } from '../transformer';
 import { TypeDeclaration } from '../../types';
-import { getTestCase } from '../../../tests/utils/getTestCase';
+import { getTestCase, getTypeDeclaration } from '../../../tests/utils';
 
 describe('transformer - Interface with Primitive type tests', () => {
     const typeDeclarations = getTestCase('InterfaceWithPrimitives');
 
     test('Interface with Primitive', () => {
         // Given
-        const typeDeclaration = typeDeclarations.find(
-            (val) => val.getName() === 'InterfaceWithPrimitives',
-        ) as TypeDeclaration;
+        const typeDeclaration = getTypeDeclaration(
+            'InterfaceWithPrimitives',
+            typeDeclarations,
+        );
 
         // When
         const newAst = transformer(typeDeclaration);
@@ -114,9 +115,10 @@ describe('transformer - Interface with Primitive type tests', () => {
 
     test('Extended Interface with Primitive', () => {
         // Given
-        const typeDeclaration = typeDeclarations.find(
-            (val) => val.getName() === 'ExtendedInterfaceWithPrimitives',
-        ) as TypeDeclaration;
+        const typeDeclaration = getTypeDeclaration(
+            'ExtendedInterfaceWithPrimitives',
+            typeDeclarations,
+        );
 
         // When
         const newAst = transformer(typeDeclaration);
