@@ -1,6 +1,7 @@
 import { transformer } from '../transformer';
 import { TypeDeclaration } from '../../types';
 import { getTestCase, getTypeDeclaration } from '../../../tests/utils';
+import { AstNode } from '../types';
 
 describe('transformer - Interface with Primitive type tests', () => {
     const typeDeclarations = getTestCase('InterfaceWithPrimitives');
@@ -16,10 +17,9 @@ describe('transformer - Interface with Primitive type tests', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        expect(newAst).toEqual({
+        const expectedResult: AstNode = {
             name: 'InterfaceWithPrimitives',
             type: 'InterfaceWithPrimitives',
-
             arguments: [
                 { name: 'number1', type: 'number' },
                 { name: 'string1', type: 'string' },
@@ -110,7 +110,8 @@ describe('transformer - Interface with Primitive type tests', () => {
                     ],
                 },
             ],
-        });
+        };
+        expect(newAst).toEqual(expectedResult);
     });
 
     test('Extended Interface with Primitive', () => {
@@ -124,10 +125,9 @@ describe('transformer - Interface with Primitive type tests', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        expect(newAst).toEqual({
+        const expectedResult: AstNode = {
             name: 'ExtendedInterfaceWithPrimitives',
             type: 'ExtendedInterfaceWithPrimitives',
-
             arguments: [
                 {
                     name: 'ExtendedInterfaceWithPrimitives',
@@ -271,6 +271,36 @@ describe('transformer - Interface with Primitive type tests', () => {
                     ],
                 },
             ],
-        });
+        };
+        expect(newAst).toEqual(expectedResult);
+    });
+
+    test('Nested Interface with Primitive', () => {
+        // Given
+        const typeDeclaration = getTypeDeclaration(
+            'NestedInterfaceWithPrimitives',
+            typeDeclarations,
+        );
+
+        // When
+        const newAst = transformer(typeDeclaration);
+
+        // Then
+        const expectedResult: AstNode = {
+            name: 'NestedInterfaceWithPrimitives',
+            type: 'NestedInterfaceWithPrimitives',
+            arguments: [
+                { name: 'number1', type: 'number' },
+                {
+                    name: 'nested',
+                    type: '__type', // WTF?
+                    arguments: [
+                        { name: 'number2', type: 'number' },
+                        { name: 'string2', type: 'string' },
+                    ],
+                },
+            ],
+        };
+        expect(newAst).toEqual(expectedResult);
     });
 });

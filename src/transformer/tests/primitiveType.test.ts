@@ -1,7 +1,7 @@
 import { transformer } from '../transformer';
-import { TypeDeclaration } from '../../types';
 import { getTestCase } from '../../../tests/utils/getTestCase';
 import { getTypeDeclaration } from '../../../tests/utils';
+import { AstNode } from '../types';
 
 describe('transformer - Primitive type tests', () => {
     const typeDeclarations = getTestCase('PrimitiveType');
@@ -17,10 +17,11 @@ describe('transformer - Primitive type tests', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        expect(newAst).toEqual({
+        const expectedResult: AstNode = {
             name: 'PrimitiveNumber',
             type: 'number',
-        });
+        };
+        expect(newAst).toEqual(expectedResult);
     });
 
     test('Primitive type: string', () => {
@@ -34,10 +35,11 @@ describe('transformer - Primitive type tests', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        expect(newAst).toEqual({
+        const expectedResult: AstNode = {
             name: 'PrimitiveString',
             type: 'string',
-        });
+        };
+        expect(newAst).toEqual(expectedResult);
     });
 
     test('Primitive type: bigint', () => {
@@ -51,10 +53,11 @@ describe('transformer - Primitive type tests', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        expect(newAst).toEqual({
+        const expectedResult: AstNode = {
             name: 'PrimitiveBigint',
             type: 'bigint',
-        });
+        };
+        expect(newAst).toEqual(expectedResult);
     });
 
     test('Primitive type: boolean', () => {
@@ -68,10 +71,11 @@ describe('transformer - Primitive type tests', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        expect(newAst).toEqual({
+        const expectedResult: AstNode = {
             name: 'PrimitiveBoolean',
             type: 'boolean',
-        });
+        };
+        expect(newAst).toEqual(expectedResult);
     });
 
     test('Primitive type: undefined', () => {
@@ -85,10 +89,11 @@ describe('transformer - Primitive type tests', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        expect(newAst).toEqual({
+        const expectedResult: AstNode = {
             name: 'PrimitiveUndefined',
             type: 'undefined',
-        });
+        };
+        expect(newAst).toEqual(expectedResult);
     });
 
     test('Primitive type: symbol', () => {
@@ -102,10 +107,11 @@ describe('transformer - Primitive type tests', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        expect(newAst).toEqual({
+        const expectedResult: AstNode = {
             name: 'PrimitiveSymbol',
             type: 'symbol',
-        });
+        };
+        expect(newAst).toEqual(expectedResult);
     });
 
     test('Primitive type: null', () => {
@@ -119,9 +125,10 @@ describe('transformer - Primitive type tests', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        expect(newAst).toEqual({
+        const expectedResult: AstNode = {
             name: 'PrimitiveNull',
             type: 'null',
-        });
+        };
+        expect(newAst).toEqual(expectedResult);
     });
 });
