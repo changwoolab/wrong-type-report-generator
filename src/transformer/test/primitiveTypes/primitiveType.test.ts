@@ -9,7 +9,7 @@ describe('transformer - Primitive type tests', () => {
     });
 
     const testSourcefile = testProject.getSourceFile(
-        'src/transformer/test/primitiveTypes/PrimitiveType.ts',
+        'testCases/PrimitiveType.ts',
     );
     if (!testSourcefile) {
         throw new Error('No test sourcefile');
