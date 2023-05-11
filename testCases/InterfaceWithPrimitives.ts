@@ -17,8 +17,8 @@ export interface InterfaceWithPrimitives {
 
 export interface ExtendedInterfaceWithPrimitives
     extends InterfaceWithPrimitives {
-    thisisincluded: boolean;
-    thisisincluded2?: boolean;
+    thisisincluded: number;
+    thisisincluded2?: number;
 }
 
 export interface NestedInterfaceWithPrimitives {
