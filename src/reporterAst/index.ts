@@ -1,17 +1,41 @@
+type Primitives =
+    | 'number'
+    | 'string'
+    | 'bigint'
+    | 'boolean'
+    | 'undefined'
+    | 'symbol'
+    | 'null';
+
+type Object = 'object';
+
+type Union = 'union';
+
 export interface AstNode {
     /**
-     * 컬럼 이름
+     * 컬럼 이름 또는 어떤 컬럼의 부속품의 이름
      */
     name: string;
 
     /**
      * 해당 컬럼의 타입
      */
-    type: string;
+    type: Primitives | Object | Union | string;
 
     /**
      * 마지막 엣지 노드가 아닌 경우에 가지는 arguments
      */
+    arguments?: AstNode[];
+
+    /**
+     * 유니온 타입 등 children을 가질 때 children들
+     */
+    children?: AstNodeChildren[];
+}
+
+export interface AstNodeChildren {
+    name: 'unionElement';
+    type: string;
     arguments?: AstNode[];
 }
 
