@@ -17,7 +17,7 @@ export interface AstNode {
     /**
      * 컬럼 이름 또는 어떤 컬럼의 부속품 종류 이름
      */
-    name: string | ElementTypes;
+    name: ElementTypes | string;
 
     /**
      * 해당 컬럼의 타입
