@@ -11,11 +11,13 @@ type Object = 'object';
 
 type Union = 'union';
 
+type ElementTypes = 'unionElement';
+
 export interface AstNode {
     /**
-     * 컬럼 이름 또는 어떤 컬럼의 부속품의 이름
+     * 컬럼 이름 또는 어떤 컬럼의 부속품 종류 이름
      */
-    name: string;
+    name: string | ElementTypes;
 
     /**
      * 해당 컬럼의 타입
@@ -24,18 +26,8 @@ export interface AstNode {
 
     /**
      * 마지막 엣지 노드가 아닌 경우에 가지는 arguments
+     * 또는 유니온 타입의 children들
      */
-    arguments?: AstNode[];
-
-    /**
-     * 유니온 타입 등 children을 가질 때 children들
-     */
-    children?: AstNodeChildren[];
-}
-
-export interface AstNodeChildren {
-    name: 'unionElement';
-    type: string;
     arguments?: AstNode[];
 }
 

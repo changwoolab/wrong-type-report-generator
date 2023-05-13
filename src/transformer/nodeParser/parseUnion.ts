@@ -1,6 +1,6 @@
 import { Type } from 'ts-morph';
 import { AstNode } from '../../reporterAst';
-import { getNewAst, pushNewArgument } from '../../reporterAst/astUtils';
+import { getNewAst } from '../../reporterAst/astUtils';
 import { parseNode } from '../transformer';
 
 export const parseUnion = (columnName: string, type: Type) => {
@@ -10,9 +10,16 @@ export const parseUnion = (columnName: string, type: Type) => {
         parseNode('unionElement', elem),
     );
 
-    const unionAst = checkBooleanTypeInLiteral(columnName, parsedUnionElements);
+    const unionChildren = checkBooleanTypeInLiteral(
+        columnName,
+        parsedUnionElements,
+    );
 
-    return getNewAst({ name: columnName, type: 'union', argument: unionAst });
+    return getNewAst({
+        name: columnName,
+        type: 'union',
+        argument: unionChildren,
+    });
 };
 
 const checkBooleanTypeInLiteral = (
