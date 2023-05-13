@@ -13,8 +13,8 @@ export const getNewAst = ({
     const ast: AstNode = {
         name,
         type,
-        arguments: argument,
     };
+    if (argument) ast.arguments = argument;
     return ast;
 };
 

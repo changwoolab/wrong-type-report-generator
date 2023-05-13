@@ -11,7 +11,7 @@ export const parseUnion = (columnName: string, type: Type) => {
     );
 
     const unionChildren = checkBooleanTypeInLiteral(
-        columnName,
+        'unionElement',
         parsedUnionElements,
     );
 
@@ -23,7 +23,7 @@ export const parseUnion = (columnName: string, type: Type) => {
 };
 
 const checkBooleanTypeInLiteral = (
-    columnName: string,
+    name: string,
     unionAstNodes: AstNode[],
 ): AstNode[] => {
     //  booleanLiteral   => "true" | "false"
@@ -39,9 +39,7 @@ const checkBooleanTypeInLiteral = (
         copiedUnionAstNodes.length - 2 === withoutBooleanLiterals.length;
 
     if (hasBooleanTypeInLiteral) {
-        withoutBooleanLiterals.push(
-            getNewAst({ name: columnName, type: 'boolean' }),
-        );
+        withoutBooleanLiterals.push(getNewAst({ name, type: 'boolean' }));
         return withoutBooleanLiterals;
     }
     return copiedUnionAstNodes;
