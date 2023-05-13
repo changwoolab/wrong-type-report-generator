@@ -19,7 +19,7 @@ describe('transformer - Interface with Primitive type tests', () => {
         // Then
         const expectedResult: AstNode = {
             name: 'InterfaceWithPrimitives',
-            type: 'InterfaceWithPrimitives',
+            type: 'object',
             arguments: [
                 { name: 'number1', type: 'number' },
                 { name: 'string1', type: 'string' },
@@ -33,13 +33,12 @@ describe('transformer - Interface with Primitive type tests', () => {
                 {
                     name: 'number2',
                     type: 'union',
-
                     arguments: [
                         {
-                            name: 'number2',
+                            name: 'unionElement',
                             type: 'undefined',
                         },
-                        { name: 'number2', type: 'number' },
+                        { name: 'unionElement', type: 'number' },
                     ],
                 },
                 {
@@ -48,10 +47,10 @@ describe('transformer - Interface with Primitive type tests', () => {
 
                     arguments: [
                         {
-                            name: 'string2',
+                            name: 'unionElement',
                             type: 'undefined',
                         },
-                        { name: 'string2', type: 'string' },
+                        { name: 'unionElement', type: 'string' },
                     ],
                 },
                 {
@@ -60,10 +59,10 @@ describe('transformer - Interface with Primitive type tests', () => {
 
                     arguments: [
                         {
-                            name: 'bigint2',
+                            name: 'unionElement',
                             type: 'undefined',
                         },
-                        { name: 'bigint2', type: 'bigint' },
+                        { name: 'unionElement', type: 'bigint' },
                     ],
                 },
                 {
@@ -71,11 +70,11 @@ describe('transformer - Interface with Primitive type tests', () => {
                     type: 'union',
                     arguments: [
                         {
-                            name: 'boolean2',
+                            name: 'unionElement',
                             type: 'undefined',
                         },
                         {
-                            name: 'boolean2',
+                            name: 'unionElement',
                             type: 'boolean',
                         },
                     ],
@@ -84,13 +83,12 @@ describe('transformer - Interface with Primitive type tests', () => {
                 {
                     name: 'symbol2',
                     type: 'union',
-
                     arguments: [
                         {
-                            name: 'symbol2',
+                            name: 'unionElement',
                             type: 'undefined',
                         },
-                        { name: 'symbol2', type: 'symbol' },
+                        { name: 'unionElement', type: 'symbol' },
                     ],
                 },
                 {
@@ -98,8 +96,8 @@ describe('transformer - Interface with Primitive type tests', () => {
                     type: 'union',
 
                     arguments: [
-                        { name: 'null2', type: 'undefined' },
-                        { name: 'null2', type: 'null' },
+                        { name: 'unionElement', type: 'undefined' },
+                        { name: 'unionElement', type: 'null' },
                     ],
                 },
             ],
@@ -120,12 +118,11 @@ describe('transformer - Interface with Primitive type tests', () => {
         // Then
         const expectedResult: AstNode = {
             name: 'ExtendedInterfaceWithPrimitives',
-            type: 'ExtendedInterfaceWithPrimitives',
+            type: 'object',
             arguments: [
                 {
                     name: 'ExtendedInterfaceWithPrimitives',
-                    type: 'InterfaceWithPrimitives',
-
+                    type: 'object',
                     arguments: [
                         { name: 'number1', type: 'number' },
                         { name: 'string1', type: 'string' },
@@ -145,14 +142,13 @@ describe('transformer - Interface with Primitive type tests', () => {
                         {
                             name: 'number2',
                             type: 'union',
-
                             arguments: [
                                 {
-                                    name: 'number2',
+                                    name: 'unionElement',
                                     type: 'undefined',
                                 },
                                 {
-                                    name: 'number2',
+                                    name: 'unionElement',
                                     type: 'number',
                                 },
                             ],
@@ -160,14 +156,13 @@ describe('transformer - Interface with Primitive type tests', () => {
                         {
                             name: 'string2',
                             type: 'union',
-
                             arguments: [
                                 {
-                                    name: 'string2',
+                                    name: 'unionElement',
                                     type: 'undefined',
                                 },
                                 {
-                                    name: 'string2',
+                                    name: 'unionElement',
                                     type: 'string',
                                 },
                             ],
@@ -175,14 +170,13 @@ describe('transformer - Interface with Primitive type tests', () => {
                         {
                             name: 'bigint2',
                             type: 'union',
-
                             arguments: [
                                 {
-                                    name: 'bigint2',
+                                    name: 'unionElement',
                                     type: 'undefined',
                                 },
                                 {
-                                    name: 'bigint2',
+                                    name: 'unionElement',
                                     type: 'bigint',
                                 },
                             ],
@@ -190,14 +184,13 @@ describe('transformer - Interface with Primitive type tests', () => {
                         {
                             name: 'boolean2',
                             type: 'union',
-
                             arguments: [
                                 {
-                                    name: 'boolean2',
+                                    name: 'unionElement',
                                     type: 'undefined',
                                 },
                                 {
-                                    name: 'boolean2',
+                                    name: 'unionElement',
                                     type: 'boolean',
                                 },
                             ],
@@ -209,14 +202,13 @@ describe('transformer - Interface with Primitive type tests', () => {
                         {
                             name: 'symbol2',
                             type: 'union',
-
                             arguments: [
                                 {
-                                    name: 'symbol2',
+                                    name: 'unionElement',
                                     type: 'undefined',
                                 },
                                 {
-                                    name: 'symbol2',
+                                    name: 'unionElement',
                                     type: 'symbol',
                                 },
                             ],
@@ -224,14 +216,13 @@ describe('transformer - Interface with Primitive type tests', () => {
                         {
                             name: 'null2',
                             type: 'union',
-
                             arguments: [
                                 {
-                                    name: 'null2',
+                                    name: 'unionElement',
                                     type: 'undefined',
                                 },
                                 {
-                                    name: 'null2',
+                                    name: 'unionElement',
                                     type: 'null',
                                 },
                             ],
@@ -245,14 +236,13 @@ describe('transformer - Interface with Primitive type tests', () => {
                 {
                     name: 'thisisincluded2',
                     type: 'union',
-
                     arguments: [
                         {
-                            name: 'thisisincluded2',
+                            name: 'unionElement',
                             type: 'undefined',
                         },
                         {
-                            name: 'thisisincluded2',
+                            name: 'unionElement',
                             type: 'number',
                         },
                     ],
@@ -275,12 +265,12 @@ describe('transformer - Interface with Primitive type tests', () => {
         // Then
         const expectedResult: AstNode = {
             name: 'NestedInterfaceWithPrimitives',
-            type: 'NestedInterfaceWithPrimitives',
+            type: 'object',
             arguments: [
                 { name: 'number1', type: 'number' },
                 {
                     name: 'nested',
-                    type: '__type', // WTF?
+                    type: 'object',
                     arguments: [
                         { name: 'number2', type: 'number' },
                         { name: 'string2', type: 'string' },
