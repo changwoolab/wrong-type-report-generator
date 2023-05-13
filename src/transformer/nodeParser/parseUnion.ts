@@ -34,6 +34,7 @@ const checkBooleanTypeInLiteral = (
     );
 
     // has "true" and "false" at the same time for the same column
+    // doesn't count for "true" | "true" for now because it is hilarious
     const hasBooleanTypeInLiteral =
         copiedUnionAstNodes.length - 2 === withoutBooleanLiterals.length;
 

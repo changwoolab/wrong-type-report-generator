@@ -52,27 +52,27 @@ export const transformer = (typeDeclaration: TypeDeclaration) => {
 };
 
 /**
- * input: columnName과 해당 컬럼의 ts-morph Type을 받아서 AST Node를 만들어주는 함수
- * @param columnName
+ * input: name과 해당 컬럼의 ts-morph Type을 받아서 AST Node를 만들어주는 함수
+ * @param name
  * @param type
  * @returns `AstNode`
  */
-export const parseNode = (columnName: string, type: Type): AstNode => {
+export const parseNode = (name: string, type: Type): AstNode => {
     if (type.getText() === 'any' || type.getText() === 'unknown') {
-        return getNewAst({ name: columnName, type: 'any' });
+        return getNewAst({ name, type: 'any' });
     }
     if (type.getText() === 'never') {
-        return getNewAst({ name: columnName, type: 'never' });
+        return getNewAst({ name, type: 'never' });
     }
     if (type.isBoolean()) {
-        return getNewAst({ name: columnName, type: 'boolean' });
+        return getNewAst({ name, type: 'boolean' });
     }
 
     /**
      * Non-primitive Types
      */
     if (type.isUnion()) {
-        return parseUnion(columnName, type);
+        return parseUnion(name, type);
     }
     if (type.isIntersection()) {
         // TODO
@@ -98,14 +98,14 @@ export const parseNode = (columnName: string, type: Type): AstNode => {
      * interface or plain object
      */
     if (type.isObject()) {
-        return parseObject(columnName, type);
+        return parseObject(name, type);
     }
     if (type.isLiteral()) {
         // TODO
     }
 
     return {
-        name: columnName,
+        name,
         type: type.getText(),
     };
 };
