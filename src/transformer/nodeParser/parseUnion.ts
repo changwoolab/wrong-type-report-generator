@@ -6,13 +6,13 @@ import { parseNode } from '../transformer';
 export const parseUnion = (columnName: string, type: Type) => {
     const unionElements = type.getUnionTypes();
 
-    const newUnionAst = unionElements.map((elem) =>
-        parseNode(columnName, elem),
+    const parsedUnionElements = unionElements.map((elem) =>
+        parseNode('unionElement', elem),
     );
 
-    const unionAst = checkBooleanTypeInLiteral(columnName, newUnionAst);
+    const unionAst = checkBooleanTypeInLiteral(columnName, parsedUnionElements);
 
-    return getNewAst(columnName, 'union', unionAst);
+    return getNewAst({ name: columnName, type: 'union', argument: unionAst });
 };
 
 const checkBooleanTypeInLiteral = (
@@ -31,7 +31,9 @@ const checkBooleanTypeInLiteral = (
         copiedUnionAstNodes.length - 2 === withoutBooleanLiterals.length;
 
     if (hasBooleanTypeInLiteral) {
-        withoutBooleanLiterals.push(getNewAst(columnName, 'boolean'));
+        withoutBooleanLiterals.push(
+            getNewAst({ name: columnName, type: 'boolean' }),
+        );
         return withoutBooleanLiterals;
     }
     return copiedUnionAstNodes;

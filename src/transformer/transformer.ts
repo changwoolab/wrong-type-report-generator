@@ -3,6 +3,7 @@ import { TypeDeclaration } from '../types';
 import { parseObject } from './nodeParser/parseObject';
 import { parseUnion } from './nodeParser/parseUnion';
 import { AstNode } from '../reporterAst';
+import { getNewAst } from '../reporterAst/astUtils';
 
 const isClassType = (type: Type): boolean => {
     if (type.getConstructSignatures().length > 0) {
@@ -58,22 +59,13 @@ export const transformer = (typeDeclaration: TypeDeclaration) => {
  */
 export const parseNode = (columnName: string, type: Type): AstNode => {
     if (type.getText() === 'any' || type.getText() === 'unknown') {
-        return {
-            name: columnName,
-            type: 'any',
-        };
+        return getNewAst({ name: columnName, type: 'any' });
     }
     if (type.getText() === 'never') {
-        return {
-            name: columnName,
-            type: 'never',
-        };
+        return getNewAst({ name: columnName, type: 'never' });
     }
     if (type.isBoolean()) {
-        return {
-            name: columnName,
-            type: 'boolean',
-        };
+        return getNewAst({ name: columnName, type: 'boolean' });
     }
 
     /**

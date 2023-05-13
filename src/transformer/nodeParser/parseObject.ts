@@ -1,6 +1,7 @@
 import { Type, Node } from 'ts-morph';
 import { parseNode } from '../transformer';
 import { AstNode } from '../../reporterAst';
+import { getNewAst } from '../../reporterAst/astUtils';
 
 export const parseObject = (columnName: string, type: Type) => {
     const symbol = type.getSymbol();
@@ -14,11 +15,11 @@ export const parseObject = (columnName: string, type: Type) => {
     // TODO: interface merge 지원
     const declaration = declarations[0];
 
-    const astNode: AstNode = {
+    const astNode: AstNode = getNewAst({
         name: columnName,
-        type: type.getSymbol()?.getName() as string, // interface는 타입을 이름 그대로 쓴다
-        arguments: [],
-    };
+        type: 'object',
+        argument: [],
+    });
 
     if (type.isInterface()) {
         // interface, properties + methods
