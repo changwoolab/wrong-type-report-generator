@@ -1,7 +1,8 @@
 import { transformer } from '../transformer';
 import { getTestCase } from '../../../tests/utils/getTestCase';
 import { getTypeDeclaration } from '../../../tests/utils';
-import { AstNode } from '../../reporterAst';
+import { AstNode, AstRootNode } from '../../reporterAst';
+import { getNewRootAst } from '../../reporterAst/astUtils';
 
 describe('transformer - Primitive type tests', () => {
     const typeDeclarations = getTestCase('PrimitiveType');
@@ -17,10 +18,13 @@ describe('transformer - Primitive type tests', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        const expectedResult: AstNode = {
-            name: 'PrimitiveNumber',
-            type: 'number',
-        };
+        const expectedResult: AstRootNode = getNewRootAst({
+            dependencies: new Map(),
+            astNode: {
+                name: 'PrimitiveNumber',
+                type: 'number',
+            },
+        });
         expect(newAst).toEqual(expectedResult);
     });
 
@@ -35,10 +39,13 @@ describe('transformer - Primitive type tests', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        const expectedResult: AstNode = {
-            name: 'PrimitiveString',
-            type: 'string',
-        };
+        const expectedResult: AstRootNode = getNewRootAst({
+            dependencies: new Map(),
+            astNode: {
+                name: 'PrimitiveString',
+                type: 'string',
+            },
+        });
         expect(newAst).toEqual(expectedResult);
     });
 
@@ -53,10 +60,13 @@ describe('transformer - Primitive type tests', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        const expectedResult: AstNode = {
-            name: 'PrimitiveBigint',
-            type: 'bigint',
-        };
+        const expectedResult: AstRootNode = getNewRootAst({
+            dependencies: new Map(),
+            astNode: {
+                name: 'PrimitiveBigint',
+                type: 'bigint',
+            },
+        });
         expect(newAst).toEqual(expectedResult);
     });
 
@@ -71,10 +81,13 @@ describe('transformer - Primitive type tests', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        const expectedResult: AstNode = {
-            name: 'PrimitiveBoolean',
-            type: 'boolean',
-        };
+        const expectedResult: AstRootNode = getNewRootAst({
+            dependencies: new Map(),
+            astNode: {
+                name: 'PrimitiveBoolean',
+                type: 'boolean',
+            },
+        });
         expect(newAst).toEqual(expectedResult);
     });
 
@@ -89,10 +102,13 @@ describe('transformer - Primitive type tests', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        const expectedResult: AstNode = {
-            name: 'PrimitiveUndefined',
-            type: 'undefined',
-        };
+        const expectedResult: AstRootNode = getNewRootAst({
+            dependencies: new Map(),
+            astNode: {
+                name: 'PrimitiveUndefined',
+                type: 'undefined',
+            },
+        });
         expect(newAst).toEqual(expectedResult);
     });
 
@@ -107,10 +123,13 @@ describe('transformer - Primitive type tests', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        const expectedResult: AstNode = {
-            name: 'PrimitiveSymbol',
-            type: 'symbol',
-        };
+        const expectedResult: AstRootNode = getNewRootAst({
+            dependencies: new Map(),
+            astNode: {
+                name: 'PrimitiveSymbol',
+                type: 'symbol',
+            },
+        });
         expect(newAst).toEqual(expectedResult);
     });
 
@@ -125,10 +144,13 @@ describe('transformer - Primitive type tests', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        const expectedResult: AstNode = {
-            name: 'PrimitiveNull',
-            type: 'null',
-        };
+        const expectedResult: AstRootNode = getNewRootAst({
+            dependencies: new Map(),
+            astNode: {
+                name: 'PrimitiveNull',
+                type: 'null',
+            },
+        });
         expect(newAst).toEqual(expectedResult);
     });
 });

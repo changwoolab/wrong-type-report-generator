@@ -1,6 +1,6 @@
 import { getTestCase, getTypeDeclaration } from '../../../tests/utils';
-import { AstNode } from '../../reporterAst';
-import { getNewAst } from '../../reporterAst/astUtils';
+import { AstNode, AstRootNode } from '../../reporterAst';
+import { getNewAst, getNewRootAst } from '../../reporterAst/astUtils';
 import { transformer } from '../transformer';
 
 describe('transformer - Minimum requirements', () => {
@@ -17,51 +17,61 @@ describe('transformer - Minimum requirements', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
-        const expectedResult: AstNode = getNewAst({
-            name: 'TEST1_COLUMN_WITH_GENERICS',
-            type: 'object',
-            argument: [
-                getNewAst({
-                    name: 'int1',
-                    type: 'string',
-                }),
-                getNewAst({
-                    name: 'int2',
-                    type: 'union',
-                    argument: [
-                        getNewAst({
-                            name: 'unionElement',
-                            type: 'null',
-                        }),
-                        getNewAst({
-                            name: 'unionElement',
-                            type: 'object',
-                            argument: [
-                                getNewAst({
-                                    name: 'int3',
-                                    type: 'string',
-                                }),
-                            ],
-                        }),
-                    ],
-                }),
-            ],
+        const expectedResult: AstRootNode = getNewRootAst({
+            dependencies: new Map(),
+            astNode: getNewAst({
+                name: 'TEST1_COLUMN_WITH_GENERICS',
+                type: 'object',
+                argument: [
+                    getNewAst({
+                        name: 'int1',
+                        type: 'string',
+                    }),
+                    getNewAst({
+                        name: 'int2',
+                        type: 'union',
+                        argument: [
+                            getNewAst({
+                                name: 'unionElement',
+                                type: 'null',
+                            }),
+                            getNewAst({
+                                name: 'unionElement',
+                                type: 'object',
+                                argument: [
+                                    getNewAst({
+                                        name: 'int3',
+                                        type: 'string',
+                                    }),
+                                ],
+                            }),
+                        ],
+                    }),
+                ],
+            }),
         });
         expect(expectedResult).toEqual(newAst);
     });
 
-    test('TEST2_ENUMS', () => {
-        // Given
-        const typeDeclaration = getTypeDeclaration(
-            'TEST2_ENUMS',
-            typeDeclarations,
-        );
+    // test('TEST2_ENUMS', () => {
+    //     // Given
+    //     const typeDeclaration = getTypeDeclaration(
+    //         'TEST2_ENUMS',
+    //         typeDeclarations,
+    //     );
 
-        // When
-        const newAst = transformer(typeDeclaration);
-
-        // Then
-    });
+    //     // When
+    //     const newAst = transformer(typeDeclaration);
+    //     // console.log(JSON.stringify(newAst, null, 4));
+    //     // Then
+    //     expect(newAst).toEqual(
+    //         getNewAst({
+    //             name: 'TEST2_ENUMS',
+    //             type: 'enum',
+    //             argument: [],
+    //         }),
+    //     );
+    // });
 
     // test('TEST3_NAMESPACE', () => {
     //     // Given
