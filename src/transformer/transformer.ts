@@ -2,8 +2,8 @@ import { Type, Node, Project } from 'ts-morph';
 import { TypeDeclaration } from '../types';
 import { parseObject } from './nodeParser/parseObject';
 import { parseUnion } from './nodeParser/parseUnion';
-import { AstNode } from '../reporterAst';
-import { getNewAst } from '../reporterAst/astUtils';
+import { AstNode, AstRootNode, Dependency } from '../reporterAst';
+import { getNewAst, getNewRootAst } from '../reporterAst/astUtils';
 
 const isClassType = (type: Type): boolean => {
     if (type.getConstructSignatures().length > 0) {
@@ -41,6 +41,19 @@ const isReadonlyArrayType = (type: Type): boolean => {
     );
 };
 
+export type AddToDependencyMap = (key: string, toAdd: Dependency) => void;
+
+const createAddToDependencyMap = () => {
+    const dependencies = new Map<string, Dependency>();
+
+    return {
+        addToDependencyMap: (key: string, toAdd: Dependency) => {
+            dependencies.set(key, { ...toAdd });
+        },
+        getDependencyMap: () => dependencies,
+    };
+};
+
 /**
  * input: ts-morph로 생성된 TypeDeclaration 1개 (AST)
  * output: Typeguard Code Generator를 위한 새로운 AST
@@ -48,7 +61,20 @@ const isReadonlyArrayType = (type: Type): boolean => {
 export const transformer = (typeDeclaration: TypeDeclaration) => {
     const typeName = typeDeclaration.getName();
 
-    return parseNode(typeName, typeDeclaration.getType());
+    const { getDependencyMap, addToDependencyMap } = createAddToDependencyMap();
+    const astNode = parseNode({
+        name: typeName,
+        type: typeDeclaration.getType(),
+        addToDependencyMap,
+    });
+
+    return getNewRootAst({ astNode, dependencies: getDependencyMap() });
+};
+
+export type ParseNode = {
+    name: string;
+    type: Type;
+    addToDependencyMap: AddToDependencyMap;
 };
 
 /**
@@ -57,7 +83,11 @@ export const transformer = (typeDeclaration: TypeDeclaration) => {
  * @param type
  * @returns `AstNode`
  */
-export const parseNode = (name: string, type: Type): AstNode => {
+export const parseNode = ({
+    name,
+    type,
+    addToDependencyMap,
+}: ParseNode): AstNode => {
     if (type.getText() === 'any' || type.getText() === 'unknown') {
         return getNewAst({ name, type: 'any' });
     }
@@ -72,7 +102,7 @@ export const parseNode = (name: string, type: Type): AstNode => {
      * Non-primitive Types
      */
     if (type.isUnion()) {
-        return parseUnion(name, type);
+        return parseUnion({ name, type, addToDependencyMap });
     }
     if (type.isIntersection()) {
         // TODO
@@ -93,15 +123,28 @@ export const parseNode = (name: string, type: Type): AstNode => {
     }
     if (type.isTuple()) {
         // TODO
+        console.log('tuple');
     }
     /**
      * interface or plain object
      */
     if (type.isObject()) {
-        return parseObject(name, type);
+        return parseObject({ name, type, addToDependencyMap });
     }
     if (type.isLiteral()) {
         // TODO
+        if (type.isEnumLiteral()) {
+            const node = type
+                .getSymbol()!
+                .getDeclarations()
+                .find(Node.isEnumMember)!
+                .getParent();
+            // add dependency
+            console.log(
+                node.getSymbol()?.getName(), // enum name
+                type.getSymbol()?.getName(), // enum children name
+            );
+        }
     }
 
     return {

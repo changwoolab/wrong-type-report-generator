@@ -1,3 +1,5 @@
+import { SourceFile } from 'ts-morph';
+
 type Primitives =
     | 'number'
     | 'string'
@@ -12,6 +14,21 @@ type Object = 'object';
 type Union = 'union';
 
 type ElementTypes = 'unionElement';
+
+export type Dependency = {
+    sourceFile: SourceFile;
+    exportName: string;
+    isDefault: boolean;
+};
+
+export interface AstRootNode {
+    ast: AstNode;
+
+    /**
+     * 이 노드를 사용하기 위해 import 해야하는 것
+     */
+    dependencies?: Map<string, Dependency>;
+}
 
 export interface AstNode {
     /**

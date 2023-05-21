@@ -1,9 +1,9 @@
 import { Type, Node } from 'ts-morph';
-import { parseNode } from '../transformer';
+import { AddToDependencyMap, ParseNode, parseNode } from '../transformer';
 import { AstNode } from '../../reporterAst';
 import { getNewAst } from '../../reporterAst/astUtils';
 
-export const parseObject = (columnName: string, type: Type) => {
+export const parseObject = ({ name, type, addToDependencyMap }: ParseNode) => {
     const symbol = type.getSymbol();
     if (!symbol) {
         throw new Error('No Interface Symbols');
@@ -16,7 +16,7 @@ export const parseObject = (columnName: string, type: Type) => {
     const declaration = declarations[0];
 
     const astNode: AstNode = getNewAst({
-        name: columnName,
+        name,
         type: 'object',
         argument: [],
     });
@@ -31,7 +31,11 @@ export const parseObject = (columnName: string, type: Type) => {
 
         // parse base
         const parsedBases = declaration.getBaseTypes().map((baseType) => {
-            return parseNode(type.getSymbol()?.getName() as string, baseType);
+            return parseNode({
+                name: type.getSymbol()?.getName() as string,
+                type: baseType,
+                addToDependencyMap,
+            });
         });
         parsedBases.forEach((node) => {
             astNode.arguments?.push(node);
@@ -47,7 +51,11 @@ export const parseObject = (columnName: string, type: Type) => {
         }));
 
         const parsedProperties = properties.map((prop) => {
-            return parseNode(prop.name, prop.type);
+            return parseNode({
+                name: prop.name,
+                type: prop.type,
+                addToDependencyMap,
+            });
         });
         parsedProperties.forEach((node) => {
             astNode.arguments?.push(node);
@@ -59,7 +67,11 @@ export const parseObject = (columnName: string, type: Type) => {
             .map((p) => ({ keyType: p.getKeyType(), type: p.getReturnType() }));
 
         const parsedIndexSignatures = indexSignatures.map((idxSig) => {
-            return parseNode(indexKeyTypeToString(idxSig.keyType), idxSig.type);
+            return parseNode({
+                name: indexKeyTypeToString(idxSig.keyType),
+                type: idxSig.type,
+                addToDependencyMap,
+            });
         });
         parsedIndexSignatures.forEach((node) => {
             astNode.arguments?.push(node);
@@ -81,7 +93,11 @@ export const parseObject = (columnName: string, type: Type) => {
             };
         });
         const parsedPropertySignatures = propertySignatures.map((propSig) => {
-            return parseNode(propSig.name, propSig.type);
+            return parseNode({
+                name: propSig.name,
+                type: propSig.type,
+                addToDependencyMap,
+            });
         });
         parsedPropertySignatures.forEach((node) => {
             astNode.arguments?.push(node);

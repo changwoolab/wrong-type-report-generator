@@ -1,5 +1,5 @@
 import { Type } from 'ts-morph';
-import { AstNode } from '.';
+import { AstNode, AstRootNode, Dependency } from '.';
 
 export const getNewAst = ({
     name,
@@ -16,6 +16,19 @@ export const getNewAst = ({
     };
     if (argument) ast.arguments = argument;
     return ast;
+};
+
+export const getNewRootAst = ({
+    astNode,
+    dependencies,
+}: {
+    astNode: AstNode;
+    dependencies: Map<string, Dependency>;
+}): AstRootNode => {
+    return {
+        ast: { ...astNode },
+        dependencies: { ...dependencies },
+    };
 };
 
 export const pushNewArgument = (ast: AstNode, argument: AstNode) => {
