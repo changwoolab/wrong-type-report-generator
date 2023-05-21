@@ -1,7 +1,7 @@
 import { Type, Node } from 'ts-morph';
-import { AddToDependencyMap, ParseNode, parseNode } from '../transformer';
+import { ParseNode, parseNode } from '../transformer';
 import { AstNode } from '../../reporterAst';
-import { getNewAst } from '../../reporterAst/astUtils';
+import { getNewAstNode } from '../../reporterAst/astUtils';
 
 export const parseObject = ({ name, type, addToDependencyMap }: ParseNode) => {
     const symbol = type.getSymbol();
@@ -15,7 +15,7 @@ export const parseObject = ({ name, type, addToDependencyMap }: ParseNode) => {
     // TODO: interface merge 지원
     const declaration = declarations[0];
 
-    const astNode: AstNode = getNewAst({
+    const astNode: AstNode = getNewAstNode({
         name,
         type: 'object',
         argument: [],

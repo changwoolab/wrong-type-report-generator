@@ -1,9 +1,15 @@
-import { Type, Node, Project } from 'ts-morph';
+import { Type, Node, Project, SourceFile, ExportableNode } from 'ts-morph';
 import { TypeDeclaration } from '../types';
 import { parseObject } from './nodeParser/parseObject';
 import { parseUnion } from './nodeParser/parseUnion';
-import { AstNode, AstRootNode, Dependency } from '../reporterAst';
-import { getNewAst, getNewRootAst } from '../reporterAst/astUtils';
+import { AstNode, AstRootNode, Dependencies, ParentNode } from '../reporterAst';
+import { getNewAstNode, getNewRootAst } from '../reporterAst/astUtils';
+import {
+    AddToDependencyMap,
+    addTypeToDependencyMap,
+    createAddToDependencyMap,
+} from '../utils';
+import { parseLiteral } from './nodeParser/parseLiteral';
 
 const isClassType = (type: Type): boolean => {
     if (type.getConstructSignatures().length > 0) {
@@ -41,19 +47,6 @@ const isReadonlyArrayType = (type: Type): boolean => {
     );
 };
 
-export type AddToDependencyMap = (key: string, toAdd: Dependency) => void;
-
-const createAddToDependencyMap = () => {
-    const dependencies = new Map<string, Dependency>();
-
-    return {
-        addToDependencyMap: (key: string, toAdd: Dependency) => {
-            dependencies.set(key, { ...toAdd });
-        },
-        getDependencyMap: () => dependencies,
-    };
-};
-
 /**
  * input: ts-morph로 생성된 TypeDeclaration 1개 (AST)
  * output: Typeguard Code Generator를 위한 새로운 AST
@@ -75,6 +68,7 @@ export type ParseNode = {
     name: string;
     type: Type;
     addToDependencyMap: AddToDependencyMap;
+    parentNode?: ParentNode;
 };
 
 /**
@@ -86,23 +80,24 @@ export type ParseNode = {
 export const parseNode = ({
     name,
     type,
+    parentNode,
     addToDependencyMap,
 }: ParseNode): AstNode => {
     if (type.getText() === 'any' || type.getText() === 'unknown') {
-        return getNewAst({ name, type: 'any' });
+        return getNewAstNode({ name, type: 'any' });
     }
     if (type.getText() === 'never') {
-        return getNewAst({ name, type: 'never' });
+        return getNewAstNode({ name, type: 'never' });
     }
     if (type.isBoolean()) {
-        return getNewAst({ name, type: 'boolean' });
+        return getNewAstNode({ name, type: 'boolean' });
     }
 
     /**
      * Non-primitive Types
      */
     if (type.isUnion()) {
-        return parseUnion({ name, type, addToDependencyMap });
+        return parseUnion({ name, type, addToDependencyMap, parentNode });
     }
     if (type.isIntersection()) {
         // TODO
@@ -132,23 +127,11 @@ export const parseNode = ({
         return parseObject({ name, type, addToDependencyMap });
     }
     if (type.isLiteral()) {
-        // TODO
-        if (type.isEnumLiteral()) {
-            const node = type
-                .getSymbol()!
-                .getDeclarations()
-                .find(Node.isEnumMember)!
-                .getParent();
-            // add dependency
-            console.log(
-                node.getSymbol()?.getName(), // enum name
-                type.getSymbol()?.getName(), // enum children name
-            );
-        }
+        return parseLiteral({ name, type, addToDependencyMap });
     }
 
-    return {
+    return getNewAstNode({
         name,
         type: type.getText(),
-    };
+    });
 };

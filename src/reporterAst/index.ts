@@ -13,28 +13,30 @@ type Object = 'object';
 
 type Union = 'union';
 
-type ElementTypes = 'unionElement';
+export type NodeType = 'UnionElement';
 
-export type Dependency = {
-    sourceFile: SourceFile;
-    exportName: string;
-    isDefault: boolean;
+export type ParentNode = Object | Union;
+
+type ToImport = {
+    [exportName: string]: string;
 };
+
+/**
+ * 어느 소스파일에서 어떤 것을 import해야하는지에 대한 정보
+ */
+export type Dependencies = Map<SourceFile, ToImport>;
 
 export interface AstRootNode {
     ast: AstNode;
 
-    /**
-     * 이 노드를 사용하기 위해 import 해야하는 것
-     */
-    dependencies?: Map<string, Dependency>;
+    dependencies: Dependencies;
 }
 
 export interface AstNode {
     /**
      * 컬럼 이름 또는 어떤 컬럼의 부속품 종류 이름
      */
-    name: ElementTypes | string;
+    name: NodeType | string;
 
     /**
      * 해당 컬럼의 타입

@@ -1,20 +1,20 @@
 import { AstNode } from '../../reporterAst';
-import { getNewAst } from '../../reporterAst/astUtils';
+import { getNewAstNode } from '../../reporterAst/astUtils';
 import { ParseNode, parseNode } from '../transformer';
 
 export const parseUnion = ({ name, type, addToDependencyMap }: ParseNode) => {
     const unionElements = type.getUnionTypes();
 
     const parsedUnionElements = unionElements.map((elem) =>
-        parseNode({ name: 'unionElement', type: elem, addToDependencyMap }),
+        parseNode({ name: 'UnionElement', type: elem, addToDependencyMap }),
     );
 
     const unionChildren = checkBooleanTypeInLiteral(
-        'unionElement',
+        'UnionElement',
         parsedUnionElements,
     );
 
-    return getNewAst({
+    return getNewAstNode({
         name,
         type: 'union',
         argument: unionChildren,
@@ -38,7 +38,7 @@ const checkBooleanTypeInLiteral = (
         copiedUnionAstNodes.length - 2 === withoutBooleanLiterals.length;
 
     if (hasBooleanTypeInLiteral) {
-        withoutBooleanLiterals.push(getNewAst({ name, type: 'boolean' }));
+        withoutBooleanLiterals.push(getNewAstNode({ name, type: 'boolean' }));
         return withoutBooleanLiterals;
     }
     return copiedUnionAstNodes;
