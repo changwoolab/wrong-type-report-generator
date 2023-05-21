@@ -1,4 +1,5 @@
 import { Project } from 'ts-morph';
+import { getSourceFile } from '.';
 import { isTypeDeclaration } from '../../src/types';
 
 export const getTestCase = (caseName: string) => {
@@ -6,12 +7,7 @@ export const getTestCase = (caseName: string) => {
         tsConfigFilePath: 'tsconfig.json',
     });
 
-    const testSourcefile = testProject.getSourceFile(
-        `tests/cases/${caseName}.ts`,
-    );
-    if (!testSourcefile) {
-        throw new Error('No test sourcefile');
-    }
+    const testSourcefile = getSourceFile(caseName, testProject);
 
     const exports = Array.from(
         testSourcefile.getExportedDeclarations().values(),
@@ -21,5 +17,5 @@ export const getTestCase = (caseName: string) => {
 
     const typeDeclarations = exports.filter(isTypeDeclaration);
 
-    return typeDeclarations;
+    return { typeDeclarations, project: testProject };
 };

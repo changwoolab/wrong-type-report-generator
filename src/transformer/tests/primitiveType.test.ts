@@ -1,11 +1,11 @@
 import { transformer } from '../transformer';
 import { getTestCase } from '../../../tests/utils/getTestCase';
 import { getTypeDeclaration } from '../../../tests/utils';
-import { AstNode, AstRootNode } from '../../reporterAst';
+import { AstRootNode } from '../../reporterAst';
 import { getNewRootAst } from '../../reporterAst/astUtils';
 
 describe('transformer - Primitive type tests', () => {
-    const typeDeclarations = getTestCase('PrimitiveType');
+    const { typeDeclarations } = getTestCase('PrimitiveType');
 
     test('Primitive type: number', () => {
         // Given

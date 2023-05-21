@@ -1,10 +1,16 @@
-import { getTestCase, getTypeDeclaration } from '../../../tests/utils';
+import {
+    getSourceFile,
+    getTestCase,
+    getTypeDeclaration,
+} from '../../../tests/utils';
 import { AstNode, AstRootNode } from '../../reporterAst';
-import { getNewAst, getNewRootAst } from '../../reporterAst/astUtils';
+import { getNewAstNode, getNewRootAst } from '../../reporterAst/astUtils';
 import { transformer } from '../transformer';
 
 describe('transformer - Minimum requirements', () => {
-    const typeDeclarations = getTestCase('MinimumRequiredTestCase');
+    const { typeDeclarations, project } = getTestCase(
+        'MinimumRequiredTestCase',
+    );
 
     test('TEST1_COLUMN_WITH_GENERICS', () => {
         // Given
@@ -19,27 +25,27 @@ describe('transformer - Minimum requirements', () => {
         // Then
         const expectedResult: AstRootNode = getNewRootAst({
             dependencies: new Map(),
-            astNode: getNewAst({
+            astNode: getNewAstNode({
                 name: 'TEST1_COLUMN_WITH_GENERICS',
                 type: 'object',
                 argument: [
-                    getNewAst({
+                    getNewAstNode({
                         name: 'int1',
                         type: 'string',
                     }),
-                    getNewAst({
+                    getNewAstNode({
                         name: 'int2',
                         type: 'union',
                         argument: [
-                            getNewAst({
-                                name: 'unionElement',
+                            getNewAstNode({
+                                name: 'UnionElement',
                                 type: 'null',
                             }),
-                            getNewAst({
-                                name: 'unionElement',
+                            getNewAstNode({
+                                name: 'UnionElement',
                                 type: 'object',
                                 argument: [
-                                    getNewAst({
+                                    getNewAstNode({
                                         name: 'int3',
                                         type: 'string',
                                     }),
@@ -53,25 +59,46 @@ describe('transformer - Minimum requirements', () => {
         expect(expectedResult).toEqual(newAst);
     });
 
-    // test('TEST2_ENUMS', () => {
-    //     // Given
-    //     const typeDeclaration = getTypeDeclaration(
-    //         'TEST2_ENUMS',
-    //         typeDeclarations,
-    //     );
+    test('TEST2_ENUMS', () => {
+        // Given
+        const typeDeclaration = getTypeDeclaration(
+            'TEST2_ENUMS',
+            typeDeclarations,
+        );
 
-    //     // When
-    //     const newAst = transformer(typeDeclaration);
-    //     // console.log(JSON.stringify(newAst, null, 4));
-    //     // Then
-    //     expect(newAst).toEqual(
-    //         getNewAst({
-    //             name: 'TEST2_ENUMS',
-    //             type: 'enum',
-    //             argument: [],
-    //         }),
-    //     );
-    // });
+        // When
+        const newAst = transformer(typeDeclaration);
+
+        // Then
+        const expectedAstNode: AstNode = getNewAstNode({
+            name: 'TEST2_ENUMS',
+            type: 'union',
+            argument: [
+                getNewAstNode({
+                    name: 'UnionElement',
+                    type: 'TEST2_ENUMS.test1',
+                }),
+                getNewAstNode({
+                    name: 'UnionElement',
+                    type: 'TEST2_ENUMS.test2',
+                }),
+                getNewAstNode({
+                    name: 'UnionElement',
+                    type: 'TEST2_ENUMS.test3',
+                }),
+            ],
+        });
+        const expectedDependencyKey = getSourceFile(
+            'minimumRequiredTestCase',
+            project,
+        );
+
+        expect(newAst.dependencies.has(expectedDependencyKey)).toEqual(true);
+        expect(newAst.dependencies.get(expectedDependencyKey)).toEqual({
+            TEST2_ENUMS: 'TEST2_ENUMS',
+        });
+        expect(newAst.ast).toEqual(expectedAstNode);
+    });
 
     // test('TEST3_NAMESPACE', () => {
     //     // Given

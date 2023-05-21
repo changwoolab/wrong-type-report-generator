@@ -5,7 +5,7 @@ import { AstNode, AstRootNode } from '../../reporterAst';
 import { getNewRootAst } from '../../reporterAst/astUtils';
 
 describe('transformer - Interface with Primitive type tests', () => {
-    const typeDeclarations = getTestCase('InterfaceWithPrimitives');
+    const { typeDeclarations } = getTestCase('InterfaceWithPrimitives');
 
     test('Interface with Primitive', () => {
         // Given
@@ -38,10 +38,10 @@ describe('transformer - Interface with Primitive type tests', () => {
                         type: 'union',
                         arguments: [
                             {
-                                name: 'unionElement',
+                                name: 'UnionElement',
                                 type: 'undefined',
                             },
-                            { name: 'unionElement', type: 'number' },
+                            { name: 'UnionElement', type: 'number' },
                         ],
                     },
                     {
@@ -50,10 +50,10 @@ describe('transformer - Interface with Primitive type tests', () => {
 
                         arguments: [
                             {
-                                name: 'unionElement',
+                                name: 'UnionElement',
                                 type: 'undefined',
                             },
-                            { name: 'unionElement', type: 'string' },
+                            { name: 'UnionElement', type: 'string' },
                         ],
                     },
                     {
@@ -62,10 +62,10 @@ describe('transformer - Interface with Primitive type tests', () => {
 
                         arguments: [
                             {
-                                name: 'unionElement',
+                                name: 'UnionElement',
                                 type: 'undefined',
                             },
-                            { name: 'unionElement', type: 'bigint' },
+                            { name: 'UnionElement', type: 'bigint' },
                         ],
                     },
                     {
@@ -73,11 +73,11 @@ describe('transformer - Interface with Primitive type tests', () => {
                         type: 'union',
                         arguments: [
                             {
-                                name: 'unionElement',
+                                name: 'UnionElement',
                                 type: 'undefined',
                             },
                             {
-                                name: 'unionElement',
+                                name: 'UnionElement',
                                 type: 'boolean',
                             },
                         ],
@@ -88,10 +88,10 @@ describe('transformer - Interface with Primitive type tests', () => {
                         type: 'union',
                         arguments: [
                             {
-                                name: 'unionElement',
+                                name: 'UnionElement',
                                 type: 'undefined',
                             },
-                            { name: 'unionElement', type: 'symbol' },
+                            { name: 'UnionElement', type: 'symbol' },
                         ],
                     },
                     {
@@ -99,8 +99,8 @@ describe('transformer - Interface with Primitive type tests', () => {
                         type: 'union',
 
                         arguments: [
-                            { name: 'unionElement', type: 'undefined' },
-                            { name: 'unionElement', type: 'null' },
+                            { name: 'UnionElement', type: 'undefined' },
+                            { name: 'UnionElement', type: 'null' },
                         ],
                     },
                 ],
@@ -150,11 +150,11 @@ describe('transformer - Interface with Primitive type tests', () => {
                                 type: 'union',
                                 arguments: [
                                     {
-                                        name: 'unionElement',
+                                        name: 'UnionElement',
                                         type: 'undefined',
                                     },
                                     {
-                                        name: 'unionElement',
+                                        name: 'UnionElement',
                                         type: 'number',
                                     },
                                 ],
@@ -164,11 +164,11 @@ describe('transformer - Interface with Primitive type tests', () => {
                                 type: 'union',
                                 arguments: [
                                     {
-                                        name: 'unionElement',
+                                        name: 'UnionElement',
                                         type: 'undefined',
                                     },
                                     {
-                                        name: 'unionElement',
+                                        name: 'UnionElement',
                                         type: 'string',
                                     },
                                 ],
@@ -178,11 +178,11 @@ describe('transformer - Interface with Primitive type tests', () => {
                                 type: 'union',
                                 arguments: [
                                     {
-                                        name: 'unionElement',
+                                        name: 'UnionElement',
                                         type: 'undefined',
                                     },
                                     {
-                                        name: 'unionElement',
+                                        name: 'UnionElement',
                                         type: 'bigint',
                                     },
                                 ],
@@ -192,11 +192,11 @@ describe('transformer - Interface with Primitive type tests', () => {
                                 type: 'union',
                                 arguments: [
                                     {
-                                        name: 'unionElement',
+                                        name: 'UnionElement',
                                         type: 'undefined',
                                     },
                                     {
-                                        name: 'unionElement',
+                                        name: 'UnionElement',
                                         type: 'boolean',
                                     },
                                 ],
@@ -210,11 +210,11 @@ describe('transformer - Interface with Primitive type tests', () => {
                                 type: 'union',
                                 arguments: [
                                     {
-                                        name: 'unionElement',
+                                        name: 'UnionElement',
                                         type: 'undefined',
                                     },
                                     {
-                                        name: 'unionElement',
+                                        name: 'UnionElement',
                                         type: 'symbol',
                                     },
                                 ],
@@ -224,11 +224,11 @@ describe('transformer - Interface with Primitive type tests', () => {
                                 type: 'union',
                                 arguments: [
                                     {
-                                        name: 'unionElement',
+                                        name: 'UnionElement',
                                         type: 'undefined',
                                     },
                                     {
-                                        name: 'unionElement',
+                                        name: 'UnionElement',
                                         type: 'null',
                                     },
                                 ],
@@ -244,11 +244,11 @@ describe('transformer - Interface with Primitive type tests', () => {
                         type: 'union',
                         arguments: [
                             {
-                                name: 'unionElement',
+                                name: 'UnionElement',
                                 type: 'undefined',
                             },
                             {
-                                name: 'unionElement',
+                                name: 'UnionElement',
                                 type: 'number',
                             },
                         ],
