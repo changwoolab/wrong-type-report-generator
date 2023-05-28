@@ -6,11 +6,11 @@ export const parseUnion = ({ name, type, addToDependencyMap }: ParseNode) => {
     const unionElements = type.getUnionTypes();
 
     const parsedUnionElements = unionElements.map((elem) =>
-        parseNode({ name: 'UnionElement', type: elem, addToDependencyMap }),
+        parseNode({ name: 'unionElement', type: elem, addToDependencyMap }),
     );
 
     const unionChildren = checkBooleanTypeInLiteral(
-        'UnionElement',
+        'unionElement',
         parsedUnionElements,
     );
 
