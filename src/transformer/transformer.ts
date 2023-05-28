@@ -87,27 +87,23 @@ export const parseNode = ({
     if (type.getText() === 'any' || type.getText() === 'unknown') {
         return getNewAstNode({ name, type: 'any' });
     }
+
     if (type.getText() === 'never') {
         return getNewAstNode({ name, type: 'never' });
     }
+
     if (type.isBoolean()) {
         return getNewAstNode({ name, type: 'boolean' });
     }
 
-    /**
-     * Non-primitive Types
-     */
     if (type.isUnion()) {
         return parseUnion({ name, type, addToDependencyMap, parentNode });
     }
+
     if (type.isIntersection()) {
         // TODO
     }
-    /**
-     * 배열의 타입이 primitive인지 확인한 뒤,
-     *      Primitive이라면 ->
-     *      Non-primitive이라면 -> 해당 Non-primitive 타입가드를 생성하여 그걸 사용하여 리턴한다.
-     */
+
     if (type.isArray()) {
         return parseArray({
             name,
@@ -115,22 +111,27 @@ export const parseNode = ({
             addToDependencyMap,
         });
     }
+
     if (isReadonlyArrayType(type)) {
         // TODO
     }
+
     if (isClassType(type)) {
         // TODO
     }
+
     if (type.isTuple()) {
         // TODO
         console.log('tuple');
     }
+
     /**
      * interface or plain object
      */
     if (type.isObject()) {
         return parseObject({ name, type, addToDependencyMap });
     }
+
     if (type.isLiteral()) {
         return parseLiteral({ name, type, addToDependencyMap });
     }
