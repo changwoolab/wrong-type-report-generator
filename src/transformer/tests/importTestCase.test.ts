@@ -27,15 +27,15 @@ describe('transformer - imports', () => {
                     type: 'union',
                     argument: [
                         getNewAstNode({
-                            name: 'UnionElement',
+                            name: 'unionElement',
                             type: 'TestType.t',
                         }),
                         getNewAstNode({
-                            name: 'UnionElement',
+                            name: 'unionElement',
                             type: 'TestType.a',
                         }),
                         getNewAstNode({
-                            name: 'UnionElement',
+                            name: 'unionElement',
                             type: 'TestType.b',
                         }),
                     ],
