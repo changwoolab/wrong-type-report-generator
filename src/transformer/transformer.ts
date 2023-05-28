@@ -10,6 +10,7 @@ import {
     createAddToDependencyMap,
 } from '../utils';
 import { parseLiteral } from './nodeParser/parseLiteral';
+import { parseArray } from './nodeParser/parseArray';
 
 const isClassType = (type: Type): boolean => {
     if (type.getConstructSignatures().length > 0) {
@@ -108,7 +109,11 @@ export const parseNode = ({
      *      Non-primitive이라면 -> 해당 Non-primitive 타입가드를 생성하여 그걸 사용하여 리턴한다.
      */
     if (type.isArray()) {
-        // TODO
+        return parseArray({
+            name,
+            type: type.getArrayElementType()!,
+            addToDependencyMap,
+        });
     }
     if (isReadonlyArrayType(type)) {
         // TODO

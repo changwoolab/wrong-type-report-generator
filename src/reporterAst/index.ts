@@ -13,9 +13,11 @@ type Object = 'object';
 
 type Union = 'union';
 
-export type NodeType = 'UnionElement';
+type Array = 'array';
 
-export type ParentNode = Object | Union;
+export type NodeType = 'unionElement' | 'arrayElement';
+
+export type ParentNode = Object | Union | Array;
 
 type ToImport = {
     [exportName: string]: string;
