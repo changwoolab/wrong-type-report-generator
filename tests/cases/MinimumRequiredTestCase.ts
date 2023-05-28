@@ -41,6 +41,7 @@ export interface INTEGRATED_TEST {
     test17: TEST5_GENERICS<string>;
     test18: TEST5_GENERICS<TEST1_COLUMN_WITH_GENERICS>;
     test19: TEST6_APPLIED_GENERIC_OBJECTS;
+    test20: TEST7_APPLIED_NAMESPACE;
 }
 
 export interface TEST1_COLUMN_WITH_GENERICS {
@@ -68,6 +69,8 @@ export interface TEST4_ARRAY {
     test42: (keyof TEST1_COLUMN_WITH_GENERICS)[];
 }
 
+export type TEST4_1_ARRAY_WITH_OBJECT = Array<TEST1_COLUMN_WITH_GENERICS>;
+
 export interface TEST5_GENERICS<T> {
     test1: string;
     test2: T;
@@ -77,4 +80,8 @@ export interface TEST5_GENERICS<T> {
 export interface TEST6_APPLIED_GENERIC_OBJECTS {
     test1: TEST5_GENERICS<TEST4_ARRAY>;
     test2: TEST5_GENERICS<TEST1_COLUMN_WITH_GENERICS>;
+}
+
+export interface TEST7_APPLIED_NAMESPACE {
+    test1: TEST3_NAMESPACE.TEST31;
 }
