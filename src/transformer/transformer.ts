@@ -11,6 +11,7 @@ import {
 } from '../utils';
 import { parseLiteral } from './nodeParser/parseLiteral';
 import { parseArray } from './nodeParser/parseArray';
+import { parseIntersection } from './nodeParser/parseIntersection';
 
 const isClassType = (type: Type): boolean => {
     if (type.getConstructSignatures().length > 0) {
@@ -101,7 +102,11 @@ export const parseNode = ({
     }
 
     if (type.isIntersection()) {
-        // TODO
+        return parseIntersection({
+            name,
+            type,
+            addToDependencyMap,
+        });
     }
 
     if (type.isArray()) {

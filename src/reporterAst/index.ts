@@ -15,9 +15,11 @@ type Union = 'union';
 
 type Array = 'array';
 
-export type NodeType = 'unionElement' | 'arrayElement';
+type Intersection = 'intersection';
 
-export type ParentNode = Object | Union | Array;
+export type NodeType = 'unionElement' | 'arrayElement' | 'intersectionElement';
+
+export type ParentNode = Object | Union | Array | Intersection;
 
 type ToImport = {
     [exportName: string]: string;
