@@ -14,42 +14,6 @@ import { parseArray } from './nodeParser/parseArray';
 import { parseIntersection } from './nodeParser/parseIntersection';
 import { parseTuple } from './nodeParser/parseTuple';
 
-const isClassType = (type: Type): boolean => {
-    if (type.getConstructSignatures().length > 0) {
-        return true;
-    }
-
-    const symbol = type.getSymbol();
-    if (symbol == null) {
-        return false;
-    }
-
-    for (const declaration of symbol.getDeclarations()) {
-        if (Node.isClassDeclaration(declaration)) {
-            return true;
-        }
-        if (
-            Node.isVariableDeclaration(declaration) &&
-            declaration.getType().getConstructSignatures().length > 0
-        ) {
-            return true;
-        }
-    }
-
-    return false;
-};
-
-const isReadonlyArrayType = (type: Type): boolean => {
-    const symbol = type.getSymbol();
-    if (symbol === undefined) {
-        return false;
-    }
-    return (
-        symbol.getName() === 'ReadonlyArray' &&
-        type.getTypeArguments().length === 1
-    );
-};
-
 /**
  * input: ts-morph로 생성된 TypeDeclaration 1개 (AST)
  * output: Typeguard Code Generator를 위한 새로운 AST
@@ -118,10 +82,6 @@ export const parseNode = ({
         });
     }
 
-    if (isReadonlyArrayType(type)) {
-        // TODO
-    }
-
     if (isClassType(type)) {
         // TODO
     }
@@ -149,4 +109,29 @@ export const parseNode = ({
         name,
         type: type.getText(),
     });
+};
+
+const isClassType = (type: Type): boolean => {
+    if (type.getConstructSignatures().length > 0) {
+        return true;
+    }
+
+    const symbol = type.getSymbol();
+    if (symbol == null) {
+        return false;
+    }
+
+    for (const declaration of symbol.getDeclarations()) {
+        if (Node.isClassDeclaration(declaration)) {
+            return true;
+        }
+        if (
+            Node.isVariableDeclaration(declaration) &&
+            declaration.getType().getConstructSignatures().length > 0
+        ) {
+            return true;
+        }
+    }
+
+    return false;
 };
