@@ -1,6 +1,6 @@
 import { getNewAstNode } from '../../reporterAst/astUtils';
 import { addTypeToDependencyMap } from '../../utils';
-import { ParseNode } from '../transformer';
+import { ParseNode } from './parseNode';
 import { Node } from 'ts-morph';
 
 export const parseLiteral = ({ name, type, addToDependencyMap }: ParseNode) => {

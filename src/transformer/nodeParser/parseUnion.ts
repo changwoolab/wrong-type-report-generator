@@ -1,6 +1,6 @@
 import { AstNode } from '../../reporterAst';
 import { getNewAstNode } from '../../reporterAst/astUtils';
-import { ParseNode, parseNode } from '../transformer';
+import { ParseNode, parseNode } from './parseNode';
 
 export const parseUnion = ({ name, type, addToDependencyMap }: ParseNode) => {
     const unionElements = type.getUnionTypes();

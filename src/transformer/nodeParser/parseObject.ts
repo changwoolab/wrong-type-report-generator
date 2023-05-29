@@ -1,5 +1,5 @@
 import { Type, Node } from 'ts-morph';
-import { ParseNode, parseNode } from '../transformer';
+import { ParseNode, parseNode } from './parseNode';
 import { AstNode } from '../../reporterAst';
 import { getNewAstNode } from '../../reporterAst/astUtils';
 

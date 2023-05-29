@@ -1,5 +1,5 @@
 import { getNewAstNode } from '../../reporterAst/astUtils';
-import { ParseNode, parseNode } from '../transformer';
+import { ParseNode, parseNode } from './parseNode';
 
 export const parseArray = ({ name, type, addToDependencyMap }: ParseNode) => {
     return getNewAstNode({

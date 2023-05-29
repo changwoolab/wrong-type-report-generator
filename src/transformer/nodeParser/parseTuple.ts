@@ -1,4 +1,4 @@
-import { ParseNode, parseNode } from '../transformer';
+import { ParseNode, parseNode } from './parseNode';
 
 export const parseTuple = ({ name, type, addToDependencyMap }: ParseNode) => {
     const types = type.getTupleElements();
