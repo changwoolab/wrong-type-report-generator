@@ -2,24 +2,21 @@ import { Type, Node, Project, SourceFile, ExportableNode } from 'ts-morph';
 import { TypeDeclaration } from '../types';
 import { parseObject } from './nodeParser/parseObject';
 import { parseUnion } from './nodeParser/parseUnion';
-import { AstNode, AstRootNode, Dependencies, ParentNode } from '../reporterAst';
+import { AstNode, ParentNode } from '../reporterAst';
 import { getNewAstNode, getNewRootAst } from '../reporterAst/astUtils';
-import {
-    AddToDependencyMap,
-    addTypeToDependencyMap,
-    createAddToDependencyMap,
-} from '../utils';
+import { AddToDependencyMap, createAddToDependencyMap } from '../utils';
 import { parseLiteral } from './nodeParser/parseLiteral';
 import { parseArray } from './nodeParser/parseArray';
 import { parseIntersection } from './nodeParser/parseIntersection';
 import { parseTuple } from './nodeParser/parseTuple';
+import { parseClass } from './nodeParser/parseClass';
 
 /**
  * input: ts-morph로 생성된 TypeDeclaration 1개 (AST)
  * output: Typeguard Code Generator를 위한 새로운 AST
  */
 export const transformer = (typeDeclaration: TypeDeclaration) => {
-    const typeName = typeDeclaration.getName();
+    const typeName = typeDeclaration.getName()!;
 
     const { getDependencyMap, addToDependencyMap } = createAddToDependencyMap();
     const astNode = parseNode({
@@ -83,7 +80,11 @@ export const parseNode = ({
     }
 
     if (isClassType(type)) {
-        // TODO
+        return parseClass({
+            name,
+            type,
+            addToDependencyMap,
+        });
     }
 
     if (type.isTuple()) {
