@@ -42,6 +42,7 @@ export interface INTEGRATED_TEST {
     test18: TEST5_GENERICS<TEST1_COLUMN_WITH_GENERICS>;
     test19: TEST6_APPLIED_GENERIC_OBJECTS;
     test20: TEST7_APPLIED_NAMESPACE;
+    test21: TEST8_INTERSECTION;
 }
 
 export interface TEST1_COLUMN_WITH_GENERICS {
@@ -84,4 +85,18 @@ export interface TEST6_APPLIED_GENERIC_OBJECTS {
 
 export interface TEST7_APPLIED_NAMESPACE {
     test1: TEST3_NAMESPACE.TEST31;
+}
+
+export interface TEST8_INTERSECTION {
+    test1: {
+        a: string;
+        b: number;
+        c: 'asdf';
+    } & {
+        b: number;
+        c: 'asdf';
+        d: {
+            e: string;
+        };
+    };
 }

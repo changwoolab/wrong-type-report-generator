@@ -229,18 +229,18 @@ describe('transformer - Minimum requirements', () => {
         expect(newAst).toEqual(expected);
     });
 
-    // test('TEST5_GENERICS', () => {
-    //     // Given
-    //     const typeDeclaration = getTypeDeclaration(
-    //         'TEST5_GENERICS',
-    //         typeDeclarations,
-    //     );
+    test('TEST5_GENERICS', () => {
+        // Given
+        const typeDeclaration = getTypeDeclaration(
+            'TEST5_GENERICS',
+            typeDeclarations,
+        );
 
-    //     // When
-    //     const newAst = transformer(typeDeclaration);
+        // When
+        const newAst = transformer(typeDeclaration);
 
-    //     // Then
-    // });
+        // Then
+    });
 
     // test('TEST6_APPLIED_GENERIC_OBJECTS', () => {
     //     // Given
@@ -267,6 +267,78 @@ describe('transformer - Minimum requirements', () => {
 
     //     // Then
     // });
+
+    test('TEST8_INTERSECTION', () => {
+        // Given
+        const typeDeclaration = getTypeDeclaration(
+            'TEST8_INTERSECTION',
+            typeDeclarations,
+        );
+
+        // When
+        const newAst = transformer(typeDeclaration);
+
+        // Then
+        const expected = getNewRootAst({
+            dependencies: new Map(),
+            astNode: getNewAstNode({
+                name: 'TEST8_INTERSECTION',
+                type: 'object',
+                argument: [
+                    getNewAstNode({
+                        name: 'test1',
+                        type: 'intersection',
+                        argument: [
+                            getNewAstNode({
+                                name: 'intersectionElement',
+                                type: 'object',
+                                argument: [
+                                    getNewAstNode({
+                                        name: 'a',
+                                        type: 'string',
+                                    }),
+                                    getNewAstNode({
+                                        name: 'b',
+                                        type: 'number',
+                                    }),
+                                    getNewAstNode({
+                                        name: 'c',
+                                        type: '"asdf"',
+                                    }),
+                                ],
+                            }),
+
+                            getNewAstNode({
+                                name: 'intersectionElement',
+                                type: 'object',
+                                argument: [
+                                    getNewAstNode({
+                                        name: 'b',
+                                        type: 'number',
+                                    }),
+                                    getNewAstNode({
+                                        name: 'c',
+                                        type: '"asdf"',
+                                    }),
+                                    getNewAstNode({
+                                        name: 'd',
+                                        type: 'object',
+                                        argument: [
+                                            getNewAstNode({
+                                                name: 'e',
+                                                type: 'string',
+                                            }),
+                                        ],
+                                    }),
+                                ],
+                            }),
+                        ],
+                    }),
+                ],
+            }),
+        });
+        expect(newAst).toEqual(expected);
+    });
 
     // test('INTEGRATED_TEST', () => {
     //     // Given
