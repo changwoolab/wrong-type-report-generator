@@ -4,25 +4,24 @@ import { AstNode } from '../../reporterAst';
 import { getNewAstNode } from '../../reporterAst/astUtils';
 
 export const parseObject = ({ name, type, addToDependencyMap }: ParseNode) => {
-    const symbol = type.getSymbol();
-    if (!symbol) {
-        throw new Error('No Interface Symbols');
-    }
-
-    // interface merging이 가능하므로, symbol이 여러개일 수 있다.
-    const declarations = symbol.getDeclarations();
-
-    // TODO: interface merge 지원
-    const declaration = declarations[0];
-
     const astNode: AstNode = getNewAstNode({
         name,
         type: 'object',
         argument: [],
     });
 
+    // interface, possible to extend base
     if (type.isInterface()) {
-        // interface, properties + methods
+        const symbol = type.getSymbol();
+        if (!symbol) {
+            throw new Error('No Interface Symbols');
+        }
+
+        // interface merging이 가능하므로, symbol이 여러개일 수 있다.
+        const declarations = symbol.getDeclarations();
+
+        // TODO: interface merge 지원
+        const declaration = declarations[0];
         if (!Node.isInterfaceDeclaration(declaration)) {
             throw new TypeError(
                 'Extected declaration to be an interface declaration',
