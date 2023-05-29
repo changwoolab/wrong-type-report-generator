@@ -100,3 +100,8 @@ export interface TEST8_INTERSECTION {
         };
     };
 }
+
+export interface TEST9_TUPLE {
+    test1: [number];
+    test2: [number, TEST2_ENUMS];
+}

@@ -229,10 +229,231 @@ describe('transformer - Minimum requirements', () => {
         expect(newAst).toEqual(expected);
     });
 
-    test('TEST5_GENERICS', () => {
+    // test('TEST5_GENERICS', () => {
+    //     // Given
+    //     const typeDeclaration = getTypeDeclaration(
+    //         'TEST5_GENERICS',
+    //         typeDeclarations,
+    //     );
+
+    //     // When
+    //     const newAst = transformer(typeDeclaration);
+    //     console.log(JSON.stringify(newAst, null, 4));
+
+    //     // Then
+
+    // });
+
+    test('TEST6_APPLIED_GENERIC_OBJECTS', () => {
         // Given
         const typeDeclaration = getTypeDeclaration(
-            'TEST5_GENERICS',
+            'TEST6_APPLIED_GENERIC_OBJECTS',
+            typeDeclarations,
+        );
+
+        // When
+        const newAst = transformer(typeDeclaration);
+
+        // Then
+        const expected: AstRootNode = {
+            ast: {
+                name: 'TEST6_APPLIED_GENERIC_OBJECTS',
+                type: 'object',
+                arguments: [
+                    {
+                        name: 'test1',
+                        type: 'object',
+                        arguments: [
+                            {
+                                name: 'test1',
+                                type: 'string',
+                            },
+                            {
+                                name: 'test2',
+                                type: 'object',
+                                arguments: [
+                                    {
+                                        name: 'test41',
+                                        type: 'array',
+                                        arguments: [
+                                            {
+                                                name: 'arrayElement',
+                                                type: 'union',
+                                                arguments: [
+                                                    {
+                                                        name: 'unionElement',
+                                                        type: '"int1"',
+                                                    },
+                                                    {
+                                                        name: 'unionElement',
+                                                        type: '"int2"',
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        name: 'test42',
+                                        type: 'array',
+                                        arguments: [
+                                            {
+                                                name: 'arrayElement',
+                                                type: 'union',
+                                                arguments: [
+                                                    {
+                                                        name: 'unionElement',
+                                                        type: '"int1"',
+                                                    },
+                                                    {
+                                                        name: 'unionElement',
+                                                        type: '"int2"',
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                            {
+                                name: 'test3',
+                                type: 'array',
+                                arguments: [
+                                    {
+                                        name: 'arrayElement',
+                                        type: 'object',
+                                        arguments: [
+                                            {
+                                                name: 'test41',
+                                                type: 'array',
+                                                arguments: [
+                                                    {
+                                                        name: 'arrayElement',
+                                                        type: 'union',
+                                                        arguments: [
+                                                            {
+                                                                name: 'unionElement',
+                                                                type: '"int1"',
+                                                            },
+                                                            {
+                                                                name: 'unionElement',
+                                                                type: '"int2"',
+                                                            },
+                                                        ],
+                                                    },
+                                                ],
+                                            },
+                                            {
+                                                name: 'test42',
+                                                type: 'array',
+                                                arguments: [
+                                                    {
+                                                        name: 'arrayElement',
+                                                        type: 'union',
+                                                        arguments: [
+                                                            {
+                                                                name: 'unionElement',
+                                                                type: '"int1"',
+                                                            },
+                                                            {
+                                                                name: 'unionElement',
+                                                                type: '"int2"',
+                                                            },
+                                                        ],
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        name: 'test2',
+                        type: 'object',
+                        arguments: [
+                            {
+                                name: 'test1',
+                                type: 'string',
+                            },
+                            {
+                                name: 'test2',
+                                type: 'object',
+                                arguments: [
+                                    {
+                                        name: 'int1',
+                                        type: 'string',
+                                    },
+                                    {
+                                        name: 'int2',
+                                        type: 'union',
+                                        arguments: [
+                                            {
+                                                name: 'unionElement',
+                                                type: 'null',
+                                            },
+                                            {
+                                                name: 'unionElement',
+                                                type: 'object',
+                                                arguments: [
+                                                    {
+                                                        name: 'int3',
+                                                        type: 'string',
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                            {
+                                name: 'test3',
+                                type: 'array',
+                                arguments: [
+                                    {
+                                        name: 'arrayElement',
+                                        type: 'object',
+                                        arguments: [
+                                            {
+                                                name: 'int1',
+                                                type: 'string',
+                                            },
+                                            {
+                                                name: 'int2',
+                                                type: 'union',
+                                                arguments: [
+                                                    {
+                                                        name: 'unionElement',
+                                                        type: 'null',
+                                                    },
+                                                    {
+                                                        name: 'unionElement',
+                                                        type: 'object',
+                                                        arguments: [
+                                                            {
+                                                                name: 'int3',
+                                                                type: 'string',
+                                                            },
+                                                        ],
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+            dependencies: new Map(),
+        };
+    });
+
+    test('TEST7_APPLIED_NAMESPACE', () => {
+        // Given
+        const typeDeclaration = getTypeDeclaration(
+            'TEST7_APPLIED_NAMESPACE',
             typeDeclarations,
         );
 
@@ -241,32 +462,6 @@ describe('transformer - Minimum requirements', () => {
 
         // Then
     });
-
-    // test('TEST6_APPLIED_GENERIC_OBJECTS', () => {
-    //     // Given
-    //     const typeDeclaration = getTypeDeclaration(
-    //         'TEST6_APPLIED_GENERIC_OBJECTS',
-    //         typeDeclarations,
-    //     );
-
-    //     // When
-    //     const newAst = transformer(typeDeclaration);
-
-    //     // Then
-    // });
-
-    // test('TEST7_APPLIED_NAMESPACE', () => {
-    //     // Given
-    //     const typeDeclaration = getTypeDeclaration(
-    //         'TEST7_APPLIED_NAMESPACE',
-    //         typeDeclarations,
-    //     );
-
-    //     // When
-    //     const newAst = transformer(typeDeclaration);
-
-    //     // Then
-    // });
 
     test('TEST8_INTERSECTION', () => {
         // Given
@@ -338,6 +533,65 @@ describe('transformer - Minimum requirements', () => {
             }),
         });
         expect(newAst).toEqual(expected);
+    });
+
+    test('TEST9_TUPLE', () => {
+        // Given
+        const typeDeclaration = getTypeDeclaration(
+            'TEST9_TUPLE',
+            typeDeclarations,
+        );
+
+        // When
+        const newAst = transformer(typeDeclaration);
+
+        // Then
+        const ExpectedAst = {
+            name: 'TEST9_TUPLE',
+            type: 'object',
+            arguments: [
+                {
+                    name: 'test1',
+                    type: 'tuple',
+                    argument: [{ name: 'tupleElement', type: 'number' }],
+                },
+                {
+                    name: 'test2',
+                    type: 'tuple',
+                    argument: [
+                        { name: 'tupleElement', type: 'number' },
+                        {
+                            name: 'tupleElement',
+                            type: 'union',
+                            arguments: [
+                                {
+                                    name: 'unionElement',
+                                    type: 'TEST2_ENUMS.test1',
+                                },
+                                {
+                                    name: 'unionElement',
+                                    type: 'TEST2_ENUMS.test2',
+                                },
+                                {
+                                    name: 'unionElement',
+                                    type: 'TEST2_ENUMS.test3',
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+        const expectedDependencyKey = getSourceFile(
+            'minimumRequiredTestCase',
+            project,
+        );
+
+        expect(newAst.ast).toEqual(ExpectedAst);
+        expect(newAst.dependencies.has(expectedDependencyKey)).toEqual(true);
+        expect(newAst.dependencies.get(expectedDependencyKey)).toEqual({
+            TEST2_ENUMS: 'TEST2_ENUMS',
+        });
     });
 
     // test('INTEGRATED_TEST', () => {
