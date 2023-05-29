@@ -6,6 +6,7 @@ import {
 import { AstNode, AstRootNode } from '../../reporterAst';
 import { getNewAstNode, getNewRootAst } from '../../reporterAst/astUtils';
 import { transformer } from '../transformer';
+import fs from 'fs';
 
 describe('transformer - Minimum requirements', () => {
     const { typeDeclarations, project } = getTestCase(
@@ -781,5 +782,831 @@ describe('transformer - Minimum requirements', () => {
         const newAst = transformer(typeDeclaration);
 
         // Then
+        const expectedAst = {
+            name: 'INTEGRATED_TEST',
+            type: 'object',
+            arguments: [
+                {
+                    name: 'test1',
+                    type: 'object',
+                    arguments: [
+                        {
+                            name: 'test11',
+                            type: 'string',
+                        },
+                        {
+                            name: 'test12',
+                            type: 'number',
+                        },
+                        {
+                            name: 'test13',
+                            type: 'union',
+                            arguments: [
+                                {
+                                    name: 'unionElement',
+                                    type: '"test14"',
+                                },
+                                {
+                                    name: 'unionElement',
+                                    type: '"test15"',
+                                },
+                            ],
+                        },
+                        {
+                            name: 'test14',
+                            type: 'object',
+                            arguments: [
+                                {
+                                    name: 'int1',
+                                    type: 'string',
+                                },
+                                {
+                                    name: 'int2',
+                                    type: 'union',
+                                    arguments: [
+                                        {
+                                            name: 'unionElement',
+                                            type: 'null',
+                                        },
+                                        {
+                                            name: 'unionElement',
+                                            type: 'object',
+                                            arguments: [
+                                                {
+                                                    name: 'int3',
+                                                    type: 'string',
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            name: 'test15',
+                            type: 'object',
+                            arguments: [
+                                {
+                                    name: 'test141',
+                                    type: 'string',
+                                },
+                                {
+                                    name: 'test142',
+                                    type: 'number',
+                                },
+                                {
+                                    name: 'test143',
+                                    type: 'object',
+                                    arguments: [
+                                        {
+                                            name: 'test1431',
+                                            type: 'string',
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    name: 'test2',
+                    type: 'union',
+                    arguments: [
+                        {
+                            name: 'unionElement',
+                            type: 'null',
+                        },
+                        {
+                            name: 'unionElement',
+                            type: 'string',
+                        },
+                    ],
+                },
+                {
+                    name: 'test3',
+                    type: 'union',
+                    arguments: [
+                        {
+                            name: 'unionElement',
+                            type: 'null',
+                        },
+                        {
+                            name: 'unionElement',
+                            type: 'number',
+                        },
+                    ],
+                },
+                {
+                    name: 'test4',
+                    type: 'array',
+                    arguments: [
+                        {
+                            name: 'arrayElement',
+                            type: 'object',
+                            arguments: [
+                                {
+                                    name: 'int1',
+                                    type: 'string',
+                                },
+                                {
+                                    name: 'int2',
+                                    type: 'union',
+                                    arguments: [
+                                        {
+                                            name: 'unionElement',
+                                            type: 'null',
+                                        },
+                                        {
+                                            name: 'unionElement',
+                                            type: 'object',
+                                            arguments: [
+                                                {
+                                                    name: 'int3',
+                                                    type: 'string',
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    name: 'test5',
+                    type: 'union',
+                    arguments: [
+                        {
+                            name: 'unionElement',
+                            type: 'TEST2_ENUMS.test1',
+                        },
+                        {
+                            name: 'unionElement',
+                            type: 'TEST2_ENUMS.test2',
+                        },
+                        {
+                            name: 'unionElement',
+                            type: 'TEST2_ENUMS.test3',
+                        },
+                    ],
+                },
+                {
+                    name: 'test6',
+                    type: 'array',
+                    arguments: [
+                        {
+                            name: 'arrayElement',
+                            type: 'union',
+                            arguments: [
+                                {
+                                    name: 'unionElement',
+                                    type: 'TEST2_ENUMS.test1',
+                                },
+                                {
+                                    name: 'unionElement',
+                                    type: 'TEST2_ENUMS.test2',
+                                },
+                                {
+                                    name: 'unionElement',
+                                    type: 'TEST2_ENUMS.test3',
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    name: 'test7',
+                    type: 'union',
+                    arguments: [
+                        {
+                            name: 'unionElement',
+                            type: 'object',
+                            arguments: [
+                                {
+                                    name: 'int1',
+                                    type: 'string',
+                                },
+                                {
+                                    name: 'int2',
+                                    type: 'union',
+                                    arguments: [
+                                        {
+                                            name: 'unionElement',
+                                            type: 'null',
+                                        },
+                                        {
+                                            name: 'unionElement',
+                                            type: 'object',
+                                            arguments: [
+                                                {
+                                                    name: 'int3',
+                                                    type: 'string',
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            name: 'unionElement',
+                            type: 'TEST2_ENUMS.test1',
+                        },
+                        {
+                            name: 'unionElement',
+                            type: 'TEST2_ENUMS.test2',
+                        },
+                        {
+                            name: 'unionElement',
+                            type: 'TEST2_ENUMS.test3',
+                        },
+                        {
+                            name: 'unionElement',
+                            type: '1',
+                        },
+                        {
+                            name: 'unionElement',
+                            type: '"test71"',
+                        },
+                    ],
+                },
+                {
+                    name: 'test8',
+                    type: 'array',
+                    arguments: [
+                        {
+                            name: 'arrayElement',
+                            type: 'string',
+                        },
+                    ],
+                },
+                {
+                    name: 'test9',
+                    type: 'tuple',
+                    argument: [
+                        {
+                            name: 'tupleElement',
+                            type: 'string',
+                        },
+                    ],
+                },
+                {
+                    name: 'test10',
+                    type: 'array',
+                    arguments: [
+                        {
+                            name: 'arrayElement',
+                            type: 'object',
+                            arguments: [
+                                {
+                                    name: 'int1',
+                                    type: 'string',
+                                },
+                                {
+                                    name: 'int2',
+                                    type: 'union',
+                                    arguments: [
+                                        {
+                                            name: 'unionElement',
+                                            type: 'null',
+                                        },
+                                        {
+                                            name: 'unionElement',
+                                            type: 'object',
+                                            arguments: [
+                                                {
+                                                    name: 'int3',
+                                                    type: 'string',
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    name: 'test11',
+                    type: 'array',
+                    arguments: [
+                        {
+                            name: 'arrayElement',
+                            type: 'union',
+                            arguments: [
+                                {
+                                    name: 'unionElement',
+                                    type: 'TEST2_ENUMS.test1',
+                                },
+                                {
+                                    name: 'unionElement',
+                                    type: 'TEST2_ENUMS.test2',
+                                },
+                                {
+                                    name: 'unionElement',
+                                    type: 'TEST2_ENUMS.test3',
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    name: 'test12',
+                    type: 'array',
+                    arguments: [
+                        {
+                            name: 'arrayElement',
+                            type: 'object',
+                            arguments: [
+                                {
+                                    name: 'test121',
+                                    type: 'string',
+                                },
+                                {
+                                    name: 'test122',
+                                    type: 'number',
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    name: 'test13',
+                    type: 'array',
+                    arguments: [
+                        {
+                            name: 'arrayElement',
+                            type: 'object',
+                            arguments: [
+                                {
+                                    name: 'test121',
+                                    type: 'string',
+                                },
+                                {
+                                    name: 'test122',
+                                    type: 'number',
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    name: 'test14',
+                    type: '1',
+                },
+                {
+                    name: 'test15',
+                    type: '"1"',
+                },
+                {
+                    name: 'test16',
+                    type: 'object',
+                    arguments: [
+                        {
+                            name: 'test311',
+                            type: 'union',
+                            arguments: [
+                                {
+                                    name: 'unionElement',
+                                    type: 'string',
+                                },
+                                {
+                                    name: 'unionElement',
+                                    type: 'array',
+                                    arguments: [
+                                        {
+                                            name: 'arrayElement',
+                                            type: 'object',
+                                            arguments: [
+                                                {
+                                                    name: 'id',
+                                                    type: 'number',
+                                                },
+                                                {
+                                                    name: 'image',
+                                                    type: 'string',
+                                                },
+                                                {
+                                                    name: 'description',
+                                                    type: 'string',
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            name: 'test312',
+                            type: 'string',
+                        },
+                    ],
+                },
+                {
+                    name: 'test17',
+                    type: 'object',
+                    arguments: [
+                        {
+                            name: 'test1',
+                            type: 'string',
+                        },
+                        {
+                            name: 'test2',
+                            type: 'string',
+                        },
+                        {
+                            name: 'test3',
+                            type: 'array',
+                            arguments: [
+                                {
+                                    name: 'arrayElement',
+                                    type: 'string',
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    name: 'test18',
+                    type: 'object',
+                    arguments: [
+                        {
+                            name: 'test1',
+                            type: 'string',
+                        },
+                        {
+                            name: 'test2',
+                            type: 'object',
+                            arguments: [
+                                {
+                                    name: 'int1',
+                                    type: 'string',
+                                },
+                                {
+                                    name: 'int2',
+                                    type: 'union',
+                                    arguments: [
+                                        {
+                                            name: 'unionElement',
+                                            type: 'null',
+                                        },
+                                        {
+                                            name: 'unionElement',
+                                            type: 'object',
+                                            arguments: [
+                                                {
+                                                    name: 'int3',
+                                                    type: 'string',
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            name: 'test3',
+                            type: 'array',
+                            arguments: [
+                                {
+                                    name: 'arrayElement',
+                                    type: 'object',
+                                    arguments: [
+                                        {
+                                            name: 'int1',
+                                            type: 'string',
+                                        },
+                                        {
+                                            name: 'int2',
+                                            type: 'union',
+                                            arguments: [
+                                                {
+                                                    name: 'unionElement',
+                                                    type: 'null',
+                                                },
+                                                {
+                                                    name: 'unionElement',
+                                                    type: 'object',
+                                                    arguments: [
+                                                        {
+                                                            name: 'int3',
+                                                            type: 'string',
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    name: 'test19',
+                    type: 'object',
+                    arguments: [
+                        {
+                            name: 'test1',
+                            type: 'object',
+                            arguments: [
+                                {
+                                    name: 'test1',
+                                    type: 'string',
+                                },
+                                {
+                                    name: 'test2',
+                                    type: 'object',
+                                    arguments: [
+                                        {
+                                            name: 'test41',
+                                            type: 'array',
+                                            arguments: [
+                                                {
+                                                    name: 'arrayElement',
+                                                    type: 'union',
+                                                    arguments: [
+                                                        {
+                                                            name: 'unionElement',
+                                                            type: '"int1"',
+                                                        },
+                                                        {
+                                                            name: 'unionElement',
+                                                            type: '"int2"',
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                        {
+                                            name: 'test42',
+                                            type: 'array',
+                                            arguments: [
+                                                {
+                                                    name: 'arrayElement',
+                                                    type: 'union',
+                                                    arguments: [
+                                                        {
+                                                            name: 'unionElement',
+                                                            type: '"int1"',
+                                                        },
+                                                        {
+                                                            name: 'unionElement',
+                                                            type: '"int2"',
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                                {
+                                    name: 'test3',
+                                    type: 'array',
+                                    arguments: [
+                                        {
+                                            name: 'arrayElement',
+                                            type: 'object',
+                                            arguments: [
+                                                {
+                                                    name: 'test41',
+                                                    type: 'array',
+                                                    arguments: [
+                                                        {
+                                                            name: 'arrayElement',
+                                                            type: 'union',
+                                                            arguments: [
+                                                                {
+                                                                    name: 'unionElement',
+                                                                    type: '"int1"',
+                                                                },
+                                                                {
+                                                                    name: 'unionElement',
+                                                                    type: '"int2"',
+                                                                },
+                                                            ],
+                                                        },
+                                                    ],
+                                                },
+                                                {
+                                                    name: 'test42',
+                                                    type: 'array',
+                                                    arguments: [
+                                                        {
+                                                            name: 'arrayElement',
+                                                            type: 'union',
+                                                            arguments: [
+                                                                {
+                                                                    name: 'unionElement',
+                                                                    type: '"int1"',
+                                                                },
+                                                                {
+                                                                    name: 'unionElement',
+                                                                    type: '"int2"',
+                                                                },
+                                                            ],
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            name: 'test2',
+                            type: 'object',
+                            arguments: [
+                                {
+                                    name: 'test1',
+                                    type: 'string',
+                                },
+                                {
+                                    name: 'test2',
+                                    type: 'object',
+                                    arguments: [
+                                        {
+                                            name: 'int1',
+                                            type: 'string',
+                                        },
+                                        {
+                                            name: 'int2',
+                                            type: 'union',
+                                            arguments: [
+                                                {
+                                                    name: 'unionElement',
+                                                    type: 'null',
+                                                },
+                                                {
+                                                    name: 'unionElement',
+                                                    type: 'object',
+                                                    arguments: [
+                                                        {
+                                                            name: 'int3',
+                                                            type: 'string',
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                                {
+                                    name: 'test3',
+                                    type: 'array',
+                                    arguments: [
+                                        {
+                                            name: 'arrayElement',
+                                            type: 'object',
+                                            arguments: [
+                                                {
+                                                    name: 'int1',
+                                                    type: 'string',
+                                                },
+                                                {
+                                                    name: 'int2',
+                                                    type: 'union',
+                                                    arguments: [
+                                                        {
+                                                            name: 'unionElement',
+                                                            type: 'null',
+                                                        },
+                                                        {
+                                                            name: 'unionElement',
+                                                            type: 'object',
+                                                            arguments: [
+                                                                {
+                                                                    name: 'int3',
+                                                                    type: 'string',
+                                                                },
+                                                            ],
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    name: 'test20',
+                    type: 'object',
+                    arguments: [
+                        {
+                            name: 'test1',
+                            type: 'object',
+                            arguments: [
+                                {
+                                    name: 'test311',
+                                    type: 'union',
+                                    arguments: [
+                                        {
+                                            name: 'unionElement',
+                                            type: 'string',
+                                        },
+                                        {
+                                            name: 'unionElement',
+                                            type: 'array',
+                                            arguments: [
+                                                {
+                                                    name: 'arrayElement',
+                                                    type: 'object',
+                                                    arguments: [
+                                                        {
+                                                            name: 'id',
+                                                            type: 'number',
+                                                        },
+                                                        {
+                                                            name: 'image',
+                                                            type: 'string',
+                                                        },
+                                                        {
+                                                            name: 'description',
+                                                            type: 'string',
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                                {
+                                    name: 'test312',
+                                    type: 'string',
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    name: 'test21',
+                    type: 'object',
+                    arguments: [
+                        {
+                            name: 'test1',
+                            type: 'intersection',
+                            arguments: [
+                                {
+                                    name: 'intersectionElement',
+                                    type: 'object',
+                                    arguments: [
+                                        {
+                                            name: 'a',
+                                            type: 'string',
+                                        },
+                                        {
+                                            name: 'b',
+                                            type: 'number',
+                                        },
+                                        {
+                                            name: 'c',
+                                            type: '"asdf"',
+                                        },
+                                    ],
+                                },
+                                {
+                                    name: 'intersectionElement',
+                                    type: 'object',
+                                    arguments: [
+                                        {
+                                            name: 'b',
+                                            type: 'number',
+                                        },
+                                        {
+                                            name: 'c',
+                                            type: '"asdf"',
+                                        },
+                                        {
+                                            name: 'd',
+                                            type: 'object',
+                                            arguments: [
+                                                {
+                                                    name: 'e',
+                                                    type: 'string',
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+        const expectedDependencyKey = getSourceFile(
+            'minimumRequiredTestCase',
+            project,
+        );
+
+        expect(newAst.ast).toEqual(expectedAst);
+        expect(newAst.dependencies.has(expectedDependencyKey)).toEqual(true);
+        expect(newAst.dependencies.get(expectedDependencyKey)).toEqual({
+            TEST2_ENUMS: 'TEST2_ENUMS',
+        });
     });
 });
