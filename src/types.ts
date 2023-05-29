@@ -1,7 +1,22 @@
-import { InterfaceDeclaration, TypeAliasDeclaration, EnumDeclaration, Node } from 'ts-morph';
+import {
+    InterfaceDeclaration,
+    TypeAliasDeclaration,
+    EnumDeclaration,
+    Node,
+    ClassDeclaration,
+} from 'ts-morph';
 
-export type TypeDeclaration = InterfaceDeclaration | TypeAliasDeclaration | EnumDeclaration;
+export type TypeDeclaration =
+    | InterfaceDeclaration
+    | TypeAliasDeclaration
+    | EnumDeclaration
+    | ClassDeclaration;
 
 export const isTypeDeclaration = (value: Node): value is TypeDeclaration => {
-    return Node.isTypeAliasDeclaration(value) || Node.isInterfaceDeclaration(value) || Node.isEnumDeclaration(value);
+    return (
+        Node.isTypeAliasDeclaration(value) ||
+        Node.isInterfaceDeclaration(value) ||
+        Node.isEnumDeclaration(value) ||
+        Node.isClassDeclaration(value)
+    );
 };
