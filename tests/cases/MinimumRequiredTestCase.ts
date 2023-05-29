@@ -105,3 +105,9 @@ export interface TEST9_TUPLE {
     test1: [number];
     test2: [number, TEST2_ENUMS];
 }
+
+export interface TEST10_READONLY_ARRAY {
+    test1: ReadonlyArray<number>;
+    readonly test2: ReadonlyArray<number>;
+    readonly test3: number[];
+}

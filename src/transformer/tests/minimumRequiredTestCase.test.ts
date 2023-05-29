@@ -100,6 +100,7 @@ describe('transformer - Minimum requirements', () => {
         expect(newAst.ast).toEqual(expectedAstNode);
     });
 
+    // THIS IS NOT SUPPORTED
     // test('TEST3_NAMESPACE', () => {
     //     // Given
     //     const typeDeclaration = getTypeDeclaration(
@@ -229,6 +230,7 @@ describe('transformer - Minimum requirements', () => {
         expect(newAst).toEqual(expected);
     });
 
+    // THIS IS NOT SUPPORTED
     // test('TEST5_GENERICS', () => {
     //     // Given
     //     const typeDeclaration = getTypeDeclaration(
@@ -594,16 +596,69 @@ describe('transformer - Minimum requirements', () => {
         });
     });
 
-    // test('INTEGRATED_TEST', () => {
-    //     // Given
-    //     const typeDeclaration = getTypeDeclaration(
-    //         'INTEGRATED_TEST',
-    //         typeDeclarations,
-    //     );
+    test('TEST10_READONLY_ARRAY', () => {
+        // Given
+        const typeDeclaration = getTypeDeclaration(
+            'TEST10_READONLY_ARRAY',
+            typeDeclarations,
+        );
 
-    //     // When
-    //     const newAst = transformer(typeDeclaration);
+        // When
+        const newAst = transformer(typeDeclaration);
 
-    //     // Then
-    // });
+        // Then
+        const expected = {
+            ast: {
+                name: 'TEST10_READONLY_ARRAY',
+                type: 'object',
+                arguments: [
+                    {
+                        name: 'test1',
+                        type: 'array',
+                        arguments: [
+                            {
+                                name: 'arrayElement',
+                                type: 'number',
+                            },
+                        ],
+                    },
+                    {
+                        name: 'test2',
+                        type: 'array',
+                        arguments: [
+                            {
+                                name: 'arrayElement',
+                                type: 'number',
+                            },
+                        ],
+                    },
+                    {
+                        name: 'test3',
+                        type: 'array',
+                        arguments: [
+                            {
+                                name: 'arrayElement',
+                                type: 'number',
+                            },
+                        ],
+                    },
+                ],
+            },
+            dependencies: new Map(),
+        };
+        expect(newAst).toEqual(expected);
+    });
+
+    test('INTEGRATED_TEST', () => {
+        // Given
+        const typeDeclaration = getTypeDeclaration(
+            'INTEGRATED_TEST',
+            typeDeclarations,
+        );
+
+        // When
+        const newAst = transformer(typeDeclaration);
+
+        // Then
+    });
 });
