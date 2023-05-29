@@ -111,3 +111,17 @@ export interface TEST10_READONLY_ARRAY {
     readonly test2: ReadonlyArray<number>;
     readonly test3: number[];
 }
+
+export class TEST11_CLASS {
+    test1: string;
+    test2: number;
+    test3: TEST1_COLUMN_WITH_GENERICS;
+    constructor() {
+        this.test1 = 'test1';
+        this.test2 = 1;
+        this.test3 = {
+            int1: 'test1',
+            int2: null,
+        };
+    }
+}

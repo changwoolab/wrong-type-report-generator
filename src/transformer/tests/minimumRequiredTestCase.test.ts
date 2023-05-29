@@ -649,6 +649,33 @@ describe('transformer - Minimum requirements', () => {
         expect(newAst).toEqual(expected);
     });
 
+    test('TEST11_CLASS', () => {
+        // Given
+        const typeDeclaration = getTypeDeclaration(
+            'TEST11_CLASS',
+            typeDeclarations,
+        );
+
+        // When
+        const newAst = transformer(typeDeclaration);
+
+        // Then
+        const expectedAst: AstNode = {
+            name: 'TEST11_CLASS',
+            type: 'class',
+        };
+        const expectedDependencyKey = getSourceFile(
+            'minimumRequiredTestCase',
+            project,
+        );
+
+        expect(newAst.ast).toEqual(expectedAst);
+        expect(newAst.dependencies.has(expectedDependencyKey)).toEqual(true);
+        expect(newAst.dependencies.get(expectedDependencyKey)).toEqual({
+            TEST11_CLASS: 'TEST11_CLASS',
+        });
+    });
+
     test('INTEGRATED_TEST', () => {
         // Given
         const typeDeclaration = getTypeDeclaration(
