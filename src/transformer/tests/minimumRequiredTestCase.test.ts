@@ -461,8 +461,63 @@ describe('transformer - Minimum requirements', () => {
 
         // When
         const newAst = transformer(typeDeclaration);
+        console.log(JSON.stringify(newAst, null, 4));
 
         // Then
+        const expected = {
+            ast: {
+                name: 'TEST7_APPLIED_NAMESPACE',
+                type: 'object',
+                arguments: [
+                    {
+                        name: 'test1',
+                        type: 'object',
+                        arguments: [
+                            {
+                                name: 'test311',
+                                type: 'union',
+                                arguments: [
+                                    {
+                                        name: 'unionElement',
+                                        type: 'string',
+                                    },
+                                    {
+                                        name: 'unionElement',
+                                        type: 'array',
+                                        arguments: [
+                                            {
+                                                name: 'arrayElement',
+                                                type: 'object',
+                                                arguments: [
+                                                    {
+                                                        name: 'id',
+                                                        type: 'number',
+                                                    },
+                                                    {
+                                                        name: 'image',
+                                                        type: 'string',
+                                                    },
+                                                    {
+                                                        name: 'description',
+                                                        type: 'string',
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                            {
+                                name: 'test312',
+                                type: 'string',
+                            },
+                        ],
+                    },
+                ],
+            },
+            dependencies: new Map(),
+        };
+        expect(newAst).toEqual(expected);
     });
 
     test('TEST8_INTERSECTION', () => {
