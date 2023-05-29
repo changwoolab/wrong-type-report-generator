@@ -461,7 +461,6 @@ describe('transformer - Minimum requirements', () => {
 
         // When
         const newAst = transformer(typeDeclaration);
-        console.log(JSON.stringify(newAst, null, 4));
 
         // Then
         const expected = {
@@ -718,6 +717,46 @@ describe('transformer - Minimum requirements', () => {
         const expectedAst: AstNode = {
             name: 'TEST11_CLASS',
             type: 'class',
+            arguments: [
+                {
+                    name: 'test1',
+                    type: 'string',
+                },
+                {
+                    name: 'test2',
+                    type: 'number',
+                },
+                {
+                    name: 'test3',
+                    type: 'object',
+                    arguments: [
+                        {
+                            name: 'int1',
+                            type: 'string',
+                        },
+                        {
+                            name: 'int2',
+                            type: 'union',
+                            arguments: [
+                                {
+                                    name: 'unionElement',
+                                    type: 'null',
+                                },
+                                {
+                                    name: 'unionElement',
+                                    type: 'object',
+                                    arguments: [
+                                        {
+                                            name: 'int3',
+                                            type: 'string',
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
         };
         const expectedDependencyKey = getSourceFile(
             'minimumRequiredTestCase',
