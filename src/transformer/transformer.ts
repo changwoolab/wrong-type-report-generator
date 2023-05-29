@@ -12,6 +12,7 @@ import {
 import { parseLiteral } from './nodeParser/parseLiteral';
 import { parseArray } from './nodeParser/parseArray';
 import { parseIntersection } from './nodeParser/parseIntersection';
+import { parseTuple } from './nodeParser/parseTuple';
 
 const isClassType = (type: Type): boolean => {
     if (type.getConstructSignatures().length > 0) {
@@ -126,8 +127,11 @@ export const parseNode = ({
     }
 
     if (type.isTuple()) {
-        // TODO
-        console.log('tuple');
+        return parseTuple({
+            name,
+            type,
+            addToDependencyMap,
+        });
     }
 
     /**
