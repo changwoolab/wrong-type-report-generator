@@ -17,9 +17,17 @@ type Array = 'array';
 
 type Intersection = 'intersection';
 
-export type NodeType = 'unionElement' | 'arrayElement' | 'intersectionElement';
+type Tuple = 'tuple';
 
-export type ParentNode = Object | Union | Array | Intersection;
+export type NodeType =
+    | 'unionElement'
+    | 'arrayElement'
+    | 'intersectionElement'
+    | 'tupleElement'
+    | 'objectElement'
+    | 'enumElement';
+
+export type ParentNode = Object | Union | Array | Intersection | Tuple;
 
 type ToImport = {
     [exportName: string]: string;
