@@ -2,7 +2,12 @@ import { AstNode } from '../../reporterAst';
 import { getNewAstNode } from '../../reporterAst/astUtils';
 import { ParseNode, parseNode } from './parseNode';
 
-export const parseUnion = ({ name, type, addToDependencyMap }: ParseNode) => {
+export const parseUnion = ({
+    name,
+    type,
+    isEnum,
+    addToDependencyMap,
+}: ParseNode) => {
     const unionElements = type.getUnionTypes();
 
     const parsedUnionElements = unionElements.map((elem) =>
@@ -16,7 +21,7 @@ export const parseUnion = ({ name, type, addToDependencyMap }: ParseNode) => {
 
     return getNewAstNode({
         name,
-        type: 'union',
+        type: isEnum ? 'enum' : 'union',
         argument: unionChildren,
     });
 };

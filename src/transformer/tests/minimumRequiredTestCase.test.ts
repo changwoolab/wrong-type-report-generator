@@ -73,7 +73,7 @@ describe('transformer - Minimum requirements', () => {
         // Then
         const expectedAstNode: AstNode = getNewAstNode({
             name: 'TEST2_ENUMS',
-            type: 'union',
+            type: 'enum',
             argument: [
                 getNewAstNode({
                     name: 'enumElement',
@@ -620,7 +620,7 @@ describe('transformer - Minimum requirements', () => {
                         { name: 'tupleElement', type: 'number' },
                         {
                             name: 'tupleElement',
-                            type: 'union',
+                            type: 'enum',
                             arguments: [
                                 {
                                     name: 'enumElement',
@@ -935,7 +935,7 @@ describe('transformer - Minimum requirements', () => {
                 },
                 {
                     name: 'test5',
-                    type: 'union',
+                    type: 'enum',
                     arguments: [
                         {
                             name: 'enumElement',
@@ -957,7 +957,7 @@ describe('transformer - Minimum requirements', () => {
                     arguments: [
                         {
                             name: 'arrayElement',
-                            type: 'union',
+                            type: 'enum',
                             arguments: [
                                 {
                                     name: 'enumElement',
@@ -1093,7 +1093,7 @@ describe('transformer - Minimum requirements', () => {
                     arguments: [
                         {
                             name: 'arrayElement',
-                            type: 'union',
+                            type: 'enum',
                             arguments: [
                                 {
                                     name: 'enumElement',

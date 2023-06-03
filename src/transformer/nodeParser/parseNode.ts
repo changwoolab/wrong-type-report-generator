@@ -15,6 +15,7 @@ export type ParseNode = {
     type: Type;
     addToDependencyMap: AddToDependencyMap;
     parentNode?: ParentNode;
+    isEnum?: boolean;
 };
 
 /**
@@ -42,7 +43,13 @@ export const parseNode = ({
     }
 
     if (type.isUnion()) {
-        return parseUnion({ name, type, addToDependencyMap, parentNode });
+        return parseUnion({
+            name,
+            type,
+            isEnum: type.isEnum(), // Enum is considered as a union
+            addToDependencyMap,
+            parentNode,
+        });
     }
 
     if (type.isIntersection()) {

@@ -19,6 +19,8 @@ type Intersection = 'intersection';
 
 type Tuple = 'tuple';
 
+type Enum = 'enum';
+
 export type NodeType =
     | 'unionElement'
     | 'arrayElement'
@@ -27,7 +29,7 @@ export type NodeType =
     | 'objectElement'
     | 'enumElement';
 
-export type ParentNode = Object | Union | Array | Intersection | Tuple;
+export type ParentNode = Object | Union | Array | Intersection | Tuple | Enum;
 
 type ToImport = {
     [exportName: string]: string;

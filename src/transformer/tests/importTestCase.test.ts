@@ -24,7 +24,7 @@ describe('transformer - imports', () => {
             argument: [
                 getNewAstNode({
                     name: 'type',
-                    type: 'union',
+                    type: 'enum',
                     argument: [
                         getNewAstNode({
                             name: 'enumElement',
