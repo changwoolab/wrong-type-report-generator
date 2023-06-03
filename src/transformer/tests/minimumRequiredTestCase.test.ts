@@ -76,15 +76,15 @@ describe('transformer - Minimum requirements', () => {
             type: 'union',
             argument: [
                 getNewAstNode({
-                    name: 'unionElement',
+                    name: 'enumElement',
                     type: 'TEST2_ENUMS.test1',
                 }),
                 getNewAstNode({
-                    name: 'unionElement',
+                    name: 'enumElement',
                     type: 'TEST2_ENUMS.test2',
                 }),
                 getNewAstNode({
-                    name: 'unionElement',
+                    name: 'enumElement',
                     type: 'TEST2_ENUMS.test3',
                 }),
             ],
@@ -451,6 +451,7 @@ describe('transformer - Minimum requirements', () => {
             },
             dependencies: new Map(),
         };
+        expect(newAst).toEqual(expected);
     });
 
     test('TEST7_APPLIED_NAMESPACE', () => {
@@ -622,15 +623,15 @@ describe('transformer - Minimum requirements', () => {
                             type: 'union',
                             arguments: [
                                 {
-                                    name: 'unionElement',
+                                    name: 'enumElement',
                                     type: 'TEST2_ENUMS.test1',
                                 },
                                 {
-                                    name: 'unionElement',
+                                    name: 'enumElement',
                                     type: 'TEST2_ENUMS.test2',
                                 },
                                 {
-                                    name: 'unionElement',
+                                    name: 'enumElement',
                                     type: 'TEST2_ENUMS.test3',
                                 },
                             ],
@@ -937,15 +938,15 @@ describe('transformer - Minimum requirements', () => {
                     type: 'union',
                     arguments: [
                         {
-                            name: 'unionElement',
+                            name: 'enumElement',
                             type: 'TEST2_ENUMS.test1',
                         },
                         {
-                            name: 'unionElement',
+                            name: 'enumElement',
                             type: 'TEST2_ENUMS.test2',
                         },
                         {
-                            name: 'unionElement',
+                            name: 'enumElement',
                             type: 'TEST2_ENUMS.test3',
                         },
                     ],
@@ -959,15 +960,15 @@ describe('transformer - Minimum requirements', () => {
                             type: 'union',
                             arguments: [
                                 {
-                                    name: 'unionElement',
+                                    name: 'enumElement',
                                     type: 'TEST2_ENUMS.test1',
                                 },
                                 {
-                                    name: 'unionElement',
+                                    name: 'enumElement',
                                     type: 'TEST2_ENUMS.test2',
                                 },
                                 {
-                                    name: 'unionElement',
+                                    name: 'enumElement',
                                     type: 'TEST2_ENUMS.test3',
                                 },
                             ],
@@ -1009,15 +1010,15 @@ describe('transformer - Minimum requirements', () => {
                             ],
                         },
                         {
-                            name: 'unionElement',
+                            name: 'enumElement',
                             type: 'TEST2_ENUMS.test1',
                         },
                         {
-                            name: 'unionElement',
+                            name: 'enumElement',
                             type: 'TEST2_ENUMS.test2',
                         },
                         {
-                            name: 'unionElement',
+                            name: 'enumElement',
                             type: 'TEST2_ENUMS.test3',
                         },
                         {
@@ -1095,15 +1096,15 @@ describe('transformer - Minimum requirements', () => {
                             type: 'union',
                             arguments: [
                                 {
-                                    name: 'unionElement',
+                                    name: 'enumElement',
                                     type: 'TEST2_ENUMS.test1',
                                 },
                                 {
-                                    name: 'unionElement',
+                                    name: 'enumElement',
                                     type: 'TEST2_ENUMS.test2',
                                 },
                                 {
-                                    name: 'unionElement',
+                                    name: 'enumElement',
                                     type: 'TEST2_ENUMS.test3',
                                 },
                             ],

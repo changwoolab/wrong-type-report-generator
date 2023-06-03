@@ -22,7 +22,7 @@ export const parseLiteral = ({ name, type, addToDependencyMap }: ParseNode) => {
         const enumChild = type.getSymbol()?.getName();
 
         return getNewAstNode({
-            name,
+            name: 'enumElement',
             type: `${enumName}.${enumChild}`,
         });
     }
