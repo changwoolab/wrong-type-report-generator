@@ -5,6 +5,7 @@ import {
     StructureKind,
 } from 'ts-morph';
 import { AstRootNode, Dependencies } from '../reporterAst';
+import { generateBodyCode } from './generateBodyCode';
 
 export type CodeGenerator = {
     astRootNode: AstRootNode;
@@ -13,14 +14,16 @@ export type CodeGenerator = {
     inputSourceFile: SourceFile;
 };
 
-export const codeGenerator = ({
+export const codeGenerator = async ({
     astRootNode,
     project,
     outFilePath,
     inputSourceFile,
 }: CodeGenerator) => {
     // Generate outfile
-    const outFile = project.createSourceFile(outFilePath);
+    const outFile = project.createSourceFile(outFilePath, undefined, {
+        overwrite: true,
+    });
 
     // import dependencies
     // TODO: can be implemented via `sourceFile.fixMissingImports()`...
@@ -34,10 +37,25 @@ export const codeGenerator = ({
         }),
     );
 
-    console.log(outFile.getText());
-
     // generate remaining codes
     const { ast } = astRootNode;
+    const pascalCasedName = ast.name[0].toUpperCase() + ast.name.slice(1);
+
+    // TODO: ADD TYPES
+    const code = [
+        `export const validate${pascalCasedName} = (value: unknown) => {`,
+        `    const typedValue = value as ${ast.name};`,
+        `    const error = [];`,
+        `    ${generateBodyCode({ astNode: ast, nameStack: [], root: true })}`,
+        `    return error.length === 0 ? undefined : error;`,
+        `}`,
+    ].join('\n');
+
+    outFile.addStatements(code);
+    outFile.fixMissingImports();
+    outFile.formatText();
+
+    await outFile.save();
 };
 
 const getImportDeclarations = ({
