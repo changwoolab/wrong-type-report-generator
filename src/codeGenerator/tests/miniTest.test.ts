@@ -9,16 +9,19 @@ import { codeGenerator } from '../codeGenerator';
 describe('mini test', () => {
     const { typeDeclarations, project } = getTestCase('mini/miniTest');
 
-    test('Object', async () => {
+    test('OneObject', async () => {
         // Given
-        const typeDeclaration = getTypeDeclaration('Object', typeDeclarations);
+        const typeDeclaration = getTypeDeclaration(
+            'OneObject',
+            typeDeclarations,
+        );
         const newAst = transformer(typeDeclaration);
 
         // When
         await codeGenerator({
             astRootNode: newAst,
             project,
-            outFilePath: 'src/codeGenerator/tests/miniTestResults/Object.ts',
+            outFilePath: 'src/codeGenerator/tests/miniTestResults/OneObject.ts',
             inputSourceFile: getSourceFile('import/toBeImported', project),
         });
 

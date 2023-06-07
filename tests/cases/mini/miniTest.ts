@@ -1,6 +1,6 @@
 import { Nullable } from '../MinimumRequiredTestCase';
 
-export interface Object {
+export interface OneObject {
     t1: number;
 }
 
