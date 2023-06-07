@@ -358,7 +358,6 @@ describe('mini test', () => {
         // Given
         const typeDeclaration = getTypeDeclaration('Tuple', typeDeclarations);
         const newAst = transformer(typeDeclaration);
-        console.log(JSON.stringify(newAst, null, 4));
 
         // When
         await codeGenerator({

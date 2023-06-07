@@ -142,7 +142,6 @@ export const generateBodyCode = ({
                             `${astNode.name}[${index}]`,
                         ],
                     });
-                    console.log(JSON.stringify(tupleElement, null, 4));
                     return [
                         condition.join(' &&\n'),
                         `${astNode.name}[${index}]`,
