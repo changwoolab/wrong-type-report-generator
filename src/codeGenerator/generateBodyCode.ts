@@ -194,11 +194,11 @@ export const generateBodyCode = ({
         }
         default: {
             return [
-                `if (${getConditionStatement(
+                `if (${getConditionStatement({
                     astNode,
-                    [...newNameStack],
+                    nameStack: [...newNameStack],
                     namePrefix,
-                )}) {`,
+                })}) {`,
                 `    error.push({`,
                 `        propertyName: '${astNode.name}',`,
                 `        propertyChainTrace: [${wrapQuoteSymbol(
@@ -290,16 +290,22 @@ const getConditions = ({
             );
         }
         default: {
-            return [getConditionStatement(astNode, nameStack, namePrefix)];
+            return [getConditionStatement({ astNode, nameStack, namePrefix })];
         }
     }
 };
 
-const getConditionStatement = (
-    astNode: AstNode,
-    nameStack: string[],
-    namePrefix?: string,
-) => {
+const getConditionStatement = ({
+    astNode,
+    nameStack,
+    namePrefix,
+    namePostfix,
+}: {
+    astNode: AstNode;
+    nameStack: string[];
+    namePrefix?: string;
+    namePostfix?: string;
+}) => {
     if (
         // imported value should not be used with Quote symbols ('').
         // Enum uses imported values.
