@@ -57,6 +57,7 @@ export const generateBodyCode = ({
         // Enum is considered as union
         case 'enum':
         case 'union': {
+            // TODO: union with objects should be considered
             const conditions = getConditions({
                 astNode,
                 nameStack: [...newNameStack],
