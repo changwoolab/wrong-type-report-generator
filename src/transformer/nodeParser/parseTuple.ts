@@ -5,7 +5,7 @@ export const parseTuple = ({ name, type, addToDependencyMap }: ParseNode) => {
     return {
         name: name,
         type: 'tuple',
-        argument: types.map((innerType) =>
+        arguments: types.map((innerType) =>
             parseNode({
                 name: 'tupleElement',
                 type: innerType,
