@@ -3,7 +3,7 @@ import { Intersection } from "../../../../tests/cases/mini/miniTest";
 export const validateIntersection = (value: unknown) => {
     const typedValue = value as Intersection;
     const error = [];
-    if (typeof typedValue.t1 !== 'string') {
+    if (typeof typedValue.t1.t2 !== 'string') {
         error.push({
             propertyName: 't2',
             propertyChainTrace: ['t1'],
@@ -11,7 +11,7 @@ export const validateIntersection = (value: unknown) => {
             received: typedValue.t1,
         });
     }
-    if (typeof typedValue.t1 !== 'number') {
+    if (typeof typedValue.t1.t3 !== 'number') {
         error.push({
             propertyName: 't3',
             propertyChainTrace: ['t1'],

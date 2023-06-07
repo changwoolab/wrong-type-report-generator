@@ -13,7 +13,7 @@ export const validatePrimitiveOneArrayWithObject = (value: unknown) => {
     } else {
         typedValue.find((elem) => {
             const prevErrorLen = error.length;
-            if (typeof elem !== 'number') {
+            if (typeof elem.t1 !== 'number') {
                 error.push({
                     propertyName: 't1',
                     propertyChainTrace: [],

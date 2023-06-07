@@ -60,6 +60,8 @@ export const generateBodyCode = ({
             const conditions = getConditions({
                 astNode,
                 nameStack: [...newNameStack],
+                firstName,
+                propertyChainStack: [...newPropertyChainStack],
             });
 
             const childrenTypes =
@@ -134,7 +136,7 @@ export const generateBodyCode = ({
             return [
                 `if (${getConditionStatement(
                     astNode,
-                    nameStack,
+                    [...newNameStack],
                     firstName,
                 )}) {`,
                 `    error.push({`,
@@ -169,11 +171,10 @@ const getName = (nameStack: string[], firstName?: string) => {
 
 const getConditions = ({
     astNode,
+    firstName,
     nameStack,
-}: {
-    astNode: AstNode;
-    nameStack: string[];
-}): string[] => {
+    propertyChainStack,
+}: GenerateBodyCode): string[] => {
     switch (astNode.type) {
         // Enum is considered as union
         case 'enum':
@@ -181,32 +182,30 @@ const getConditions = ({
             const unionElements = astNode.arguments;
             if (!unionElements) throw new Error('There is no union elements');
             return unionElements.flatMap((unionElemNode) => {
-                if (unionElemNode.arguments) {
-                    return unionElemNode.arguments.flatMap((nodeChild) =>
-                        getConditions({
-                            astNode: nodeChild,
-                            nameStack: [...nameStack],
-                        }),
-                    );
-                }
-                return [getConditionStatement(unionElemNode, nameStack)];
+                return getConditions({
+                    astNode: unionElemNode,
+                    firstName,
+                    nameStack: [...nameStack],
+                    propertyChainStack: [...propertyChainStack],
+                });
             });
         }
         case 'array': {
-            // find one wrong array element
-            const arrayElements = astNode.arguments;
-            if (!arrayElements) throw new Error('There is no array elements');
-            return arrayElements.flatMap((arrayElemNode) => {
-                if (arrayElemNode.arguments) {
-                    return arrayElemNode.arguments.flatMap((nodeChild) =>
-                        getConditions({
-                            astNode: nodeChild,
-                            nameStack: [...nameStack],
-                        }),
-                    );
-                }
-                return [getConditionStatement(astNode, nameStack)];
+            const statement = generateBodyCode({
+                astNode,
+                firstName,
+                nameStack: [...nameStack],
+                propertyChainStack: [...propertyChainStack],
             });
+            return [
+                [
+                    `(() => {`,
+                    `    const prevErrorLen = error.length;`,
+                    `    ${statement}`,
+                    `    return prevErrorLen !== error.length;`,
+                    `})()`,
+                ].join('\n'),
+            ];
         }
         case 'intersection': {
             // TODO
@@ -218,12 +217,14 @@ const getConditions = ({
             return astNode.arguments!.flatMap((node) =>
                 getConditions({
                     astNode: node,
-                    nameStack: [...nameStack, astNode.name],
+                    firstName,
+                    nameStack: [...nameStack],
+                    propertyChainStack: [...propertyChainStack],
                 }),
             );
         }
         default: {
-            return [getConditionStatement(astNode, nameStack)];
+            return [getConditionStatement(astNode, nameStack, firstName)];
         }
     }
 };
@@ -234,8 +235,9 @@ const getConditionStatement = (
     firstName?: string,
 ) => {
     if (
+        // imported value should not be used with Quote symbols ('').
+        // Enum uses imported values.
         astNode.name === 'enumElement' ||
-        astNode.name === 'unionElement' ||
         astNode.type === 'undefined' ||
         astNode.type === 'null'
     ) {
@@ -243,7 +245,7 @@ const getConditionStatement = (
     }
 
     if (astNode.type.startsWith(`\"`) || astNode.type.startsWith(`\'`)) {
-        return `typeof ${getName(nameStack, firstName)} !== ${astNode.type}`;
+        return `${getName(nameStack, firstName)} !== ${astNode.type}`;
     }
 
     return `typeof ${getName(nameStack, firstName)} !== '${astNode.type}'`;

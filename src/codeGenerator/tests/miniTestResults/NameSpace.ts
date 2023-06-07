@@ -3,7 +3,7 @@ import { NameSpace } from "../../../../tests/cases/mini/miniTest";
 export const validateNameSpace = (value: unknown) => {
     const typedValue = value as NameSpace;
     const error = [];
-    if (typeof typedValue.t1 !== 'number') {
+    if (typeof typedValue.t1.t1 !== 'number') {
         error.push({
             propertyName: 't1',
             propertyChainTrace: ['t1'],

@@ -68,6 +68,7 @@ export interface Union {
     t1: 'asdf' | 'qwer';
     t2: number | string;
     t3: 'sadf' | number;
+    t4: number[] | 'asdf';
 }
 
 export interface UnionWithObject {

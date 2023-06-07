@@ -1,7 +1,7 @@
 export const validateObject = (value: unknown) => {
     const typedValue = value as Object;
     const error = [];
-    if (typeof typedValue !== 'number') {
+    if (typeof typedValue.t1 !== 'number') {
         error.push({
             propertyName: 't1',
             propertyChainTrace: [],

@@ -3,7 +3,7 @@ import { PrimitiveUnion } from "../../../../tests/cases/mini/miniTest";
 export const validatePrimitiveUnion = (value: unknown) => {
     const typedValue = value as PrimitiveUnion;
     const error = [];
-    if (typedValue !== number &&
+    if (typeof typedValue !== 'number' &&
         typedValue !== "asdf" &&
         typedValue !== "qwer") {
         error.push({

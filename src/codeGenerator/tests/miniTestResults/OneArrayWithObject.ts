@@ -13,7 +13,7 @@ export const validateOneArrayWithObject = (value: unknown) => {
     } else {
         typedValue.t1.find((elem) => {
             const prevErrorLen = error.length;
-            if (typeof elem !== 'number') {
+            if (typeof elem.t2 !== 'number') {
                 error.push({
                     propertyName: 't2',
                     propertyChainTrace: ['t1'],
