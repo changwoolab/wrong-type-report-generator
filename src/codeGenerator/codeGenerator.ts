@@ -46,7 +46,12 @@ export const codeGenerator = async ({
         `export const validate${pascalCasedName} = (value: unknown) => {`,
         `    const typedValue = value as ${ast.name};`,
         `    const error = [];`,
-        `    ${generateBodyCode({ astNode: ast, nameStack: [], root: true })}`,
+        `    ${generateBodyCode({
+            astNode: ast,
+            nameStack: [],
+            propertyChainStack: [],
+            root: true,
+        })}`,
         `    return error.length === 0 ? undefined : error;`,
         `}`,
     ].join('\n');

@@ -2,8 +2,9 @@ import { AstNode } from '../reporterAst';
 
 export type GenerateBodyCode = {
     astNode: AstNode;
-    nameStack: string[]; // stack for property name
-    // propertyChainStack: string[]; // stack for property chain
+    firstName?: string; // first name of property chain
+    nameStack: string[]; // stack for property name -> ${firstName}.${namestack}
+    propertyChainStack: string[]; // stack for property chain
     root?: boolean;
 };
 
@@ -13,10 +14,21 @@ export type GenerateBodyCode = {
 export const generateBodyCode = ({
     astNode,
     nameStack,
-    // propertyChainStack,
+    firstName,
+    propertyChainStack,
     root,
 }: GenerateBodyCode): string => {
-    const newNameStack = root ? [] : [...nameStack, astNode.name];
+    const newNameStack = root
+        ? []
+        : astNode.name.includes('Element')
+        ? [...nameStack]
+        : [...nameStack, astNode.name];
+    const newPropertyChainStack = root
+        ? []
+        : astNode.name.includes('Element')
+        ? [...propertyChainStack]
+        : [...propertyChainStack, astNode.name];
+
     switch (astNode.name) {
         case 'arrayElement': {
             if (!astNode.arguments) {
@@ -24,11 +36,17 @@ export const generateBodyCode = ({
                 // Need to check type
                 break;
             }
+            if (astNode.type === 'array' || astNode.type === 'union') {
+                // need more recursive call
+                break;
+            }
             return astNode.arguments
                 .map((node) => {
                     return generateBodyCode({
                         astNode: node,
+                        firstName,
                         nameStack: [...nameStack],
+                        propertyChainStack: [...propertyChainStack],
                     });
                 })
                 .join('\n');
@@ -39,7 +57,6 @@ export const generateBodyCode = ({
         // Enum is considered as union
         case 'enum':
         case 'union': {
-            const newNameStack = root ? [] : [...nameStack, astNode.name];
             const conditions = getConditions({
                 astNode,
                 nameStack: [...newNameStack],
@@ -52,54 +69,45 @@ export const generateBodyCode = ({
                 `if (${conditions.join(' &&\n')}) {`,
                 `    error.push({`,
                 `        propertyName: '${astNode.name}',`,
-                `        propertyChainTrace: [${wrapQuoteSymbol(nameStack)}],`,
+                `        propertyChainTrace: [${wrapQuoteSymbol(
+                    propertyChainStack,
+                )}],`,
                 `        expectedType: [${wrapQuoteSymbol(childrenTypes)}],`,
-                `        received: ${getName(newNameStack)},`,
+                `        received: ${getName(newNameStack, firstName)},`,
                 `    });`,
                 `}`,
             ].join('\n');
         }
         case 'array': {
             const statement = astNode.arguments?.map((arrayElement) => {
-                if (arrayElement.arguments) {
-                    return generateBodyCode({
-                        astNode: arrayElement,
-                        nameStack: ['elem'],
-                    });
-                } else {
-                    const conditions = getConditions({
-                        astNode,
-                        nameStack: [], // no nameStack trace is needed because it will be replaced with 'elem'
-                    })
-                        .map((val) => val.replace('typedValue', 'elem'))
-                        .join(' &&\n');
-                    return [`if (${conditions}) `];
-                }
+                return generateBodyCode({
+                    astNode: arrayElement,
+                    firstName: 'elem',
+                    nameStack: [],
+                    propertyChainStack: [...newPropertyChainStack],
+                });
             });
-
-            // TODO: Need to validate array[][] type correctly
 
             // Check array elems one by one and push to error when error is occurred.
             // But only one error object should be in the error array.
             return [
-                `if (!Array.isArray(${getName([...newNameStack])})) {`,
+                `if (!Array.isArray(${getName(
+                    [...newNameStack],
+                    firstName,
+                )})) {`,
                 `    error.push({`,
                 `        propertyName: '${astNode.name}',`,
-                `        propertyChainTrace: [${wrapQuoteSymbol(nameStack)}],`,
+                `        propertyChainTrace: [${wrapQuoteSymbol(
+                    propertyChainStack,
+                )}],`,
                 `        expectedType: 'array',`,
-                `        received: ${getName(nameStack)},`,
+                `        received: ${getName(nameStack, firstName)},`,
                 `    });`,
                 `} else {`,
-                `    const v = ${getName([...newNameStack])}.find((elem) => {`,
+                `    ${getName([...newNameStack], firstName)}.find((elem) => {`,
                 `       const prevErrorLen = error.length;`,
                 `       ${statement}`,
                 `       return prevErrorLen !== error.length;`,
-                `    });`,
-                `    if (v) error.push({`,
-                `        propertyName: '${astNode.name}',`,
-                `        propertyChainTrace: [${wrapQuoteSymbol(nameStack)}],`,
-                `        expectedType: '${astNode.type}',`,
-                `        received: v,`,
                 `    });`,
                 `}`,
             ].join('\n');
@@ -114,7 +122,9 @@ export const generateBodyCode = ({
             const result = astNode.arguments?.map((node) =>
                 generateBodyCode({
                     astNode: node,
+                    firstName,
                     nameStack: [...newNameStack],
+                    propertyChainStack: [...newPropertyChainStack],
                 }),
             );
 
@@ -122,12 +132,18 @@ export const generateBodyCode = ({
         }
         default: {
             return [
-                `if (${getConditionStatement(astNode, nameStack)}) {`,
+                `if (${getConditionStatement(
+                    astNode,
+                    nameStack,
+                    firstName,
+                )}) {`,
                 `    error.push({`,
                 `        propertyName: '${astNode.name}',`,
-                `        propertyChainTrace: [${wrapQuoteSymbol(nameStack)}],`,
+                `        propertyChainTrace: [${wrapQuoteSymbol(
+                    propertyChainStack,
+                )}],`,
                 `        expectedType: '${astNode.type}',`,
-                `        received: ${getName(nameStack)},`,
+                `        received: ${getName(nameStack, firstName)},`,
                 `    });`,
                 `}`,
             ].join('\n');
@@ -145,9 +161,10 @@ const wrapQuoteSymbol = (nameStack: string | string[], between?: string) => {
 const propertyChainDot = (nameStack: string[]) =>
     nameStack.length > 0 ? '.' + nameStack.join('.') : '';
 
-const getName = (nameStack: string[]) => {
-    if (nameStack[0] === 'elem') return `elem${propertyChainDot(nameStack)}`;
-    return `typedValue${propertyChainDot(nameStack)}`;
+const getName = (nameStack: string[], firstName?: string) => {
+    return firstName
+        ? `${firstName}${propertyChainDot(nameStack)}`
+        : `typedValue${propertyChainDot(nameStack)}`;
 };
 
 const getConditions = ({
@@ -211,19 +228,23 @@ const getConditions = ({
     }
 };
 
-const getConditionStatement = (astNode: AstNode, nameStack: string[]) => {
+const getConditionStatement = (
+    astNode: AstNode,
+    nameStack: string[],
+    firstName?: string,
+) => {
     if (
         astNode.name === 'enumElement' ||
         astNode.name === 'unionElement' ||
         astNode.type === 'undefined' ||
         astNode.type === 'null'
     ) {
-        return `${getName(nameStack)} !== ${astNode.type}`;
+        return `${getName(nameStack, firstName)} !== ${astNode.type}`;
     }
 
     if (astNode.type.startsWith(`\"`) || astNode.type.startsWith(`\'`)) {
-        return `typeof ${getName(nameStack)} !== ${astNode.type}`;
+        return `typeof ${getName(nameStack, firstName)} !== ${astNode.type}`;
     }
 
-    return `typeof ${getName(nameStack)} !== '${astNode.type}'`;
+    return `typeof ${getName(nameStack, firstName)} !== '${astNode.type}'`;
 };
