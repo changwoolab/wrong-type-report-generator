@@ -78,7 +78,11 @@ export const generateBodyCode = ({
                     propertyChainStack,
                 )}],`,
                 `        expectedType: [${wrapQuoteSymbol(childrenTypes)}],`,
-                `        received: ${getName(newNameStack, namePrefix)},`,
+                `        received: ${getName({
+                    nameStack: [...newNameStack],
+                    namePrefix,
+                    namePostfix,
+                })},`,
                 `    });`,
                 `}`,
             ].join('\n');
@@ -96,23 +100,29 @@ export const generateBodyCode = ({
             // Check array elems one by one and push to error when error is occurred.
             // But only one error object should be in the error array.
             return [
-                `if (!Array.isArray(${getName(
-                    [...newNameStack],
+                `if (!Array.isArray(${getName({
+                    nameStack: [...newNameStack],
                     namePrefix,
-                )})) {`,
+                    namePostfix,
+                })})) {`,
                 `    error.push({`,
                 `        propertyName: '${astNode.name}',`,
                 `        propertyChainTrace: [${wrapQuoteSymbol(
                     propertyChainStack,
                 )}],`,
                 `        expectedType: 'array',`,
-                `        received: ${getName(nameStack, namePrefix)},`,
+                `        received: ${getName({
+                    nameStack,
+                    namePrefix,
+                    namePostfix,
+                })},`,
                 `    });`,
                 `} else {`,
-                `    ${getName(
-                    [...newNameStack],
+                `    ${getName({
+                    nameStack: [...newNameStack],
                     namePrefix,
-                )}.find((elem) => {`,
+                    namePostfix,
+                })}.find((elem) => {`,
                 `       const prevErrorLen = error.length;`,
                 `       ${statement}`,
                 `       return prevErrorLen !== error.length;`,
@@ -128,23 +138,29 @@ export const generateBodyCode = ({
             // });
 
             return [
-                `if (!Array.isArray(${getName(
-                    [...newNameStack],
+                `if (!Array.isArray(${getName({
+                    nameStack: [...newNameStack],
                     namePrefix,
-                )})) {`,
+                    namePostfix,
+                })})) {`,
                 `    error.push({`,
                 `        propertyName: '${astNode.name}',`,
                 `        propertyChainTrace: [${wrapQuoteSymbol(
                     propertyChainStack,
                 )}],`,
                 `        expectedType: 'tuple',`,
-                `        received: ${getName(nameStack, namePrefix)},`,
+                `        received: ${getName({
+                    nameStack,
+                    namePrefix,
+                    namePostfix,
+                })},`,
                 `    });`,
                 `} else {`,
-                `    ${getName(
-                    [...newNameStack],
+                `    ${getName({
+                    nameStack: [...newNameStack],
                     namePrefix,
-                )}.find((elem) => {`,
+                    namePostfix,
+                })}.find((elem) => {`,
                 `       const prevErrorLen = error.length;`,
                 `       ${astNode.arguments
                     ?.map((node, index) => {
@@ -174,16 +190,32 @@ export const generateBodyCode = ({
                 ) ?? [];
 
             const objectCondition = [
-                `if (${getName(nameStack, namePrefix)} === null ||`,
-                `(typeof ${getName(nameStack, namePrefix)} !== "object" &&`,
-                `typeof ${getName(nameStack, namePrefix)} !== "function")) {`,
+                `if (${getName({
+                    nameStack,
+                    namePrefix,
+                    namePostfix,
+                })} === null ||`,
+                `(typeof ${getName({
+                    nameStack,
+                    namePrefix,
+                    namePostfix,
+                })} !== "object" &&`,
+                `typeof ${getName({
+                    nameStack,
+                    namePrefix,
+                    namePostfix,
+                })} !== "function")) {`,
                 `    error.push({`,
                 `        propertyName: '${astNode.name}',`,
                 `        propertyChainTrace: [${wrapQuoteSymbol(
                     propertyChainStack,
                 )}],`,
                 `        expectedType: 'object',`,
-                `        received: ${getName(nameStack, namePrefix)},`,
+                `        received: ${getName({
+                    nameStack,
+                    namePrefix,
+                    namePostfix,
+                })},`,
                 `    });`,
                 `} else {`,
                 `    ${result.join('\n')}`,
@@ -205,7 +237,11 @@ export const generateBodyCode = ({
                     propertyChainStack,
                 )}],`,
                 `        expectedType: '${astNode.type}',`,
-                `        received: ${getName(nameStack, namePrefix)},`,
+                `        received: ${getName({
+                    nameStack,
+                    namePrefix,
+                    namePostfix,
+                })},`,
                 `    });`,
                 `}`,
             ].join('\n');
@@ -223,10 +259,18 @@ const wrapQuoteSymbol = (nameStack: string | string[], between?: string) => {
 const propertyChainDot = (nameStack: string[]) =>
     nameStack.length > 0 ? '.' + nameStack.join('.') : '';
 
-const getName = (nameStack: string[], namePrefix?: string) => {
+const getName = ({
+    nameStack,
+    namePostfix,
+    namePrefix,
+}: {
+    nameStack: string[];
+    namePrefix?: string;
+    namePostfix?: string;
+}) => {
     return namePrefix
-        ? `${namePrefix}${propertyChainDot(nameStack)}`
-        : `typedValue${propertyChainDot(nameStack)}`;
+        ? `${namePrefix}${propertyChainDot(nameStack)}${namePostfix ?? ''}`
+        : `typedValue${propertyChainDot(nameStack)}${namePostfix ?? ''}`;
 };
 
 const getConditions = ({
@@ -313,12 +357,18 @@ const getConditionStatement = ({
         astNode.type === 'undefined' ||
         astNode.type === 'null'
     ) {
-        return `${getName(nameStack, namePrefix)} !== ${astNode.type}`;
+        return `${getName({ nameStack, namePrefix, namePostfix })} !== ${
+            astNode.type
+        }`;
     }
 
     if (astNode.type.startsWith(`\"`) || astNode.type.startsWith(`\'`)) {
-        return `${getName(nameStack, namePrefix)} !== ${astNode.type}`;
+        return `${getName({ nameStack, namePrefix, namePostfix })} !== ${
+            astNode.type
+        }`;
     }
 
-    return `typeof ${getName(nameStack, namePrefix)} !== '${astNode.type}'`;
+    return `typeof ${getName({ nameStack, namePrefix, namePostfix })} !== '${
+        astNode.type
+    }'`;
 };
