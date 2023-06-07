@@ -55,6 +55,45 @@ export const validateTuple = (value: unknown) => {
                 });
             }
         }
+        if (!Array.isArray(typedValue.test3)) {
+            error.push({
+                propertyName: 'test3',
+                propertyChainTrace: [],
+                expectedType: 'tuple',
+                received: typedValue,
+            });
+        } else {
+            if ((() => {
+                const prevErrorLen = error.length;
+                if (typedValue.test3[0] === null ||
+                    (typeof typedValue.test3[0] !== "object" &&
+                        typeof typedValue.test3[0] !== "function")) {
+                    error.push({
+                        propertyName: 'tupleElement',
+                        propertyChainTrace: ['test3[0]'],
+                        expectedType: 'object',
+                        received: typedValue.test3[0],
+                    });
+                } else {
+                    if (typeof typedValue.test3[0].t1 !== 'number') {
+                        error.push({
+                            propertyName: 't1',
+                            propertyChainTrace: ['test3[0]'],
+                            expectedType: 'number',
+                            received: typedValue.test3[0],
+                        });
+                    }
+                }
+                return prevErrorLen !== error.length;
+            })()) {
+                error.push({
+                    propertyName: 'test3[0]',
+                    propertyChainTrace: [],
+                    expectedType: 'object',
+                    received: typedValue,
+                });
+            }
+        }
     }
     return error.length === 0 ? undefined : error;
 }

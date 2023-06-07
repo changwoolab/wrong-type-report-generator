@@ -131,7 +131,6 @@ export const generateBodyCode = ({
             ].join('\n');
         }
         case 'tuple': {
-            // TODO: tuple with objects should be considered
             // [condition, propertyName, expectedType]
             const conditions: [string, string, string][] =
                 astNode.arguments?.map((tupleElement, index) => {
@@ -143,6 +142,7 @@ export const generateBodyCode = ({
                             `${astNode.name}[${index}]`,
                         ],
                     });
+                    console.log(JSON.stringify(tupleElement, null, 4));
                     return [
                         condition.join(' &&\n'),
                         `${astNode.name}[${index}]`,
@@ -312,7 +312,9 @@ const getConditions = ({
             });
         }
         case 'tuple':
-        case 'array': {
+        case 'array':
+        case 'intersection':
+        case 'object': {
             const statement = generateBodyCode({
                 astNode,
                 namePrefix,
@@ -329,18 +331,6 @@ const getConditions = ({
                     `})()`,
                 ].join('\n'),
             ];
-        }
-        case 'intersection':
-        case 'object': {
-            return astNode.arguments!.flatMap((node) =>
-                getConditions({
-                    astNode: node,
-                    namePrefix,
-                    namePostfix,
-                    nameStack: [...nameStack],
-                    propertyChainStack: [...propertyChainStack],
-                }),
-            );
         }
         default: {
             return [

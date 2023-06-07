@@ -14,7 +14,29 @@ export const validateWithGenerics = (value: unknown) => {
         });
     } else {
         if (typedValue.t1 !== null &&
-            typeof typedValue.t1 !== 'string') {
+            (() => {
+                const prevErrorLen = error.length;
+                if (typedValue.t1 === null ||
+                    (typeof typedValue.t1 !== "object" &&
+                        typeof typedValue.t1 !== "function")) {
+                    error.push({
+                        propertyName: 'unionElement',
+                        propertyChainTrace: ['t1'],
+                        expectedType: 'object',
+                        received: typedValue.t1,
+                    });
+                } else {
+                    if (typeof typedValue.t1.t2 !== 'string') {
+                        error.push({
+                            propertyName: 't2',
+                            propertyChainTrace: ['t1'],
+                            expectedType: 'string',
+                            received: typedValue.t1,
+                        });
+                    }
+                }
+                return prevErrorLen !== error.length;
+            })()) {
             error.push({
                 propertyName: 't1',
                 propertyChainTrace: [],

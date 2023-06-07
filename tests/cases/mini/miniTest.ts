@@ -98,4 +98,5 @@ export interface Intersection {
 export interface Tuple {
     test1: [number];
     test2: [number, string];
+    test3: [OneObject];
 }
