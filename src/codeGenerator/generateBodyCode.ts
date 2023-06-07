@@ -115,23 +115,69 @@ export const generateBodyCode = ({
                 `}`,
             ].join('\n');
         }
-        case 'intersection': {
-            // TODO
-        }
         case 'tuple': {
             // TODO
-        }
-        case 'object': {
-            const result = astNode.arguments?.map((node) =>
-                generateBodyCode({
-                    astNode: node,
+            return [
+                `if (!Array.isArray(${getName(
+                    [...newNameStack],
                     firstName,
-                    nameStack: [...newNameStack],
-                    propertyChainStack: [...newPropertyChainStack],
-                }),
-            );
+                )})) {`,
+                `    error.push({`,
+                `        propertyName: '${astNode.name}',`,
+                `        propertyChainTrace: [${wrapQuoteSymbol(
+                    propertyChainStack,
+                )}],`,
+                `        expectedType: 'tuple',`,
+                `        received: ${getName(nameStack, firstName)},`,
+                `    });`,
+                `} else {`,
+                `    ${getName([...newNameStack], firstName)}.find((elem) => {`,
+                `       const prevErrorLen = error.length;`,
+                `       ${astNode.arguments
+                    ?.map((node, index) => {
+                        return generateBodyCode({
+                            astNode: node,
+                            firstName: `elem[${index}]`,
+                            nameStack: [],
+                            propertyChainStack: [...newPropertyChainStack],
+                        });
+                    })
+                    .join('\n')}`,
+                `       return prevErrorLen !== error.length;`,
+                `    });`,
+                `}`,
+            ].join('\n');
+        }
+        case 'intersection':
+        case 'object': {
+            const result =
+                astNode.arguments?.map((node) =>
+                    generateBodyCode({
+                        astNode: node,
+                        firstName,
+                        nameStack: [...newNameStack],
+                        propertyChainStack: [...newPropertyChainStack],
+                    }),
+                ) ?? [];
 
-            return result?.join('\n') ?? '';
+            const objectCondition = [
+                `if (${getName(nameStack, firstName)} === null ||`,
+                `(typeof ${getName(nameStack, firstName)} !== "object" &&`,
+                `typeof ${getName(nameStack, firstName)} !== "function")) {`,
+                `    error.push({`,
+                `        propertyName: '${astNode.name}',`,
+                `        propertyChainTrace: [${wrapQuoteSymbol(
+                    propertyChainStack,
+                )}],`,
+                `        expectedType: 'object',`,
+                `        received: ${getName(nameStack, firstName)},`,
+                `    });`,
+                `} else {`,
+                `    ${result.join('\n')}`,
+                `}`,
+            ].join('\n');
+
+            return objectCondition;
         }
         default: {
             return [
@@ -208,12 +254,18 @@ const getConditions = ({
                 ].join('\n'),
             ];
         }
-        case 'intersection': {
-            // TODO
-        }
         case 'tuple': {
             // TODO
+            return astNode.arguments!.flatMap((node, index) => {
+                return getConditions({
+                    astNode: node,
+                    firstName: `elem[${index}]`,
+                    nameStack: [...nameStack],
+                    propertyChainStack: [...propertyChainStack],
+                });
+            });
         }
+        case 'intersection':
         case 'object': {
             return astNode.arguments!.flatMap((node) =>
                 getConditions({
