@@ -131,11 +131,24 @@ export const generateBodyCode = ({
             ].join('\n');
         }
         case 'tuple': {
-            // TODO
-            const tupleLength = astNode.arguments?.length ?? 0;
-            // const conditions = Array(tupleLength).map((_, index) => {
-            //     return [`if (${getName([...newNameStack], namePrefix)}[${index}] !== ${}) {`]
-            // });
+            // TODO: tuple with objects should be considered
+            // [condition, propertyName, expectedType]
+            const conditions: [string, string, string][] =
+                astNode.arguments?.map((tupleElement, index) => {
+                    const condition = getConditions({
+                        astNode: tupleElement,
+                        nameStack: [...nameStack, `${astNode.name}[${index}]`],
+                        propertyChainStack: [
+                            ...propertyChainStack,
+                            `${astNode.name}[${index}]`,
+                        ],
+                    });
+                    return [
+                        condition.join(' &&\n'),
+                        `${astNode.name}[${index}]`,
+                        tupleElement.type,
+                    ];
+                }) ?? [];
 
             return [
                 `if (!Array.isArray(${getName({
@@ -156,24 +169,26 @@ export const generateBodyCode = ({
                 })},`,
                 `    });`,
                 `} else {`,
-                `    ${getName({
-                    nameStack: [...newNameStack],
-                    namePrefix,
-                    namePostfix,
-                })}.find((elem) => {`,
-                `       const prevErrorLen = error.length;`,
-                `       ${astNode.arguments
-                    ?.map((node, index) => {
-                        return generateBodyCode({
-                            astNode: node,
-                            namePrefix: `elem[${index}]`,
-                            nameStack: [],
-                            propertyChainStack: [...newPropertyChainStack],
-                        });
+                `       ${conditions
+                    .map(([condition, propertyName, expectedType]) => {
+                        return [
+                            `if (${condition}) {`,
+                            `    error.push({`,
+                            `        propertyName: '${propertyName}',`,
+                            `        propertyChainTrace: [${wrapQuoteSymbol(
+                                propertyChainStack,
+                            )}],`,
+                            `        expectedType: '${expectedType}',`,
+                            `        received: ${getName({
+                                nameStack,
+                                namePrefix,
+                                namePostfix,
+                            })},`,
+                            `    });`,
+                            `}`,
+                        ].join('\n');
                     })
                     .join('\n')}`,
-                `       return prevErrorLen !== error.length;`,
-                `    });`,
                 `}`,
             ].join('\n');
         }
@@ -277,6 +292,7 @@ const getConditions = ({
     astNode,
     namePrefix,
     nameStack,
+    namePostfix,
     propertyChainStack,
 }: GenerateBodyCode): string[] => {
     switch (astNode.type) {
@@ -289,15 +305,18 @@ const getConditions = ({
                 return getConditions({
                     astNode: unionElemNode,
                     namePrefix,
+                    namePostfix,
                     nameStack: [...nameStack],
                     propertyChainStack: [...propertyChainStack],
                 });
             });
         }
+        case 'tuple':
         case 'array': {
             const statement = generateBodyCode({
                 astNode,
                 namePrefix,
+                namePostfix,
                 nameStack: [...nameStack],
                 propertyChainStack: [...propertyChainStack],
             });
@@ -311,30 +330,27 @@ const getConditions = ({
                 ].join('\n'),
             ];
         }
-        case 'tuple': {
-            // TODO
-            return astNode.arguments!.flatMap((node, index) => {
-                return getConditions({
-                    astNode: node,
-                    namePrefix: `elem[${index}]`,
-                    nameStack: [...nameStack],
-                    propertyChainStack: [...propertyChainStack],
-                });
-            });
-        }
         case 'intersection':
         case 'object': {
             return astNode.arguments!.flatMap((node) =>
                 getConditions({
                     astNode: node,
                     namePrefix,
+                    namePostfix,
                     nameStack: [...nameStack],
                     propertyChainStack: [...propertyChainStack],
                 }),
             );
         }
         default: {
-            return [getConditionStatement({ astNode, nameStack, namePrefix })];
+            return [
+                getConditionStatement({
+                    astNode,
+                    nameStack,
+                    namePrefix,
+                    namePostfix,
+                }),
+            ];
         }
     }
 };
