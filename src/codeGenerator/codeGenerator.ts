@@ -58,6 +58,7 @@ export const codeGenerator = async ({
 
     outFile.addStatements(code);
     outFile.fixMissingImports();
+    outFile.insertStatements(0, '/* eslint-disable */');
     outFile.formatText();
 
     await outFile.save();
