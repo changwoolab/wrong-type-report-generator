@@ -3,7 +3,6 @@ import { AstNode } from '../reporterAst';
 export type GenerateBodyCode = {
     astNode: AstNode;
     namePrefix?: string; // prefix of property chain
-    namePostfix?: string;
     nameStack: string[]; // stack for property name -> ${namePrefix}.${namestack}
     propertyChainStack: string[]; // stack for property chain
     root?: boolean;
@@ -16,7 +15,6 @@ export const generateBodyCode = ({
     astNode,
     nameStack,
     namePrefix,
-    namePostfix,
     propertyChainStack,
     root,
 }: GenerateBodyCode): string => {
@@ -59,7 +57,6 @@ export const generateBodyCode = ({
         // Enum is considered as union
         case 'enum':
         case 'union': {
-            // TODO: union with objects should be considered
             const conditions = getConditions({
                 astNode,
                 nameStack: [...newNameStack],
@@ -81,7 +78,6 @@ export const generateBodyCode = ({
                 `        received: ${getName({
                     nameStack: [...newNameStack],
                     namePrefix,
-                    namePostfix,
                 })},`,
                 `    });`,
                 `}`,
@@ -103,7 +99,6 @@ export const generateBodyCode = ({
                 `if (!Array.isArray(${getName({
                     nameStack: [...newNameStack],
                     namePrefix,
-                    namePostfix,
                 })})) {`,
                 `    error.push({`,
                 `        propertyName: '${astNode.name}',`,
@@ -114,14 +109,12 @@ export const generateBodyCode = ({
                 `        received: ${getName({
                     nameStack,
                     namePrefix,
-                    namePostfix,
                 })},`,
                 `    });`,
                 `} else {`,
                 `    ${getName({
                     nameStack: [...newNameStack],
                     namePrefix,
-                    namePostfix,
                 })}.find((elem) => {`,
                 `       const prevErrorLen = error.length;`,
                 `       ${statement}`,
@@ -153,7 +146,6 @@ export const generateBodyCode = ({
                 `if (!Array.isArray(${getName({
                     nameStack: [...newNameStack],
                     namePrefix,
-                    namePostfix,
                 })})) {`,
                 `    error.push({`,
                 `        propertyName: '${astNode.name}',`,
@@ -164,7 +156,6 @@ export const generateBodyCode = ({
                 `        received: ${getName({
                     nameStack,
                     namePrefix,
-                    namePostfix,
                 })},`,
                 `    });`,
                 `} else {`,
@@ -181,7 +172,6 @@ export const generateBodyCode = ({
                             `        received: ${getName({
                                 nameStack,
                                 namePrefix,
-                                namePostfix,
                             })},`,
                             `    });`,
                             `}`,
@@ -207,17 +197,14 @@ export const generateBodyCode = ({
                 `if (${getName({
                     nameStack,
                     namePrefix,
-                    namePostfix,
                 })} === null ||`,
                 `(typeof ${getName({
                     nameStack,
                     namePrefix,
-                    namePostfix,
                 })} !== "object" &&`,
                 `typeof ${getName({
                     nameStack,
                     namePrefix,
-                    namePostfix,
                 })} !== "function")) {`,
                 `    error.push({`,
                 `        propertyName: '${astNode.name}',`,
@@ -228,7 +215,6 @@ export const generateBodyCode = ({
                 `        received: ${getName({
                     nameStack,
                     namePrefix,
-                    namePostfix,
                 })},`,
                 `    });`,
                 `} else {`,
@@ -254,7 +240,6 @@ export const generateBodyCode = ({
                 `        received: ${getName({
                     nameStack,
                     namePrefix,
-                    namePostfix,
                 })},`,
                 `    });`,
                 `}`,
@@ -275,23 +260,21 @@ const propertyChainDot = (nameStack: string[]) =>
 
 const getName = ({
     nameStack,
-    namePostfix,
     namePrefix,
 }: {
     nameStack: string[];
     namePrefix?: string;
-    namePostfix?: string;
 }) => {
     return namePrefix
-        ? `${namePrefix}${propertyChainDot(nameStack)}${namePostfix ?? ''}`
-        : `typedValue${propertyChainDot(nameStack)}${namePostfix ?? ''}`;
+        ? `${namePrefix}${propertyChainDot(nameStack)}`
+        : `typedValue${propertyChainDot(nameStack)}`;
 };
 
 const getConditions = ({
     astNode,
     namePrefix,
     nameStack,
-    namePostfix,
+
     propertyChainStack,
 }: GenerateBodyCode): string[] => {
     switch (astNode.type) {
@@ -304,7 +287,7 @@ const getConditions = ({
                 return getConditions({
                     astNode: unionElemNode,
                     namePrefix,
-                    namePostfix,
+
                     nameStack: [...nameStack],
                     propertyChainStack: [...propertyChainStack],
                 });
@@ -317,7 +300,7 @@ const getConditions = ({
             const statement = generateBodyCode({
                 astNode,
                 namePrefix,
-                namePostfix,
+
                 nameStack: [...nameStack],
                 propertyChainStack: [...propertyChainStack],
             });
@@ -337,7 +320,6 @@ const getConditions = ({
                     astNode,
                     nameStack,
                     namePrefix,
-                    namePostfix,
                 }),
             ];
         }
@@ -348,12 +330,10 @@ const getConditionStatement = ({
     astNode,
     nameStack,
     namePrefix,
-    namePostfix,
 }: {
     astNode: AstNode;
     nameStack: string[];
     namePrefix?: string;
-    namePostfix?: string;
 }) => {
     if (
         // imported value should not be used with Quote symbols ('').
@@ -362,18 +342,12 @@ const getConditionStatement = ({
         astNode.type === 'undefined' ||
         astNode.type === 'null'
     ) {
-        return `${getName({ nameStack, namePrefix, namePostfix })} !== ${
-            astNode.type
-        }`;
+        return `${getName({ nameStack, namePrefix })} !== ${astNode.type}`;
     }
 
     if (astNode.type.startsWith(`\"`) || astNode.type.startsWith(`\'`)) {
-        return `${getName({ nameStack, namePrefix, namePostfix })} !== ${
-            astNode.type
-        }`;
+        return `${getName({ nameStack, namePrefix })} !== ${astNode.type}`;
     }
 
-    return `typeof ${getName({ nameStack, namePrefix, namePostfix })} !== '${
-        astNode.type
-    }'`;
+    return `typeof ${getName({ nameStack, namePrefix })} !== '${astNode.type}'`;
 };
