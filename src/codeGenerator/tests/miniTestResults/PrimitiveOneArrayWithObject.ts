@@ -3,7 +3,7 @@ import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator
 
 export const validatePrimitiveOneArrayWithObject = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as PrimitiveOneArrayWithObject;
-    const error = [];
+    const error: GeneratedWrongTypeErrorReport = [];
     if (!Array.isArray(typedValue)) {
         error.push({
             propertyName: 'PrimitiveOneArrayWithObject',

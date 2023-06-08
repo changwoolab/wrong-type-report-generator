@@ -3,7 +3,7 @@ import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator
 
 export const validateIntersection = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as Intersection;
-    const error = [];
+    const error: GeneratedWrongTypeErrorReport = [];
     if (typedValue === null ||
         (typeof typedValue !== "object" &&
             typeof typedValue !== "function")) {

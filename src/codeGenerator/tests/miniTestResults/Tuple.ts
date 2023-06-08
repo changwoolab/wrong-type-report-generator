@@ -3,7 +3,7 @@ import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator
 
 export const validateTuple = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as Tuple;
-    const error = [];
+    const error: GeneratedWrongTypeErrorReport = [];
     if (typedValue === null ||
         (typeof typedValue !== "object" &&
             typeof typedValue !== "function")) {

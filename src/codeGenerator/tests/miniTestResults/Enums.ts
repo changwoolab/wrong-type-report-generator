@@ -2,7 +2,7 @@ import { Enums } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 export const validateEnums = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as Enums;
-    const error = [];
+    const error: GeneratedWrongTypeErrorReport = [];
     if (typedValue !== Enums.test1 &&
         typedValue !== Enums.test2) {
         error.push({
