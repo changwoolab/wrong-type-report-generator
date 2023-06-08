@@ -6,6 +6,13 @@
 
 ### 3. Typeguard Generator AST -> [Code Generator] -> Typeguard Code
 
-## Why using Transformer? You may use only typescript AST.
+### Why using Transformer? You may use only typescript AST.
 
 Just for fun :)
+
+# TODO
+
+-   [] class validator
+-   [] report sender
+-   [] duplicated property error optimization
+-   [] performance optimization
