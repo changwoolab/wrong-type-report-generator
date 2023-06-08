@@ -102,9 +102,9 @@ export const generateBodyCode = ({
                 })})) {`,
                 `    error.push({`,
                 `        propertyName: '${astNode.name}',`,
-                `        propertyChainTrace: [${wrapQuoteSymbol(
+                `        propertyChainTrace: ${wrapQuoteSymbol(
                     propertyChainStack,
-                )}],`,
+                )},`,
                 `        expectedType: 'array',`,
                 `        received: ${getName({
                     nameStack,

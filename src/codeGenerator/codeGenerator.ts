@@ -43,7 +43,7 @@ export const codeGenerator = async ({
 
     // TODO: ADD TYPES
     const code = [
-        `export const validate${pascalCasedName} = (value: unknown) => {`,
+        `export const validate${pascalCasedName} = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {`,
         `    const typedValue = value as ${ast.name};`,
         `    const error = [];`,
         `    ${generateBodyCode({
