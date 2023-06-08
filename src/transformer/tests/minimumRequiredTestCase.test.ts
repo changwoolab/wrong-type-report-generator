@@ -611,12 +611,12 @@ describe('transformer - Minimum requirements', () => {
                 {
                     name: 'test1',
                     type: 'tuple',
-                    argument: [{ name: 'tupleElement', type: 'number' }],
+                    arguments: [{ name: 'tupleElement', type: 'number' }],
                 },
                 {
                     name: 'test2',
                     type: 'tuple',
-                    argument: [
+                    arguments: [
                         { name: 'tupleElement', type: 'number' },
                         {
                             name: 'tupleElement',
@@ -1044,7 +1044,7 @@ describe('transformer - Minimum requirements', () => {
                 {
                     name: 'test9',
                     type: 'tuple',
-                    argument: [
+                    arguments: [
                         {
                             name: 'tupleElement',
                             type: 'string',
