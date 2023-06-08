@@ -74,7 +74,7 @@ export const generateBodyCode = ({
                 `        propertyChainTrace: [${wrapQuoteSymbol(
                     propertyChainStack,
                 )}],`,
-                `        expectedType: [${wrapQuoteSymbol(childrenTypes)}],`,
+                `        expectedType: ${wrapQuoteSymbol(childrenTypes)},`,
                 `        received: ${getName({
                     nameStack: [...newNameStack],
                     namePrefix,
@@ -102,9 +102,9 @@ export const generateBodyCode = ({
                 })})) {`,
                 `    error.push({`,
                 `        propertyName: '${astNode.name}',`,
-                `        propertyChainTrace: ${wrapQuoteSymbol(
+                `        propertyChainTrace: [${wrapQuoteSymbol(
                     propertyChainStack,
-                )},`,
+                )}],`,
                 `        expectedType: 'array',`,
                 `        received: ${getName({
                     nameStack,
