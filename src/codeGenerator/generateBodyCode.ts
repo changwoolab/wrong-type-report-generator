@@ -181,6 +181,7 @@ export const generateBodyCode = ({
                 `}`,
             ].join('\n');
         }
+        // TODO: remove duplicated property error in intersection
         case 'intersection':
         case 'object': {
             const result =
