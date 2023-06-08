@@ -12,7 +12,7 @@ Just for fun :)
 
 # TODO
 
--   [] class validator
--   [] report sender
--   [] duplicated property error optimization
--   [] performance optimization
+-   [ ] class validator
+-   [ ] report sender
+-   [ ] duplicated property error optimization
+-   [ ] performance optimization
