@@ -1,6 +1,7 @@
 import { PrimitiveIntersection } from "../../../../tests/cases/mini/miniTest";
+import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
-export const validatePrimitiveIntersection = (value: unknown) => {
+export const validatePrimitiveIntersection = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as PrimitiveIntersection;
     const error = [];
     if (typedValue === null ||

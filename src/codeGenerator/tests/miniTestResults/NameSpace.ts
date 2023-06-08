@@ -1,6 +1,7 @@
 import { NameSpace } from "../../../../tests/cases/mini/miniTest";
+import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
-export const validateNameSpace = (value: unknown) => {
+export const validateNameSpace = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as NameSpace;
     const error = [];
     if (typedValue === null ||

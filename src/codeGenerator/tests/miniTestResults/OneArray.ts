@@ -1,6 +1,7 @@
 import { OneArray } from "../../../../tests/cases/mini/miniTest";
+import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
-export const validateOneArray = (value: unknown) => {
+export const validateOneArray = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as OneArray;
     const error = [];
     if (typedValue === null ||

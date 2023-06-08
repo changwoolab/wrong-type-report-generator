@@ -1,6 +1,7 @@
 import { ArraysWithObject } from "../../../../tests/cases/mini/miniTest";
+import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
-export const validateArraysWithObject = (value: unknown) => {
+export const validateArraysWithObject = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as ArraysWithObject;
     const error = [];
     if (typedValue === null ||

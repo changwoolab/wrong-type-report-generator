@@ -1,6 +1,7 @@
 import { WithGenerics } from "../../../../tests/cases/mini/miniTest";
+import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
-export const validateWithGenerics = (value: unknown) => {
+export const validateWithGenerics = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as WithGenerics;
     const error = [];
     if (typedValue === null ||
@@ -40,7 +41,7 @@ export const validateWithGenerics = (value: unknown) => {
             error.push({
                 propertyName: 't1',
                 propertyChainTrace: [],
-                expectedType: ['null | object'],
+                expectedType: 'null | object',
                 received: typedValue.t1,
             });
         }

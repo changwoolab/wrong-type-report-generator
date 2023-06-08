@@ -1,6 +1,7 @@
 import { Union } from "../../../../tests/cases/mini/miniTest";
+import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
-export const validateUnion = (value: unknown) => {
+export const validateUnion = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as Union;
     const error = [];
     if (typedValue === null ||
@@ -18,7 +19,7 @@ export const validateUnion = (value: unknown) => {
             error.push({
                 propertyName: 't1',
                 propertyChainTrace: [],
-                expectedType: ['"asdf" | "qwer"'],
+                expectedType: '"asdf" | "qwer"',
                 received: typedValue.t1,
             });
         }
@@ -27,7 +28,7 @@ export const validateUnion = (value: unknown) => {
             error.push({
                 propertyName: 't2',
                 propertyChainTrace: [],
-                expectedType: ['string | number'],
+                expectedType: 'string | number',
                 received: typedValue.t2,
             });
         }
@@ -36,7 +37,7 @@ export const validateUnion = (value: unknown) => {
             error.push({
                 propertyName: 't3',
                 propertyChainTrace: [],
-                expectedType: ['number | "sadf"'],
+                expectedType: 'number | "sadf"',
                 received: typedValue.t3,
             });
         }
@@ -69,7 +70,7 @@ export const validateUnion = (value: unknown) => {
             error.push({
                 propertyName: 't4',
                 propertyChainTrace: [],
-                expectedType: ['"asdf" | array'],
+                expectedType: '"asdf" | array',
                 received: typedValue.t4,
             });
         }

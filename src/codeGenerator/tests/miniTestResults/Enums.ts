@@ -1,5 +1,6 @@
 import { Enums } from "../../../../tests/cases/mini/miniTest";
-export const validateEnums = (value: unknown) => {
+import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
+export const validateEnums = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as Enums;
     const error = [];
     if (typedValue !== Enums.test1 &&
@@ -7,7 +8,7 @@ export const validateEnums = (value: unknown) => {
         error.push({
             propertyName: 'Enums',
             propertyChainTrace: [],
-            expectedType: ['Enums.test1 | Enums.test2'],
+            expectedType: 'Enums.test1 | Enums.test2',
             received: typedValue,
         });
     }

@@ -1,6 +1,7 @@
 import { PrimitiveUnionWithObject } from "../../../../tests/cases/mini/miniTest";
+import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
-export const validatePrimitiveUnionWithObject = (value: unknown) => {
+export const validatePrimitiveUnionWithObject = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as PrimitiveUnionWithObject;
     const error = [];
     if ((() => {
@@ -52,7 +53,7 @@ export const validatePrimitiveUnionWithObject = (value: unknown) => {
         error.push({
             propertyName: 'PrimitiveUnionWithObject',
             propertyChainTrace: [],
-            expectedType: ['object | object'],
+            expectedType: 'object | object',
             received: typedValue,
         });
     }

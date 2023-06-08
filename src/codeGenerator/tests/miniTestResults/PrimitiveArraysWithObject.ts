@@ -1,6 +1,7 @@
 import { PrimitiveArraysWithObject } from "../../../../tests/cases/mini/miniTest";
+import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
-export const validatePrimitiveArraysWithObject = (value: unknown) => {
+export const validatePrimitiveArraysWithObject = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as PrimitiveArraysWithObject;
     const error = [];
     if (!Array.isArray(typedValue)) {

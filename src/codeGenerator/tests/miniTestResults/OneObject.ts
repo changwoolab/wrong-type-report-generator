@@ -1,6 +1,7 @@
 import { OneObject } from "../../../../tests/cases/mini/miniTest";
+import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
-export const validateOneObject = (value: unknown) => {
+export const validateOneObject = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as OneObject;
     const error = [];
     if (typedValue === null ||

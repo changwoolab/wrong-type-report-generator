@@ -1,6 +1,7 @@
 import { PrimitiveUnion } from "../../../../tests/cases/mini/miniTest";
+import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
-export const validatePrimitiveUnion = (value: unknown) => {
+export const validatePrimitiveUnion = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as PrimitiveUnion;
     const error = [];
     if (typeof typedValue !== 'number' &&
@@ -9,7 +10,7 @@ export const validatePrimitiveUnion = (value: unknown) => {
         error.push({
             propertyName: 'PrimitiveUnion',
             propertyChainTrace: [],
-            expectedType: ['number | "asdf" | "qwer"'],
+            expectedType: 'number | "asdf" | "qwer"',
             received: typedValue,
         });
     }

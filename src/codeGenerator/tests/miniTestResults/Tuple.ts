@@ -1,6 +1,7 @@
 import { Tuple } from "../../../../tests/cases/mini/miniTest";
+import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
-export const validateTuple = (value: unknown) => {
+export const validateTuple = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as Tuple;
     const error = [];
     if (typedValue === null ||
