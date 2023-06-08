@@ -28,7 +28,7 @@ export const validateNameSpace = (value: unknown) => {
                     propertyName: 't1',
                     propertyChainTrace: ['t1'],
                     expectedType: 'number',
-                    received: typedValue.t1,
+                    received: typedValue.t1.t1,
                 });
             }
         }

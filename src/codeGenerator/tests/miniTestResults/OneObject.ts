@@ -18,7 +18,7 @@ export const validateOneObject = (value: unknown) => {
                 propertyName: 't1',
                 propertyChainTrace: [],
                 expectedType: 'number',
-                received: typedValue,
+                received: typedValue.t1,
             });
         }
     }

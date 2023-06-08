@@ -38,7 +38,7 @@ export const validateArraysWithObject = (value: unknown) => {
                                 propertyName: 't2',
                                 propertyChainTrace: ['t1'],
                                 expectedType: 'number',
-                                received: elem,
+                                received: elem.t2,
                             });
                         }
                         return prevErrorLen !== error.length;

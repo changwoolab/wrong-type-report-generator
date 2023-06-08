@@ -26,7 +26,7 @@ export const validateTuple = (value: unknown) => {
                     propertyName: 'test1[0]',
                     propertyChainTrace: [],
                     expectedType: 'number',
-                    received: typedValue,
+                    received: typedValue.test1,
                 });
             }
         }
@@ -43,7 +43,7 @@ export const validateTuple = (value: unknown) => {
                     propertyName: 'test2[0]',
                     propertyChainTrace: [],
                     expectedType: 'number',
-                    received: typedValue,
+                    received: typedValue.test2,
                 });
             }
             if (typeof typedValue.test2[1] !== 'string') {
@@ -51,7 +51,7 @@ export const validateTuple = (value: unknown) => {
                     propertyName: 'test2[1]',
                     propertyChainTrace: [],
                     expectedType: 'string',
-                    received: typedValue,
+                    received: typedValue.test2,
                 });
             }
         }
@@ -80,7 +80,7 @@ export const validateTuple = (value: unknown) => {
                             propertyName: 't1',
                             propertyChainTrace: ['test3[0]'],
                             expectedType: 'number',
-                            received: typedValue.test3[0],
+                            received: typedValue.test3[0].t1,
                         });
                     }
                 }
@@ -90,7 +90,7 @@ export const validateTuple = (value: unknown) => {
                     propertyName: 'test3[0]',
                     propertyChainTrace: [],
                     expectedType: 'object',
-                    received: typedValue,
+                    received: typedValue.test3,
                 });
             }
         }

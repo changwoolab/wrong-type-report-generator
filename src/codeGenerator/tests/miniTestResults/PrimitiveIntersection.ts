@@ -28,7 +28,7 @@ export const validatePrimitiveIntersection = (value: unknown) => {
                     propertyName: 't1',
                     propertyChainTrace: [],
                     expectedType: 'string',
-                    received: typedValue,
+                    received: typedValue.t1,
                 });
             }
         }
@@ -47,7 +47,7 @@ export const validatePrimitiveIntersection = (value: unknown) => {
                     propertyName: 't2',
                     propertyChainTrace: [],
                     expectedType: 'number',
-                    received: typedValue,
+                    received: typedValue.t2,
                 });
             }
         }

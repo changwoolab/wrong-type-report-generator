@@ -170,7 +170,7 @@ export const generateBodyCode = ({
                             )}],`,
                             `        expectedType: '${expectedType}',`,
                             `        received: ${getName({
-                                nameStack,
+                                nameStack: newNameStack,
                                 namePrefix,
                             })},`,
                             `    });`,
@@ -242,7 +242,7 @@ export const generateBodyCode = ({
                 )}],`,
                 `        expectedType: '${astNode.type}',`,
                 `        received: ${getName({
-                    nameStack,
+                    nameStack: newNameStack,
                     namePrefix,
                 })},`,
                 `    });`,
@@ -278,7 +278,6 @@ const getConditions = ({
     astNode,
     namePrefix,
     nameStack,
-
     propertyChainStack,
 }: GenerateBodyCode): string[] => {
     switch (astNode.type) {
@@ -291,7 +290,6 @@ const getConditions = ({
                 return getConditions({
                     astNode: unionElemNode,
                     namePrefix,
-
                     nameStack: [...nameStack],
                     propertyChainStack: [...propertyChainStack],
                 });
@@ -304,7 +302,6 @@ const getConditions = ({
             const statement = generateBodyCode({
                 astNode,
                 namePrefix,
-
                 nameStack: [...nameStack],
                 propertyChainStack: [...propertyChainStack],
             });

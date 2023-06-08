@@ -18,7 +18,7 @@ export const validatePrimitiveOneArrayWithObject = (value: unknown) => {
                     propertyName: 't1',
                     propertyChainTrace: [],
                     expectedType: 'number',
-                    received: elem,
+                    received: elem.t1,
                 });
             }
             return prevErrorLen !== error.length;

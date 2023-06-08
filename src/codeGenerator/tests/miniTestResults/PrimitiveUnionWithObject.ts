@@ -20,7 +20,7 @@ export const validatePrimitiveUnionWithObject = (value: unknown) => {
                     propertyName: 't1',
                     propertyChainTrace: [],
                     expectedType: 'number',
-                    received: typedValue,
+                    received: typedValue.t1,
                 });
             }
         }
@@ -43,7 +43,7 @@ export const validatePrimitiveUnionWithObject = (value: unknown) => {
                         propertyName: 't2',
                         propertyChainTrace: [],
                         expectedType: 'string',
-                        received: typedValue,
+                        received: typedValue.t2,
                     });
                 }
             }
