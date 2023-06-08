@@ -14,5 +14,6 @@ Just for fun :)
 
 -   [ ] class validator
 -   [ ] report sender
+-   [ ] code generator tests
 -   [ ] duplicated property error optimization
 -   [ ] performance optimization
