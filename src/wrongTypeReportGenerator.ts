@@ -4,7 +4,7 @@ import { isTypeDeclaration, TypeDeclaration } from './types';
 import { codeGenerator } from './codeGenerator/codeGenerator';
 import path from 'path';
 
-export const generateOneTypeGuard = async ({
+export const generateOneWrongTypeReport = async ({
     filePath,
     project,
     outDirPath,
@@ -57,7 +57,7 @@ export const generateOneTypeGuard = async ({
     );
 };
 
-export const generateTypeGuard = async ({
+export const generateWrongTypeReport = async ({
     filePaths,
     project,
     outDirPath,
@@ -70,7 +70,7 @@ export const generateTypeGuard = async ({
 }) => {
     await Promise.all(
         filePaths.map((filePath) => {
-            return generateOneTypeGuard({
+            return generateOneWrongTypeReport({
                 filePath,
                 project,
                 outDirPath,
@@ -80,4 +80,7 @@ export const generateTypeGuard = async ({
     );
 };
 
-generateOneTypeGuard({ filePath: 'test/interface.ts', project: new Project() });
+generateOneWrongTypeReport({
+    filePath: path.resolve('tests/cases/mini/miniTest.ts'),
+    project: new Project({ tsConfigFilePath: 'tsconfig.json' }),
+});
