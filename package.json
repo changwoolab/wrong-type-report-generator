@@ -1,8 +1,8 @@
 {
     "name": "wrong-type-report-generator",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "description": "Automatically generate runtime wrong type report from typescript type definition",
-    "main": "index.js",
+    "main": "dist/index.js",
     "scripts": {
         "test": "jest",
         "publish": "rm -rf dist && tsc -p tsconfig.prod.json && npm publish"
