@@ -225,6 +225,9 @@ export const generateBodyCode = ({
 
             return objectCondition;
         }
+        case 'class': {
+            // TODO
+        }
         default: {
             return [
                 `if (${getConditionStatement({
