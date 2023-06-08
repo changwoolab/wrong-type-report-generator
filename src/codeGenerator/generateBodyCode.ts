@@ -327,6 +327,16 @@ const getConditions = ({
     }
 };
 
+const primitives = [
+    'string',
+    'number',
+    'bigint',
+    'boolean',
+    'symbol',
+    'undefined',
+    'null',
+];
+
 const getConditionStatement = ({
     astNode,
     nameStack,
@@ -346,9 +356,11 @@ const getConditionStatement = ({
         return `${getName({ nameStack, namePrefix })} !== ${astNode.type}`;
     }
 
-    if (astNode.type.startsWith(`\"`) || astNode.type.startsWith(`\'`)) {
-        return `${getName({ nameStack, namePrefix })} !== ${astNode.type}`;
+    if (primitives.includes(astNode.type)) {
+        return `typeof ${getName({ nameStack, namePrefix })} !== '${
+            astNode.type
+        }'`;
     }
 
-    return `typeof ${getName({ nameStack, namePrefix })} !== '${astNode.type}'`;
+    return `${getName({ nameStack, namePrefix })} !== ${astNode.type}`;
 };
