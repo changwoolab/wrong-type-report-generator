@@ -1,4 +1,5 @@
 /* eslint-disable */
+// @ts-nocheck
 import { WithGenerics } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 

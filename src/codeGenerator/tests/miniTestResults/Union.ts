@@ -1,4 +1,5 @@
 /* eslint-disable */
+// @ts-nocheck
 import { Union } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
