@@ -25,7 +25,7 @@ export const parseClass = ({ name, type, addToDependencyMap }: ParseNode) => {
     const declaration = symbol.getDeclarations()[0];
 
     if (!Node.isClassDeclaration(declaration)) {
-        throw new TypeError('Extected declaration to be an class declaration');
+        throw new TypeError('Expected declaration to be an class declaration');
     }
 
     // parse base

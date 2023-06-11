@@ -24,7 +24,7 @@ export const parseObject = ({ name, type, addToDependencyMap }: ParseNode) => {
         const declaration = declarations[0];
         if (!Node.isInterfaceDeclaration(declaration)) {
             throw new TypeError(
-                'Extected declaration to be an interface declaration',
+                'Expected declaration to be an interface declaration',
             );
         }
 
