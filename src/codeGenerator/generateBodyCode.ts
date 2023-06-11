@@ -194,6 +194,11 @@ export const generateBodyCode = ({
                 `}`,
             ].join('\n');
         }
+        case 'class': {
+            return `${getName({ nameStack, namePrefix })} instanceof ${
+                astNode.arguments![0].type
+            }`;
+        }
         // TODO: remove duplicated property error in intersection
         case 'intersection':
         case 'object': {
