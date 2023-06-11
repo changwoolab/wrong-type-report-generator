@@ -6,6 +6,7 @@ import {
 } from 'ts-morph';
 import { AstRootNode, Dependencies } from '../reporterAst';
 import { generateBodyCode } from './generateBodyCode';
+import { makeAsync } from '../utils';
 
 export type CodeGenerator = {
     astRootNode: AstRootNode;
@@ -25,6 +26,7 @@ export const codeGenerator = async ({
     outFilePath,
     inputSourceFile,
 }: CodeGenerator) => {
+    await makeAsync();
     // Generate outfile
     const outFile = project.createSourceFile(outFilePath, undefined, {
         overwrite: true,

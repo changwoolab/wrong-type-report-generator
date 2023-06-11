@@ -77,3 +77,7 @@ export const createAddToDependencyMap = () => {
         },
     };
 };
+
+export const makeAsync = async () => {
+    return new Promise((resolve) => setTimeout(resolve, 0));
+};

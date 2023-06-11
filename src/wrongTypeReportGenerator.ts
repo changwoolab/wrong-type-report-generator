@@ -3,6 +3,7 @@ import { transformer } from './transformer/transformer';
 import { isTypeDeclaration, TypeDeclaration } from './types';
 import { codeGenerator } from './codeGenerator/codeGenerator';
 import path from 'path';
+import { makeAsync } from './utils';
 
 export const generateOneWrongTypeReport = async ({
     filePath,
@@ -15,6 +16,7 @@ export const generateOneWrongTypeReport = async ({
     outDirPath?: string;
     onlyExport?: boolean;
 }) => {
+    await makeAsync();
     if (!outDirPath) {
         outDirPath = path.dirname(filePath);
     }
@@ -68,6 +70,7 @@ export const generateWrongTypeReport = async ({
     outDirPath?: string;
     onlyExport?: boolean;
 }) => {
+    await makeAsync();
     await Promise.all(
         filePaths.map((filePath) => {
             return generateOneWrongTypeReport({
