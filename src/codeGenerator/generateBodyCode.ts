@@ -332,17 +332,21 @@ const getConditions = ({
                 `})()`,
             ].join('\n');
 
-            return [
-                objectCondition,
-                ...nonObjectElements.flatMap((unionElemNode) => {
+            const unionConditions = nonObjectElements.flatMap(
+                (unionElemNode) => {
                     return getConditions({
                         astNode: unionElemNode,
                         namePrefix,
                         nameStack: [...nameStack],
                         propertyChainStack: [...propertyChainStack],
                     });
-                }),
-            ];
+                },
+            );
+            if (objectConditions.length > 0) {
+                unionConditions.unshift(objectCondition);
+            }
+
+            return unionConditions;
         }
         case 'tuple':
         case 'array':

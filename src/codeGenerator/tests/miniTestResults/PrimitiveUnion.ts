@@ -5,13 +5,7 @@ import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator
 export const validatePrimitiveUnion = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as PrimitiveUnion;
     const error: GeneratedWrongTypeErrorReport = [];
-    if ((() => {
-        const error: GeneratedWrongTypeErrorReport = [];
-        let errorCnt = 0;
-
-        return errorCnt === 0;
-    })() &&
-        typeof typedValue !== 'number' &&
+    if (typeof typedValue !== 'number' &&
         typedValue !== "asdf" &&
         typedValue !== "qwer") {
         error.push({

@@ -15,13 +15,7 @@ export const validateUnion = (value: unknown): GeneratedWrongTypeErrorReport | u
             received: typedValue,
         });
     } else {
-        if ((() => {
-            const error: GeneratedWrongTypeErrorReport = [];
-            let errorCnt = 0;
-
-            return errorCnt === 0;
-        })() &&
-            typedValue.t1 !== "asdf" &&
+        if (typedValue.t1 !== "asdf" &&
             typedValue.t1 !== "qwer") {
             error.push({
                 propertyName: 't1',
@@ -30,13 +24,7 @@ export const validateUnion = (value: unknown): GeneratedWrongTypeErrorReport | u
                 received: typedValue.t1,
             });
         }
-        if ((() => {
-            const error: GeneratedWrongTypeErrorReport = [];
-            let errorCnt = 0;
-
-            return errorCnt === 0;
-        })() &&
-            typeof typedValue.t2 !== 'string' &&
+        if (typeof typedValue.t2 !== 'string' &&
             typeof typedValue.t2 !== 'number') {
             error.push({
                 propertyName: 't2',
@@ -45,13 +33,7 @@ export const validateUnion = (value: unknown): GeneratedWrongTypeErrorReport | u
                 received: typedValue.t2,
             });
         }
-        if ((() => {
-            const error: GeneratedWrongTypeErrorReport = [];
-            let errorCnt = 0;
-
-            return errorCnt === 0;
-        })() &&
-            typeof typedValue.t3 !== 'number' &&
+        if (typeof typedValue.t3 !== 'number' &&
             typedValue.t3 !== "sadf") {
             error.push({
                 propertyName: 't3',
@@ -60,13 +42,7 @@ export const validateUnion = (value: unknown): GeneratedWrongTypeErrorReport | u
                 received: typedValue.t3,
             });
         }
-        if ((() => {
-            const error: GeneratedWrongTypeErrorReport = [];
-            let errorCnt = 0;
-
-            return errorCnt === 0;
-        })() &&
-            typedValue.t4 !== "asdf" &&
+        if (typedValue.t4 !== "asdf" &&
             (() => {
                 const prevErrorLen = error.length;
                 if (!Array.isArray(typedValue.t4)) {
