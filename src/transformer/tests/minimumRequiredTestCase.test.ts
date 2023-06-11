@@ -721,42 +721,8 @@ describe('transformer - Minimum requirements', () => {
             type: 'class',
             arguments: [
                 {
-                    name: 'test1',
-                    type: 'string',
-                },
-                {
-                    name: 'test2',
-                    type: 'number',
-                },
-                {
-                    name: 'test3',
-                    type: 'object',
-                    arguments: [
-                        {
-                            name: 'int1',
-                            type: 'string',
-                        },
-                        {
-                            name: 'int2',
-                            type: 'union',
-                            arguments: [
-                                {
-                                    name: 'unionElement',
-                                    type: 'null',
-                                },
-                                {
-                                    name: 'unionElement',
-                                    type: 'object',
-                                    arguments: [
-                                        {
-                                            name: 'int3',
-                                            type: 'string',
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                    ],
+                    name: 'classElement',
+                    type: 'TEST11_CLASS',
                 },
             ],
         };
