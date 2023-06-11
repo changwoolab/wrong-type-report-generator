@@ -12,8 +12,7 @@ Just for fun :)
 
 # TODO
 
--   [ ] class validator
--   [ ] report sender
+-   [ ] transform `a.b.c -> a['b']['c']` (to support things like this -> asdf['asdf.asdf'])
 -   [ ] code generator tests
 -   [ ] duplicated property error optimization
 -   [ ] performance optimization
