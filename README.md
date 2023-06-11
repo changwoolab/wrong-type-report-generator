@@ -13,7 +13,7 @@ const files = getFiles();
 
 await generateWrongTypeReport({
     filePaths: files,
-    outDirPath: './output',
+    outDirPath: './generated',
 });
 ```
 
