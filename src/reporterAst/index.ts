@@ -36,7 +36,7 @@ type ToImport = {
 };
 
 /**
- * 어느 소스파일에서 어떤 것을 import해야하는지에 대한 정보
+ * Which to import from which sourcefile
  */
 export type Dependencies = Map<SourceFile, ToImport>;
 
@@ -48,18 +48,17 @@ export interface AstRootNode {
 
 export interface AstNode {
     /**
-     * 컬럼 이름 또는 어떤 컬럼의 부속품 종류 이름
+     * Property name or name of specific type's part (union, object, etc.)
      */
     name: NodeType | string;
 
     /**
-     * 해당 컬럼의 타입
+     * Type of the property
      */
     type: Primitives | Object | Union | string;
 
     /**
-     * 마지막 엣지 노드가 아닌 경우에 가지는 arguments
-     * 또는 유니온 타입의 children들
+     * Children nodes
      */
     arguments?: AstNode[];
 }
