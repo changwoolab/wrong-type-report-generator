@@ -195,9 +195,29 @@ export const generateBodyCode = ({
             ].join('\n');
         }
         case 'class': {
-            return `${getName({ nameStack, namePrefix })} instanceof ${
-                astNode.arguments![0].type
-            }`;
+            // class condition has only one condition
+            const [classCondition] = getConditions({
+                astNode,
+                nameStack: [...newNameStack],
+                namePrefix,
+                propertyChainStack: [...newPropertyChainStack],
+            });
+
+            return [
+                `if (${classCondition}) {`,
+                `    error.push({`,
+                `        propertyName: '${astNode.name}',`,
+                `        propertyChainTrace: [${wrapQuoteSymbol(
+                    propertyChainStack,
+                )}],`,
+                `        expectedType: '${astNode.name}',`,
+                `        received: ${getName({
+                    nameStack,
+                    namePrefix,
+                })},`,
+                `    });`,
+                `}`,
+            ].join('\n');
         }
         // TODO: remove duplicated property error in intersection
         case 'intersection':
@@ -352,6 +372,13 @@ const getConditions = ({
             }
 
             return unionConditions;
+        }
+        case 'class': {
+            return [
+                `!(${getName({ nameStack, namePrefix })} instanceof ${
+                    astNode.arguments![0].type
+                })`,
+            ];
         }
         case 'tuple':
         case 'array':
