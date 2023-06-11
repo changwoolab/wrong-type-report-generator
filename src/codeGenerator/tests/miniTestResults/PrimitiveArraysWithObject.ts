@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { PrimitiveArraysWithObject } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 

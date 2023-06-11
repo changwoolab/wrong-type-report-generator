@@ -1,10 +1,11 @@
+/* eslint-disable */
 import { PrimitiveIntersection } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
 export const validatePrimitiveIntersection = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as PrimitiveIntersection;
     const error: GeneratedWrongTypeErrorReport = [];
-    if (typedValue === null ||
+    if (typedValue == null ||
         (typeof typedValue !== "object" &&
             typeof typedValue !== "function")) {
         error.push({
@@ -14,7 +15,7 @@ export const validatePrimitiveIntersection = (value: unknown): GeneratedWrongTyp
             received: typedValue,
         });
     } else {
-        if (typedValue === null ||
+        if (typedValue == null ||
             (typeof typedValue !== "object" &&
                 typeof typedValue !== "function")) {
             error.push({
@@ -33,7 +34,7 @@ export const validatePrimitiveIntersection = (value: unknown): GeneratedWrongTyp
                 });
             }
         }
-        if (typedValue === null ||
+        if (typedValue == null ||
             (typeof typedValue !== "object" &&
                 typeof typedValue !== "function")) {
             error.push({

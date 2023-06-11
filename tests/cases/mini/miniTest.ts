@@ -62,6 +62,11 @@ export type PrimitiveUnionWithObject =
       }
     | {
           t2: string;
+      }
+    | {
+          t2: string;
+          t3: number;
+          t4: any;
       };
 
 export interface Union {

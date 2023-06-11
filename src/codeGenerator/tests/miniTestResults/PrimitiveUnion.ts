@@ -1,10 +1,17 @@
+/* eslint-disable */
 import { PrimitiveUnion } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
 export const validatePrimitiveUnion = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as PrimitiveUnion;
     const error: GeneratedWrongTypeErrorReport = [];
-    if (typeof typedValue !== 'number' &&
+    if ((() => {
+        const error: GeneratedWrongTypeErrorReport = [];
+        let errorCnt = 0;
+
+        return errorCnt === 0;
+    })() &&
+        typeof typedValue !== 'number' &&
         typedValue !== "asdf" &&
         typedValue !== "qwer") {
         error.push({

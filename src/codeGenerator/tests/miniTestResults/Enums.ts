@@ -1,9 +1,16 @@
+/* eslint-disable */
 import { Enums } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 export const validateEnums = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as Enums;
     const error: GeneratedWrongTypeErrorReport = [];
-    if (typedValue !== Enums.test1 &&
+    if ((() => {
+        const error: GeneratedWrongTypeErrorReport = [];
+        let errorCnt = 0;
+
+        return errorCnt === 0;
+    })() &&
+        typedValue !== Enums.test1 &&
         typedValue !== Enums.test2) {
         error.push({
             propertyName: 'Enums',

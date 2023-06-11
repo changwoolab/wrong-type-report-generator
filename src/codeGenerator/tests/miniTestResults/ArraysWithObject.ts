@@ -1,10 +1,11 @@
+/* eslint-disable */
 import { ArraysWithObject } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
 export const validateArraysWithObject = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as ArraysWithObject;
     const error: GeneratedWrongTypeErrorReport = [];
-    if (typedValue === null ||
+    if (typedValue == null ||
         (typeof typedValue !== "object" &&
             typeof typedValue !== "function")) {
         error.push({

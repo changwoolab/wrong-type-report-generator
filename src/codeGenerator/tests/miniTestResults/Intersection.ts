@@ -1,10 +1,11 @@
+/* eslint-disable */
 import { Intersection } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
 export const validateIntersection = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as Intersection;
     const error: GeneratedWrongTypeErrorReport = [];
-    if (typedValue === null ||
+    if (typedValue == null ||
         (typeof typedValue !== "object" &&
             typeof typedValue !== "function")) {
         error.push({
@@ -14,7 +15,7 @@ export const validateIntersection = (value: unknown): GeneratedWrongTypeErrorRep
             received: typedValue,
         });
     } else {
-        if (typedValue === null ||
+        if (typedValue == null ||
             (typeof typedValue !== "object" &&
                 typeof typedValue !== "function")) {
             error.push({
@@ -24,7 +25,7 @@ export const validateIntersection = (value: unknown): GeneratedWrongTypeErrorRep
                 received: typedValue,
             });
         } else {
-            if (typedValue.t1 === null ||
+            if (typedValue.t1 == null ||
                 (typeof typedValue.t1 !== "object" &&
                     typeof typedValue.t1 !== "function")) {
                 error.push({
@@ -43,7 +44,7 @@ export const validateIntersection = (value: unknown): GeneratedWrongTypeErrorRep
                     });
                 }
             }
-            if (typedValue.t1 === null ||
+            if (typedValue.t1 == null ||
                 (typeof typedValue.t1 !== "object" &&
                     typeof typedValue.t1 !== "function")) {
                 error.push({

@@ -1,10 +1,11 @@
+/* eslint-disable */
 import { WithGenerics } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
 export const validateWithGenerics = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as WithGenerics;
     const error: GeneratedWrongTypeErrorReport = [];
-    if (typedValue === null ||
+    if (typedValue == null ||
         (typeof typedValue !== "object" &&
             typeof typedValue !== "function")) {
         error.push({
@@ -14,10 +15,12 @@ export const validateWithGenerics = (value: unknown): GeneratedWrongTypeErrorRep
             received: typedValue,
         });
     } else {
-        if (typedValue.t1 !== null &&
-            (() => {
+        if ((() => {
+            const error: GeneratedWrongTypeErrorReport = [];
+            let errorCnt = 0;
+            if ((() => {
                 const prevErrorLen = error.length;
-                if (typedValue.t1 === null ||
+                if (typedValue.t1 == null ||
                     (typeof typedValue.t1 !== "object" &&
                         typeof typedValue.t1 !== "function")) {
                     error.push({
@@ -38,6 +41,11 @@ export const validateWithGenerics = (value: unknown): GeneratedWrongTypeErrorRep
                 }
                 return prevErrorLen !== error.length;
             })()) {
+                errorCnt++;
+            }
+            return errorCnt === 1;
+        })() &&
+            typedValue.t1 !== null) {
             error.push({
                 propertyName: 't1',
                 propertyChainTrace: [],

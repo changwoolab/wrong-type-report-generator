@@ -1,10 +1,11 @@
+/* eslint-disable */
 import { UnionWithObject } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
 export const validateUnionWithObject = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as UnionWithObject;
     const error: GeneratedWrongTypeErrorReport = [];
-    if (typedValue === null ||
+    if (typedValue == null ||
         (typeof typedValue !== "object" &&
             typeof typedValue !== "function")) {
         error.push({
@@ -15,31 +16,36 @@ export const validateUnionWithObject = (value: unknown): GeneratedWrongTypeError
         });
     } else {
         if ((() => {
-            const prevErrorLen = error.length;
-            if (typedValue.t1 === null ||
-                (typeof typedValue.t1 !== "object" &&
-                    typeof typedValue.t1 !== "function")) {
-                error.push({
-                    propertyName: 'unionElement',
-                    propertyChainTrace: ['t1'],
-                    expectedType: 'object',
-                    received: typedValue.t1,
-                });
-            } else {
-                if (typeof typedValue.t1.t2 !== 'number') {
-                    error.push({
-                        propertyName: 't2',
-                        propertyChainTrace: ['t1'],
-                        expectedType: 'number',
-                        received: typedValue.t1.t2,
-                    });
-                }
-            }
-            return prevErrorLen !== error.length;
-        })() &&
-            (() => {
+            const error: GeneratedWrongTypeErrorReport = [];
+            let errorCnt = 0;
+            if ((() => {
                 const prevErrorLen = error.length;
-                if (typedValue.t1 === null ||
+                if (typedValue.t1 == null ||
+                    (typeof typedValue.t1 !== "object" &&
+                        typeof typedValue.t1 !== "function")) {
+                    error.push({
+                        propertyName: 'unionElement',
+                        propertyChainTrace: ['t1'],
+                        expectedType: 'object',
+                        received: typedValue.t1,
+                    });
+                } else {
+                    if (typeof typedValue.t1.t2 !== 'number') {
+                        error.push({
+                            propertyName: 't2',
+                            propertyChainTrace: ['t1'],
+                            expectedType: 'number',
+                            received: typedValue.t1.t2,
+                        });
+                    }
+                }
+                return prevErrorLen !== error.length;
+            })()) {
+                errorCnt++;
+            };
+            if ((() => {
+                const prevErrorLen = error.length;
+                if (typedValue.t1 == null ||
                     (typeof typedValue.t1 !== "object" &&
                         typeof typedValue.t1 !== "function")) {
                     error.push({
@@ -60,6 +66,10 @@ export const validateUnionWithObject = (value: unknown): GeneratedWrongTypeError
                 }
                 return prevErrorLen !== error.length;
             })()) {
+                errorCnt++;
+            }
+            return errorCnt === 2;
+        })()) {
             error.push({
                 propertyName: 't1',
                 propertyChainTrace: [],

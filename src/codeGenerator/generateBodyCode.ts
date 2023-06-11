@@ -65,7 +65,20 @@ export const generateBodyCode = ({
             });
 
             const childrenTypes =
-                astNode.arguments?.map((node) => node.type).join(' | ') ?? '';
+                astNode.arguments
+                    ?.map((node) => {
+                        if (
+                            !(
+                                astNode.type.includes('"') ||
+                                astNode.type.includes("'")
+                            ) &&
+                            astNode.type === 'object'
+                        ) {
+                            return node.name;
+                        }
+                        return node.type;
+                    })
+                    .join(' | ') ?? '';
 
             return [
                 `if (${conditions.join(' &&\n')}) {`,
@@ -198,7 +211,7 @@ export const generateBodyCode = ({
                 `if (${getName({
                     nameStack,
                     namePrefix,
-                })} === null ||`,
+                })} == null ||`,
                 `(typeof ${getName({
                     nameStack,
                     namePrefix,
@@ -286,19 +299,56 @@ const getConditions = ({
         case 'union': {
             const unionElements = astNode.arguments;
             if (!unionElements) throw new Error('There is no union elements');
-            return unionElements.flatMap((unionElemNode) => {
+
+            const objectElements = unionElements.filter(
+                (unionElem) => unionElem.type === 'object',
+            );
+            const nonObjectElements = unionElements.filter(
+                (unionElem) => unionElem.type !== 'object',
+            );
+
+            const objectConditions = objectElements.flatMap((objectElem) => {
                 return getConditions({
-                    astNode: unionElemNode,
+                    astNode: objectElem,
                     namePrefix,
                     nameStack: [...nameStack],
                     propertyChainStack: [...propertyChainStack],
                 });
             });
+            const objectCondition = [
+                `(() => {`,
+                `    const error: GeneratedWrongTypeErrorReport = [];`,
+                `    let errorCnt = 0;`,
+                `    ${objectConditions
+                    .map((objCondition) => {
+                        return [
+                            `if (${objCondition}) {`,
+                            `    errorCnt++;`,
+                            `}`,
+                        ].join('\n');
+                    })
+                    .join(';\n')}`,
+                `    return errorCnt === ${objectConditions.length};`,
+                `})()`,
+            ].join('\n');
+
+            return [
+                objectCondition,
+                ...nonObjectElements.flatMap((unionElemNode) => {
+                    return getConditions({
+                        astNode: unionElemNode,
+                        namePrefix,
+                        nameStack: [...nameStack],
+                        propertyChainStack: [...propertyChainStack],
+                    });
+                }),
+            ];
         }
         case 'tuple':
         case 'array':
         case 'intersection':
         case 'object': {
+            // TODO: optimization
             const statement = generateBodyCode({
                 astNode,
                 namePrefix,

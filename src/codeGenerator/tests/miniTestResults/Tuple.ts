@@ -1,10 +1,11 @@
+/* eslint-disable */
 import { Tuple } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
 export const validateTuple = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as Tuple;
     const error: GeneratedWrongTypeErrorReport = [];
-    if (typedValue === null ||
+    if (typedValue == null ||
         (typeof typedValue !== "object" &&
             typeof typedValue !== "function")) {
         error.push({
@@ -66,7 +67,7 @@ export const validateTuple = (value: unknown): GeneratedWrongTypeErrorReport | u
         } else {
             if ((() => {
                 const prevErrorLen = error.length;
-                if (typedValue.test3[0] === null ||
+                if (typedValue.test3[0] == null ||
                     (typeof typedValue.test3[0] !== "object" &&
                         typeof typedValue.test3[0] !== "function")) {
                     error.push({

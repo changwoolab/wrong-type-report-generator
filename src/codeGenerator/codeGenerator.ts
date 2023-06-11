@@ -14,6 +14,11 @@ export type CodeGenerator = {
     inputSourceFile: SourceFile;
 };
 
+/**
+ * Generate code for type guard
+ *
+ * @returns Promise<Generated code ts-morph sourceFile>
+ */
 export const codeGenerator = async ({
     astRootNode,
     project,
@@ -41,7 +46,6 @@ export const codeGenerator = async ({
     const { ast } = astRootNode;
     const pascalCasedName = ast.name[0].toUpperCase() + ast.name.slice(1);
 
-    // TODO: ADD TYPES
     const code = [
         `export const validate${pascalCasedName} = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {`,
         `    const typedValue = value as ${ast.name};`,

@@ -1,10 +1,11 @@
+/* eslint-disable */
 import { NameSpace } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
 export const validateNameSpace = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {
     const typedValue = value as NameSpace;
     const error: GeneratedWrongTypeErrorReport = [];
-    if (typedValue === null ||
+    if (typedValue == null ||
         (typeof typedValue !== "object" &&
             typeof typedValue !== "function")) {
         error.push({
@@ -14,7 +15,7 @@ export const validateNameSpace = (value: unknown): GeneratedWrongTypeErrorReport
             received: typedValue,
         });
     } else {
-        if (typedValue === null ||
+        if (typedValue == null ||
             (typeof typedValue !== "object" &&
                 typeof typedValue !== "function")) {
             error.push({
