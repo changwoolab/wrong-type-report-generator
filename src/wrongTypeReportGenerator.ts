@@ -1,4 +1,4 @@
-import { Project, SourceFile } from 'ts-morph';
+import { Project } from 'ts-morph';
 import { transformer } from './transformer/transformer';
 import { isTypeDeclaration, TypeDeclaration } from './types';
 import { codeGenerator } from './codeGenerator/codeGenerator';
@@ -7,12 +7,12 @@ import { makeAsync } from './utils';
 
 export const generateOneWrongTypeReport = async ({
     filePath,
-    project,
+    customProject,
     outDirPath,
     onlyExport,
 }: {
     filePath: string;
-    project: Project;
+    customProject?: Project;
     outDirPath?: string;
     onlyExport?: boolean;
 }) => {
@@ -20,6 +20,12 @@ export const generateOneWrongTypeReport = async ({
     if (!outDirPath) {
         outDirPath = path.dirname(filePath);
     }
+
+    const project =
+        customProject ||
+        new Project({
+            tsConfigFilePath: 'tsconfig.json',
+        });
 
     const sourceFile = project.getSourceFile(filePath);
     if (!sourceFile) {
@@ -61,12 +67,12 @@ export const generateOneWrongTypeReport = async ({
 
 export const generateWrongTypeReport = async ({
     filePaths,
-    project,
+    customProject,
     outDirPath,
     onlyExport,
 }: {
     filePaths: string[];
-    project: Project;
+    customProject?: Project;
     outDirPath?: string;
     onlyExport?: boolean;
 }) => {
@@ -75,7 +81,7 @@ export const generateWrongTypeReport = async ({
         filePaths.map((filePath) => {
             return generateOneWrongTypeReport({
                 filePath,
-                project,
+                customProject,
                 outDirPath,
                 onlyExport,
             });
