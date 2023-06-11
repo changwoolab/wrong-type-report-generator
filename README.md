@@ -32,18 +32,6 @@ export const xxxApi = async () => {
 };
 ```
 
-### How this is made
-
-1. Get Typescript AST using `ts-morph`
-
-2. Typescript AST -> [ Transformer ] -> Typeguard Generator AST
-
-3. Typeguard Generator AST -> [Code Generator] -> Typeguard Code
-
-_Why using Transformer? You may use only typescript AST._
-
-Just for fun :)
-
 # TODO
 
 -   [ ] transform `a.b.c -> a['b']['c']` (to support things like this -> asdf['asdf.asdf'])
