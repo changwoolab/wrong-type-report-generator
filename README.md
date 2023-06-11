@@ -1,3 +1,27 @@
+# Motivation
+
+When your DTO is different from your backend's specification and have no way to detect it, it is hard to debug the error!    
+Below is an example of WTF moment.
+```tsx
+// Your DTO
+interface meDto {
+    ...
+    user: {
+        id: number;
+    }
+    ...
+}
+
+// From your backend
+{
+    ...
+    user: "{id: 123}" // WTF?! it is too hard to find!
+    ...
+}
+```
+
+So, when Backend's API response is different from our DTO, report it!
+
 # Installation
 
 `npm i wrong-type-report-generator`
