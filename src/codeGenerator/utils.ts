@@ -11,6 +11,6 @@ export const wrapQuoteSymbol = (nameStack: string | string[], between?: string) 
 
 export const propertyChainDot = (nameStack: string[]) => (nameStack.length > 0 ? '.' + nameStack.join('.') : '');
 
-export const getName = ({ nameStack, namePrefix }: { nameStack: string[]; namePrefix?: string }) => {
+export const getName = (nameStack: string[], namePrefix?: string) => {
     return namePrefix ? `${namePrefix}${propertyChainDot(nameStack)}` : `typedValue${propertyChainDot(nameStack)}`;
 };
