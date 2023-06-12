@@ -9,8 +9,12 @@ export const wrapQuoteSymbol = (nameStack: string | string[], between?: string) 
     return nameStack.map((str) => `'${str}'`).join(between ?? ', ') ?? '';
 };
 
-export const propertyChainDot = (nameStack: string[]) => (nameStack.length > 0 ? '.' + nameStack.join('.') : '');
-
 export const getName = (nameStack: string[], namePrefix?: string) => {
-    return namePrefix ? `${namePrefix}${propertyChainDot(nameStack)}` : `typedValue${propertyChainDot(nameStack)}`;
+    return namePrefix ? `${namePrefix}${propertyChain(nameStack)}` : `typedValue${propertyChain(nameStack)}`;
+};
+
+const propertyChain = (nameStack: string[]) => {
+    return nameStack.reduce((acc, curr) => {
+        return `${acc}['${curr}']`;
+    }, '');
 };

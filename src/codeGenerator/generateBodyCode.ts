@@ -63,7 +63,10 @@ export const generateBodyCode = ({
             const childrenTypes =
                 astNode.arguments
                     ?.map((node) => {
-                        if (!(astNode.type.includes('"') || astNode.type.includes("'")) && astNode.type === 'object') {
+                        if (
+                            !(astNode.type.includes('"') || astNode.type.includes("'")) &&
+                            astNode.type === 'object'
+                        ) {
                             return node.name;
                         }
                         return node.type;
@@ -116,10 +119,17 @@ export const generateBodyCode = ({
                 astNode.arguments?.map((tupleElement, index) => {
                     const condition = getConditions({
                         astNode: tupleElement,
-                        nameStack: [...copiedNameStack, `${astNode.name}[${index}]`],
-                        propertyChainStack: [...copiedPropertyChainStack, `${astNode.name}[${index}]`],
+                        nameStack: [...copiedNameStack, astNode.name, `${index}`],
+                        propertyChainStack: [
+                            ...copiedPropertyChainStack,
+                            `${astNode.name}[${index}]`,
+                        ],
                     });
-                    return [condition.join(' &&\n'), `${astNode.name}[${index}]`, tupleElement.type];
+                    return [
+                        condition.join(' &&\n'),
+                        `${astNode.name}[${index}]`,
+                        tupleElement.type,
+                    ];
                 }) ?? [];
 
             return [
@@ -137,7 +147,9 @@ export const generateBodyCode = ({
                             `if (${condition}) {`,
                             `    error.push({`,
                             `        propertyName: '${propertyName}',`,
-                            `        propertyChainTrace: [${wrapQuoteSymbol(copiedPropertyChainStack)}],`,
+                            `        propertyChainTrace: [${wrapQuoteSymbol(
+                                copiedPropertyChainStack,
+                            )}],`,
                             `        expectedType: '${expectedType}',`,
                             `        received: ${getName(newNameStack, namePrefix)},`,
                             `    });`,
@@ -217,7 +229,12 @@ export const generateBodyCode = ({
     }
 };
 
-const getConditions = ({ astNode, namePrefix, nameStack, propertyChainStack }: GenerateBodyCode): string[] => {
+const getConditions = ({
+    astNode,
+    namePrefix,
+    nameStack,
+    propertyChainStack,
+}: GenerateBodyCode): string[] => {
     const copiedNameStack = [...nameStack];
     const copiedPropertyChainStack = [...propertyChainStack];
 
@@ -229,7 +246,9 @@ const getConditions = ({ astNode, namePrefix, nameStack, propertyChainStack }: G
             if (!unionElements) throw new Error('There is no union elements');
 
             const objectElements = unionElements.filter((unionElem) => unionElem.type === 'object');
-            const nonObjectElements = unionElements.filter((unionElem) => unionElem.type !== 'object');
+            const nonObjectElements = unionElements.filter(
+                (unionElem) => unionElem.type !== 'object',
+            );
 
             const objectConditions = objectElements.flatMap((objectElem) => {
                 return getConditions({
@@ -267,7 +286,9 @@ const getConditions = ({ astNode, namePrefix, nameStack, propertyChainStack }: G
             return unionConditions;
         }
         case 'class': {
-            return [`!(${getName(nameStack, namePrefix)} instanceof ${astNode.arguments![0].type})`];
+            return [
+                `!(${getName(nameStack, namePrefix)} instanceof ${astNode.arguments![0].type})`,
+            ];
         }
         case 'tuple':
         case 'array':
