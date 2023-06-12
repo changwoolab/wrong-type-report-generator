@@ -1,9 +1,4 @@
-import {
-    ImportDeclarationStructure,
-    Project,
-    SourceFile,
-    StructureKind,
-} from 'ts-morph';
+import { ImportDeclarationStructure, Project, SourceFile, StructureKind } from 'ts-morph';
 import { AstRootNode, Dependencies } from '../reporterAst';
 import { generateBodyCode } from './generateBodyCode';
 import { makeAsync } from '../utils';
@@ -20,12 +15,7 @@ export type CodeGenerator = {
  *
  * @returns Promise<Generated code ts-morph sourceFile>
  */
-export const codeGenerator = async ({
-    astRootNode,
-    project,
-    outFilePath,
-    inputSourceFile,
-}: CodeGenerator) => {
+export const codeGenerator = async ({ astRootNode, project, outFilePath, inputSourceFile }: CodeGenerator) => {
     await makeAsync();
     // Generate outfile
     const outFile = project.createSourceFile(outFilePath, undefined, {
@@ -64,7 +54,7 @@ export const codeGenerator = async ({
 
     outFile.addStatements(code);
     outFile.fixMissingImports();
-    outFile.insertStatements(0, '// @ts-nocheck');
+    process.env.NODE_ENV === 'production' && outFile.insertStatements(0, '// @ts-nocheck');
     outFile.insertStatements(0, '/* eslint-disable */');
     outFile.formatText();
 
@@ -86,47 +76,38 @@ const getImportDeclarations = ({
     const importsMap = new Map<string, string>();
     for (const impDeclaration of inputSourceFile.getImportDeclarations()) {
         impDeclaration.getNamedImports().forEach((impSpecifier) => {
-            importsMap.set(
-                impSpecifier.getText(),
-                impDeclaration.getModuleSpecifierValue(),
-            );
+            importsMap.set(impSpecifier.getText(), impDeclaration.getModuleSpecifierValue());
         });
     }
 
-    const importDeclarations = Array.from(dependencies.entries()).reduce(
-        (structures, [importFile, imports]) => {
-            if (outFile === importFile) {
-                return structures;
-            }
+    const importDeclarations = Array.from(dependencies.entries()).reduce((structures, [importFile, imports]) => {
+        if (outFile === importFile) {
+            return structures;
+        }
 
-            let moduleSpecifier =
-                outFile.getRelativePathAsModuleSpecifierTo(importFile);
+        let moduleSpecifier = outFile.getRelativePathAsModuleSpecifierTo(importFile);
 
-            if (importFile.isInNodeModules()) {
-                // Packages within node_modules should not be referenced via relative path
-                for (const im in imports) {
-                    const importDeclaration = importsMap.get(im);
-                    if (importDeclaration) {
-                        moduleSpecifier = importDeclaration;
-                    }
+        if (importFile.isInNodeModules()) {
+            // Packages within node_modules should not be referenced via relative path
+            for (const im in imports) {
+                const importDeclaration = importsMap.get(im);
+                if (importDeclaration) {
+                    moduleSpecifier = importDeclaration;
                 }
             }
+        }
 
-            const defaultImport = imports.default;
-            delete imports.default;
-            const namedImports = Object.entries(imports).map(([alias, name]) =>
-                alias === name ? name : { name, alias },
-            );
-            structures.push({
-                defaultImport,
-                kind: StructureKind.ImportDeclaration,
-                moduleSpecifier,
-                namedImports,
-            });
-            return structures;
-        },
-        [] as ImportDeclarationStructure[],
-    );
+        const defaultImport = imports.default;
+        delete imports.default;
+        const namedImports = Object.entries(imports).map(([alias, name]) => (alias === name ? name : { name, alias }));
+        structures.push({
+            defaultImport,
+            kind: StructureKind.ImportDeclaration,
+            moduleSpecifier,
+            namedImports,
+        });
+        return structures;
+    }, [] as ImportDeclarationStructure[]);
 
     return importDeclarations;
 };
