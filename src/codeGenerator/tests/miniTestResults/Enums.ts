@@ -1,5 +1,4 @@
 /* eslint-disable */
-// @ts-nocheck
 import { Enums } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 export const validateEnums = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {

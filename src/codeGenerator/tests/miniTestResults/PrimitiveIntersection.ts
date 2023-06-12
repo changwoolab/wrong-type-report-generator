@@ -1,5 +1,4 @@
 /* eslint-disable */
-// @ts-nocheck
 import { PrimitiveIntersection } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
@@ -26,12 +25,12 @@ export const validatePrimitiveIntersection = (value: unknown): GeneratedWrongTyp
                 received: typedValue,
             });
         } else {
-            if (typeof typedValue.t1 !== 'string') {
+            if (typeof typedValue['t1'] !== 'string') {
                 error.push({
                     propertyName: 't1',
                     propertyChainTrace: [],
                     expectedType: 'string',
-                    received: typedValue.t1,
+                    received: typedValue['t1'],
                 });
             }
         }
@@ -45,12 +44,12 @@ export const validatePrimitiveIntersection = (value: unknown): GeneratedWrongTyp
                 received: typedValue,
             });
         } else {
-            if (typeof typedValue.t2 !== 'number') {
+            if (typeof typedValue['t2'] !== 'number') {
                 error.push({
                     propertyName: 't2',
                     propertyChainTrace: [],
                     expectedType: 'number',
-                    received: typedValue.t2,
+                    received: typedValue['t2'],
                 });
             }
         }

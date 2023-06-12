@@ -1,5 +1,4 @@
 /* eslint-disable */
-// @ts-nocheck
 import { Intersection } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
@@ -26,41 +25,41 @@ export const validateIntersection = (value: unknown): GeneratedWrongTypeErrorRep
                 received: typedValue,
             });
         } else {
-            if (typedValue.t1 == null ||
-                (typeof typedValue.t1 !== "object" &&
-                    typeof typedValue.t1 !== "function")) {
+            if (typedValue['t1'] == null ||
+                (typeof typedValue['t1'] !== "object" &&
+                    typeof typedValue['t1'] !== "function")) {
                 error.push({
                     propertyName: 'intersectionElement',
                     propertyChainTrace: ['t1'],
                     expectedType: 'object',
-                    received: typedValue.t1,
+                    received: typedValue['t1'],
                 });
             } else {
-                if (typeof typedValue.t1.t2 !== 'string') {
+                if (typeof typedValue['t1']['t2'] !== 'string') {
                     error.push({
                         propertyName: 't2',
                         propertyChainTrace: ['t1'],
                         expectedType: 'string',
-                        received: typedValue.t1.t2,
+                        received: typedValue['t1']['t2'],
                     });
                 }
             }
-            if (typedValue.t1 == null ||
-                (typeof typedValue.t1 !== "object" &&
-                    typeof typedValue.t1 !== "function")) {
+            if (typedValue['t1'] == null ||
+                (typeof typedValue['t1'] !== "object" &&
+                    typeof typedValue['t1'] !== "function")) {
                 error.push({
                     propertyName: 'intersectionElement',
                     propertyChainTrace: ['t1'],
                     expectedType: 'object',
-                    received: typedValue.t1,
+                    received: typedValue['t1'],
                 });
             } else {
-                if (typeof typedValue.t1.t3 !== 'number') {
+                if (typeof typedValue['t1']['t3'] !== 'number') {
                     error.push({
                         propertyName: 't3',
                         propertyChainTrace: ['t1'],
                         expectedType: 'number',
-                        received: typedValue.t1.t3,
+                        received: typedValue['t1']['t3'],
                     });
                 }
             }

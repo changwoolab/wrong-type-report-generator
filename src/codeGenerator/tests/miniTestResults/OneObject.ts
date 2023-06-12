@@ -1,5 +1,4 @@
 /* eslint-disable */
-// @ts-nocheck
 import { OneObject } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
@@ -16,12 +15,12 @@ export const validateOneObject = (value: unknown): GeneratedWrongTypeErrorReport
             received: typedValue,
         });
     } else {
-        if (typeof typedValue.t1 !== 'number') {
+        if (typeof typedValue['t1'] !== 'number') {
             error.push({
                 propertyName: 't1',
                 propertyChainTrace: [],
                 expectedType: 'number',
-                received: typedValue.t1,
+                received: typedValue['t1'],
             });
         }
     }

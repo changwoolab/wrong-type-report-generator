@@ -1,5 +1,4 @@
 /* eslint-disable */
-// @ts-nocheck
 import { Tuple } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
@@ -16,7 +15,7 @@ export const validateTuple = (value: unknown): GeneratedWrongTypeErrorReport | u
             received: typedValue,
         });
     } else {
-        if (!Array.isArray(typedValue.test1)) {
+        if (!Array.isArray(typedValue['test1'])) {
             error.push({
                 propertyName: 'test1',
                 propertyChainTrace: [],
@@ -24,16 +23,16 @@ export const validateTuple = (value: unknown): GeneratedWrongTypeErrorReport | u
                 received: typedValue,
             });
         } else {
-            if (typeof typedValue.test1[0] !== 'number') {
+            if (typeof typedValue['test1']['0'] !== 'number') {
                 error.push({
                     propertyName: 'test1[0]',
                     propertyChainTrace: [],
                     expectedType: 'number',
-                    received: typedValue.test1,
+                    received: typedValue['test1'],
                 });
             }
         }
-        if (!Array.isArray(typedValue.test2)) {
+        if (!Array.isArray(typedValue['test2'])) {
             error.push({
                 propertyName: 'test2',
                 propertyChainTrace: [],
@@ -41,24 +40,24 @@ export const validateTuple = (value: unknown): GeneratedWrongTypeErrorReport | u
                 received: typedValue,
             });
         } else {
-            if (typeof typedValue.test2[0] !== 'number') {
+            if (typeof typedValue['test2']['0'] !== 'number') {
                 error.push({
                     propertyName: 'test2[0]',
                     propertyChainTrace: [],
                     expectedType: 'number',
-                    received: typedValue.test2,
+                    received: typedValue['test2'],
                 });
             }
-            if (typeof typedValue.test2[1] !== 'string') {
+            if (typeof typedValue['test2']['1'] !== 'string') {
                 error.push({
                     propertyName: 'test2[1]',
                     propertyChainTrace: [],
                     expectedType: 'string',
-                    received: typedValue.test2,
+                    received: typedValue['test2'],
                 });
             }
         }
-        if (!Array.isArray(typedValue.test3)) {
+        if (!Array.isArray(typedValue['test3'])) {
             error.push({
                 propertyName: 'test3',
                 propertyChainTrace: [],
@@ -68,22 +67,22 @@ export const validateTuple = (value: unknown): GeneratedWrongTypeErrorReport | u
         } else {
             if ((() => {
                 const prevErrorLen = error.length;
-                if (typedValue.test3[0] == null ||
-                    (typeof typedValue.test3[0] !== "object" &&
-                        typeof typedValue.test3[0] !== "function")) {
+                if (typedValue['test3']['0'] == null ||
+                    (typeof typedValue['test3']['0'] !== "object" &&
+                        typeof typedValue['test3']['0'] !== "function")) {
                     error.push({
                         propertyName: 'tupleElement',
                         propertyChainTrace: ['test3[0]'],
                         expectedType: 'object',
-                        received: typedValue.test3[0],
+                        received: typedValue['test3']['0'],
                     });
                 } else {
-                    if (typeof typedValue.test3[0].t1 !== 'number') {
+                    if (typeof typedValue['test3']['0']['t1'] !== 'number') {
                         error.push({
                             propertyName: 't1',
                             propertyChainTrace: ['test3[0]'],
                             expectedType: 'number',
-                            received: typedValue.test3[0].t1,
+                            received: typedValue['test3']['0']['t1'],
                         });
                     }
                 }
@@ -93,7 +92,7 @@ export const validateTuple = (value: unknown): GeneratedWrongTypeErrorReport | u
                     propertyName: 'test3[0]',
                     propertyChainTrace: [],
                     expectedType: 'object',
-                    received: typedValue.test3,
+                    received: typedValue['test3'],
                 });
             }
         }

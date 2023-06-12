@@ -1,5 +1,4 @@
 /* eslint-disable */
-// @ts-nocheck
 import { Arrays } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
@@ -16,7 +15,7 @@ export const validateArrays = (value: unknown): GeneratedWrongTypeErrorReport | 
             received: typedValue,
         });
     } else {
-        if (!Array.isArray(typedValue.t1)) {
+        if (!Array.isArray(typedValue['t1'])) {
             error.push({
                 propertyName: 't1',
                 propertyChainTrace: [],
@@ -24,7 +23,7 @@ export const validateArrays = (value: unknown): GeneratedWrongTypeErrorReport | 
                 received: typedValue,
             });
         } else {
-            typedValue.t1.find((elem) => {
+            typedValue['t1'].find((elem) => {
                 const prevErrorLen = error.length;
                 if (!Array.isArray(elem)) {
                     error.push({
@@ -50,7 +49,7 @@ export const validateArrays = (value: unknown): GeneratedWrongTypeErrorReport | 
                 return prevErrorLen !== error.length;
             });
         }
-        if (!Array.isArray(typedValue.t2)) {
+        if (!Array.isArray(typedValue['t2'])) {
             error.push({
                 propertyName: 't2',
                 propertyChainTrace: [],
@@ -58,7 +57,7 @@ export const validateArrays = (value: unknown): GeneratedWrongTypeErrorReport | 
                 received: typedValue,
             });
         } else {
-            typedValue.t2.find((elem) => {
+            typedValue['t2'].find((elem) => {
                 const prevErrorLen = error.length;
                 if (!Array.isArray(elem)) {
                     error.push({

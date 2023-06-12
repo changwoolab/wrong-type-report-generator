@@ -1,5 +1,4 @@
 /* eslint-disable */
-// @ts-nocheck
 import { PrimitiveUnion } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 

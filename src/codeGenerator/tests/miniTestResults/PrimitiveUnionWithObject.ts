@@ -1,5 +1,4 @@
 /* eslint-disable */
-// @ts-nocheck
 import { PrimitiveUnionWithObject } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
@@ -21,12 +20,12 @@ export const validatePrimitiveUnionWithObject = (value: unknown): GeneratedWrong
                     received: typedValue,
                 });
             } else {
-                if (typeof typedValue.t1 !== 'number') {
+                if (typeof typedValue['t1'] !== 'number') {
                     error.push({
                         propertyName: 't1',
                         propertyChainTrace: [],
                         expectedType: 'number',
-                        received: typedValue.t1,
+                        received: typedValue['t1'],
                     });
                 }
             }
@@ -46,12 +45,12 @@ export const validatePrimitiveUnionWithObject = (value: unknown): GeneratedWrong
                     received: typedValue,
                 });
             } else {
-                if (typeof typedValue.t2 !== 'string') {
+                if (typeof typedValue['t2'] !== 'string') {
                     error.push({
                         propertyName: 't2',
                         propertyChainTrace: [],
                         expectedType: 'string',
-                        received: typedValue.t2,
+                        received: typedValue['t2'],
                     });
                 }
             }
@@ -71,28 +70,28 @@ export const validatePrimitiveUnionWithObject = (value: unknown): GeneratedWrong
                     received: typedValue,
                 });
             } else {
-                if (typeof typedValue.t2 !== 'string') {
+                if (typeof typedValue['t2'] !== 'string') {
                     error.push({
                         propertyName: 't2',
                         propertyChainTrace: [],
                         expectedType: 'string',
-                        received: typedValue.t2,
+                        received: typedValue['t2'],
                     });
                 }
-                if (typeof typedValue.t3 !== 'number') {
+                if (typeof typedValue['t3'] !== 'number') {
                     error.push({
                         propertyName: 't3',
                         propertyChainTrace: [],
                         expectedType: 'number',
-                        received: typedValue.t3,
+                        received: typedValue['t3'],
                     });
                 }
-                if (typedValue.t4 !== any) {
+                if (typedValue['t4'] !== any) {
                     error.push({
                         propertyName: 't4',
                         propertyChainTrace: [],
                         expectedType: 'any',
-                        received: typedValue.t4,
+                        received: typedValue['t4'],
                     });
                 }
             }

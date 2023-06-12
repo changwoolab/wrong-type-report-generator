@@ -1,5 +1,4 @@
 /* eslint-disable */
-// @ts-nocheck
 import { Union } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
@@ -16,45 +15,45 @@ export const validateUnion = (value: unknown): GeneratedWrongTypeErrorReport | u
             received: typedValue,
         });
     } else {
-        if (typedValue.t1 !== "asdf" &&
-            typedValue.t1 !== "qwer") {
+        if (typedValue['t1'] !== "asdf" &&
+            typedValue['t1'] !== "qwer") {
             error.push({
                 propertyName: 't1',
                 propertyChainTrace: [],
                 expectedType: '"asdf" | "qwer"',
-                received: typedValue.t1,
+                received: typedValue['t1'],
             });
         }
-        if (typeof typedValue.t2 !== 'string' &&
-            typeof typedValue.t2 !== 'number') {
+        if (typeof typedValue['t2'] !== 'string' &&
+            typeof typedValue['t2'] !== 'number') {
             error.push({
                 propertyName: 't2',
                 propertyChainTrace: [],
                 expectedType: 'string | number',
-                received: typedValue.t2,
+                received: typedValue['t2'],
             });
         }
-        if (typeof typedValue.t3 !== 'number' &&
-            typedValue.t3 !== "sadf") {
+        if (typeof typedValue['t3'] !== 'number' &&
+            typedValue['t3'] !== "sadf") {
             error.push({
                 propertyName: 't3',
                 propertyChainTrace: [],
                 expectedType: 'number | "sadf"',
-                received: typedValue.t3,
+                received: typedValue['t3'],
             });
         }
-        if (typedValue.t4 !== "asdf" &&
+        if (typedValue['t4'] !== "asdf" &&
             (() => {
                 const prevErrorLen = error.length;
-                if (!Array.isArray(typedValue.t4)) {
+                if (!Array.isArray(typedValue['t4'])) {
                     error.push({
                         propertyName: 'unionElement',
                         propertyChainTrace: ['t4'],
                         expectedType: 'array',
-                        received: typedValue.t4,
+                        received: typedValue['t4'],
                     });
                 } else {
-                    typedValue.t4.find((elem) => {
+                    typedValue['t4'].find((elem) => {
                         const prevErrorLen = error.length;
                         if (typeof elem !== 'number') {
                             error.push({
@@ -73,7 +72,7 @@ export const validateUnion = (value: unknown): GeneratedWrongTypeErrorReport | u
                 propertyName: 't4',
                 propertyChainTrace: [],
                 expectedType: '"asdf" | array',
-                received: typedValue.t4,
+                received: typedValue['t4'],
             });
         }
     }

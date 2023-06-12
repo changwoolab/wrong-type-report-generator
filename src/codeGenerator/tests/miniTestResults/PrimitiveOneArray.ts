@@ -1,5 +1,4 @@
 /* eslint-disable */
-// @ts-nocheck
 import { PrimitiveOneArray } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 

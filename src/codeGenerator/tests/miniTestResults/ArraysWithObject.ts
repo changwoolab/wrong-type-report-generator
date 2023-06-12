@@ -1,5 +1,4 @@
 /* eslint-disable */
-// @ts-nocheck
 import { ArraysWithObject } from "../../../../tests/cases/mini/miniTest";
 import { GeneratedWrongTypeErrorReport } from "../../../wrongTypeReportGenerator";
 
@@ -16,7 +15,7 @@ export const validateArraysWithObject = (value: unknown): GeneratedWrongTypeErro
             received: typedValue,
         });
     } else {
-        if (!Array.isArray(typedValue.t1)) {
+        if (!Array.isArray(typedValue['t1'])) {
             error.push({
                 propertyName: 't1',
                 propertyChainTrace: [],
@@ -24,7 +23,7 @@ export const validateArraysWithObject = (value: unknown): GeneratedWrongTypeErro
                 received: typedValue,
             });
         } else {
-            typedValue.t1.find((elem) => {
+            typedValue['t1'].find((elem) => {
                 const prevErrorLen = error.length;
                 if (!Array.isArray(elem)) {
                     error.push({
@@ -36,12 +35,12 @@ export const validateArraysWithObject = (value: unknown): GeneratedWrongTypeErro
                 } else {
                     elem.find((elem) => {
                         const prevErrorLen = error.length;
-                        if (typeof elem.t2 !== 'number') {
+                        if (typeof elem['t2'] !== 'number') {
                             error.push({
                                 propertyName: 't2',
                                 propertyChainTrace: ['t1'],
                                 expectedType: 'number',
-                                received: elem.t2,
+                                received: elem['t2'],
                             });
                         }
                         return prevErrorLen !== error.length;
