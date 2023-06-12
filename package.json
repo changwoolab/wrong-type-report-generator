@@ -1,6 +1,6 @@
 {
     "name": "wrong-type-report-generator",
-    "version": "0.0.14",
+    "version": "0.0.15",
     "description": "Automatically generate runtime wrong type report from typescript type definition",
     "main": "dist/index.js",
     "scripts": {
