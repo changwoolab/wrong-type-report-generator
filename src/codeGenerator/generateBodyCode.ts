@@ -1,5 +1,5 @@
 import { AstNode } from '../reporterAst';
-import { getNewStack } from './utils';
+import { getName, getNewStack, wrapQuoteSymbol } from './utils';
 
 export type GenerateBodyCode = {
     astNode: AstNode;
@@ -256,19 +256,6 @@ export const generateBodyCode = ({
     }
 };
 
-const wrapQuoteSymbol = (nameStack: string | string[], between?: string) => {
-    if (typeof nameStack === 'string') {
-        return `'${nameStack}'`;
-    }
-    return nameStack.map((str) => `'${str}'`).join(between ?? ', ') ?? '';
-};
-
-const propertyChainDot = (nameStack: string[]) => (nameStack.length > 0 ? '.' + nameStack.join('.') : '');
-
-const getName = ({ nameStack, namePrefix }: { nameStack: string[]; namePrefix?: string }) => {
-    return namePrefix ? `${namePrefix}${propertyChainDot(nameStack)}` : `typedValue${propertyChainDot(nameStack)}`;
-};
-
 const getConditions = ({ astNode, namePrefix, nameStack, propertyChainStack }: GenerateBodyCode): string[] => {
     const copiedNameStack = [...nameStack];
     const copiedPropertyChainStack = [...propertyChainStack];
@@ -354,8 +341,6 @@ const getConditions = ({ astNode, namePrefix, nameStack, propertyChainStack }: G
     }
 };
 
-const primitives = ['string', 'number', 'bigint', 'boolean', 'symbol', 'undefined', 'null'];
-
 const getConditionStatement = ({
     astNode,
     nameStack,
@@ -375,6 +360,7 @@ const getConditionStatement = ({
         return `${getName({ nameStack, namePrefix })} !== ${astNode.type}`;
     }
 
+    const primitives = ['string', 'number', 'bigint', 'boolean', 'symbol', 'undefined', 'null'];
     if (primitives.includes(astNode.type)) {
         return `typeof ${getName({ nameStack, namePrefix })} !== '${astNode.type}'`;
     }
