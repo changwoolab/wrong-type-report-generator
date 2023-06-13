@@ -58,7 +58,7 @@ export const xxxApi = async () => {
 
 # TODO
 
--   [ ] Generatiion Optimization
+-   [ ] Generation Optimization
 -   [ ] Refactor spaghetti code
 -   [ ] performance optimization
 -   [ ] code generator tests
