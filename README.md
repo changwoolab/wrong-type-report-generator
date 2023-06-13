@@ -58,8 +58,8 @@ export const xxxApi = async () => {
 
 # TODO
 
--   [ ] transform `a.b.c -> a['b']['c']` (to support things like this -> asdf['asdf.asdf'])
+-   [ ] Generatiion Optimization
 -   [ ] Refactor spaghetti code
+-   [ ] performance optimization
 -   [ ] code generator tests
 -   [ ] duplicated property error optimization
--   [ ] performance optimization
