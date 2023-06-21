@@ -347,6 +347,12 @@ const getConditionStatement = ({
         return `typeof ${getName(nameStack, namePrefix)} !== '${astNode.type}'`;
     }
 
+    /**
+     * This function returns the most appropriate condition statement,
+     * therefore for those types it returns pure boolean value.
+     *
+     * However the generated whole conditional expression would be useless.
+     */
     const untyped = ['any', 'unknown'];
     if (untyped.includes(astNode.type)) {
         return `false`;
