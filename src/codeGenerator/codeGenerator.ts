@@ -2,6 +2,7 @@ import { ImportDeclarationStructure, Project, SourceFile, StructureKind } from '
 import { AstRootNode, Dependencies } from '../reporterAst';
 import { generateBodyCode } from './generateBodyCode';
 import { makeAsync } from '../utils';
+import { isType } from './utils';
 
 export type CodeGenerator = {
     astRootNode: AstRootNode;
@@ -40,7 +41,7 @@ export const codeGenerator = async ({ astRootNode, project, outFilePath, inputSo
 
     const code = [
         `export const validate${pascalCasedName} = (value: unknown): GeneratedWrongTypeErrorReport | undefined => {`,
-        `    const typedValue = value as ${ast.name};`,
+        `    const typedValue = value as ${isType(ast.type) ? ast.type : ast.name};`,
         `    const error: GeneratedWrongTypeErrorReport = [];`,
         `    ${generateBodyCode({
             astNode: ast,
