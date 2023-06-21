@@ -347,5 +347,11 @@ const getConditionStatement = ({
         return `typeof ${getName(nameStack, namePrefix)} !== '${astNode.type}'`;
     }
 
-    return `${getName(nameStack, namePrefix)} !== ${astNode.type}`;
+    const untyped = ['any', 'unknown'];
+    if (untyped.includes(astNode.type)) {
+        return `false`;
+    }
+
+    /** reject by default */
+    return `true`;
 };
